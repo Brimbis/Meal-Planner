@@ -11,6 +11,10 @@ export default function App() {
     const [greeting, setGreeting] = useState('');
     const [isSuccess, setIsSuccess] = useState(false); // success flag
 
+    const handleSwitchLogin = () => {
+      
+    }
+
     const handlePress = () => {
       const { firstName, lastName, email, password } = state;
 
@@ -27,14 +31,15 @@ export default function App() {
     // If Fields are complete then say registration successful
     return (
       <SafeAreaView style={styles.container}>
-      <Text style={styles.title}> Login </Text>
-      <View style={styles.view}>
+      <Text style={styles.title}> Sign Up </Text>
+      <View style={styles.separator}/>
+      <View style={styles.center}>
         <TextInput
           style={styles.input}
           autoCapitalize={'words'}
           value = {state.firstName}
           onChangeText={text => setState(prevState => ({ ...prevState, firstName: text }))}
-          placeholder="Enter your first name"
+          placeholder="First Name"
         />
         <View style={styles.separator}/>
         <TextInput
@@ -42,7 +47,7 @@ export default function App() {
           autoCapitalize={'words'}
           value = {state.lastName}
           onChangeText={text => setState(prevState => ({ ...prevState, lastName: text }))}
-          placeholder="Enter your last name"
+          placeholder="Last Name"
         />
         <View style={styles.separator}/>
         <TextInput
@@ -50,7 +55,7 @@ export default function App() {
           autoCapitalize={'words'}
           value = {state.email}
           onChangeText={text => setState(prevState => ({ ...prevState, email: text }))}
-          placeholder="Enter your email"
+          placeholder="Email"
         />
         <View style={styles.separator}/>
         <TextInput
@@ -58,12 +63,18 @@ export default function App() {
           autoCapitalize={'words'}
           value = {state.password}
           onChangeText={text => setState(prevState => ({ ...prevState, password: text }))}
-          placeholder="Enter your password"
+          placeholder="Password"
         />
         </View>
-        <View style={styles.loginBtnContainer}>
+        <View style={styles.separator}/>
+        <View style={styles.center}>
           <View style={styles.loginBtn}>
-            <Button title="Login" onPress={handlePress} />
+            <Button title="SIGN UP" onPress={handlePress} />
+          </View>
+        </View>
+        <View style={styles.center}>
+          <View style={styles.loginBtn}>
+            <Button title="SWITCH TO LOGIN" onPress={handleSwitchLogin} />
           </View>
         </View>
         <Text style={[styles.paragraph, { color: isSuccess ? 'green' : 'red' }]}>
@@ -78,7 +89,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: '#ecf0f1',
-    padding: 8,
+    padding: 4,
   },
   paragraph: {
     margin: 24,
@@ -88,8 +99,10 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
+    width: 400, 
     borderWidth: 1,
     padding: 10,
+    justifyContent: 'center',
   }, 
   title: {
     fontWeight: "bold",
@@ -97,12 +110,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     textAlign: 'center'
     },
-  loginBtnContainer: {
+  center: {
     alignItems: 'center',
-    marginVertical: 16,
+    marginVertical: 8,
   },
   loginBtn: {
-    width: '50%', 
+    width: 200, 
     textAlign: 'center'
     },
   view: {
