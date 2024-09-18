@@ -1,0 +1,139 @@
+{% extends "template.html" %}
+
+{% block title %} Results for "{{MealName}}" {% endblock %}
+
+{% block navbar %} Meal Finder {% endblock %}
+
+{% block header %} Meal Finder {% endblock %}
+
+{% block body %}
+
+<div class="text-center">
+	<p class="text-center">Enter the <b>Name</b> or <b>Starting Letter</b> of any meal to find information.<p>
+	<form action="/MealHome/" method="post">
+	{% csrf_token %}
+	<p>{{ FormData }}</p>
+	<input type="submit" value="Search">
+	</form>
+	<br></br>
+</div>
+
+
+{% if data %}
+
+	<div class="text-center">
+		<h1>Results for "{{MealName}}"</h1>
+	</div>
+
+	{% for x in data %}
+		<h2><b>{{x.strMeal}}</b></h2>
+		
+		<div class="text-start">
+		<img src={{x.strMealThumb}} style="width:300px;height:300px;" class="rounded">
+		</div>
+		
+		<br>
+		<p><b>Tags:</b> {{x.strTags}}
+		<br><b>Category:</b> {{x.strCategory}}
+		<br><b>Area:</b> {{x.strArea}}</p>
+		
+		<h5>Ingredients:</h5>
+
+		<table class="table table-hover">
+			<tr><td><b>#</b></td><td><b>Ingredient</b></td><td><b>Amount</b></td></tr>
+			
+			{% if x.strIngredient1 %}
+				<tr><td><b>1</b></td><td>{{x.strIngredient1}}</td><td>{{x.strMeasure1}}</td></tr>
+			{% endif %}
+			{% if x.strIngredient2 %}
+				<tr><td><b>2</b></td><td>{{x.strIngredient2}}</td><td>{{x.strMeasure2}}</td></tr>
+			{% endif %}
+			{% if x.strIngredient3 %}
+				<tr><td><b>3</b></td><td>{{x.strIngredient3}}</td><td>{{x.strMeasure3}}</td></tr>
+			{% endif %}
+			{% if x.strIngredient4 %}
+				<tr><td><b>4</b></td><td>{{x.strIngredient4}}</td><td>{{x.strMeasure4}}</td></tr>
+			{% endif %}
+			{% if x.strIngredient5 %}
+				<tr><td><b>5</b></td><td>{{x.strIngredient5}}</td><td>{{x.strMeasure5}}</td></tr>
+			{% endif %}
+			{% if x.strIngredient6 %}
+				<tr><td><b>6</b></td><td>{{x.strIngredient6}}</td><td>{{x.strMeasure6}}</td></tr>
+			{% endif %}
+			{% if x.strIngredient7 %}
+				<tr><td><b>7</b></td><td>{{x.strIngredient7}}</td><td>{{x.strMeasure7}}</td></tr>
+			{% endif %}
+			{% if x.strIngredient8 %}
+				<tr><td><b>8</b></td><td>{{x.strIngredient8}}</td><td>{{x.strMeasure8}}</td></tr>
+			{% endif %}
+			{% if x.strIngredient9 %}
+				<tr><td><b>9</b></td><td>{{x.strIngredient9}}</td><td>{{x.strMeasure9}}</td></tr>
+			{% endif %}
+			{% if x.strIngredient10 %}
+				<tr><td><b>10</b></td><td>{{x.strIngredient10}}</td><td>{{x.strMeasure10}}</td></tr>
+			{% endif %}
+			{% if x.strIngredient11 %}
+				<tr><td><b>11</b></td><td>{{x.strIngredient11}}</td><td>{{x.strMeasure11}}</td></tr>
+			{% endif %}
+			{% if x.strIngredient12 %}
+				<tr><td><b>12</b></td><td>{{x.strIngredient12}}</td><td>{{x.strMeasure12}}</td></tr>
+			{% endif %}
+			{% if x.strIngredient13 %}
+				<tr><td><b>13</b></td><td>{{x.strIngredient13}}</td><td>{{x.strMeasure13}}</td></tr>
+			{% endif %}
+			{% if x.strIngredient14 %}
+				<tr><td><b>14</b></td><td>{{x.strIngredient14}}</td><td>{{x.strMeasure14}}</td></tr>
+			{% endif %}
+			{% if x.strIngredient15 %}
+				<tr><td><b>15</b></td><td>{{x.strIngredient15}}</td><td>{{x.strMeasure15}}</td></tr>
+			{% endif %}
+			{% if x.strIngredient16 %}
+				<tr><td><b>16</b></td><td>{{x.strIngredient16}}</td><td>{{x.strMeasure16}}</td></tr>
+			{% endif %}
+			{% if x.strIngredient17 %}
+				<tr><td><b>17</b></td><td>{{x.strIngredient17}}</td><td>{{x.strMeasure17}}</td></tr>
+			{% endif %}
+			{% if x.strIngredient18 %}
+				<tr><td><b>18</b></td><td>{{x.strIngredient18}}</td><td>{{x.strMeasure18}}</td></tr>
+			{% endif %}
+			{% if x.strIngredient19 %}
+				<tr><td><b>19</b></td><td>{{x.strIngredient19}}</td><td>{{x.strMeasure19}}</td></tr>
+			{% endif %}
+			{% if x.strIngredient20 %}
+				<tr><td><b>20</b></td><td>{{x.strIngredient20}}</td><td>{{x.strMeasure20}}</td></tr>
+			{% endif %}
+			
+			</tr>
+		</table>
+		
+		<h5>Instructions:</h5>
+		
+		<p class="text-center">{{x.strInstructions}}</p>
+		
+		<div class="text-center">
+		{% if x.strYoutube %}
+			<p><b>Video: </b><a href={{x.strYoutube}}>{{x.strYoutube}}</a></p>
+		{% else %}
+			<p><b>No Video Provided.</b></p>
+		{% endif %}
+		
+		{% if x.strSource %}
+			<p><b>Source: </b><a href={{x.strSource}}>{{x.strSource}}</a></p>
+		{% else %}
+			<p><b>No Source Provided.</b></p>
+		{% endif %}
+		</div>
+		<br></br>
+	{% endfor %}
+{% else %}
+	<br></br>
+	<h1 class="text-center"><b>Whoops! Check your spelling.</b></h1>
+{% endif %}
+
+{% endblock %}
+
+{% block footer %}
+<br><br>
+<p style="font-size:14px">*click <b><a href="{% url 'home' %}">"Home"</a></b> in the upper right to go to the home page*<p>
+{% endblock %}
+
