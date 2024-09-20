@@ -18,26 +18,49 @@ export default function App() {
   const [isComplete, setIsComplete] = useState(false);
 
   const handlePress = () => {
-    if (firstName && lastName && email && password) {
-      setIsComplete(true);
-      setGreeting(
-        `Welcome, ${firstName}! Thank you for Registering an account with us!`
-      );
-    } else {
-      setIsComplete(false);
-      setGreeting(`Please fill in all fields!`);
-      setIsLogin(false);
+    if (!isLogin) {
+      if (firstName && lastName && email && password) {
+        setIsComplete(true);
+        setGreeting(
+          `Welcome, ${firstName}! Thank you for Registering an account with us!`
+        );
+      } else {
+        setIsComplete(false);
+        setGreeting(`Please fill in all fields!`);
+      }
+    }
+    else {
+      if (email && password) {
+        setIsComplete(true);
+        setGreeting(
+          `Login Successful`
+        );
+      } else {
+        setIsComplete(false);
+        setGreeting(`Please fill in all fields!`);
+      }
     }
   };
 
   const handleSwitchLogin = () => {
-    setIsLogin(true);
+    if (isLogin){
+      setIsLogin(false);
+    }
+    else {
+      setIsLogin(true)
+    }
+    setFirstName("")
+    setLastName("")
+    setEmail("")
+    setPassword("")
+    setGreeting("")
   };
 
   if (isLogin == false) {
     return (
       <SafeAreaView style={styles.container}>
         <Text style={styles.title}> Register Now </Text>
+        <View style={styles.separator}/>
         <TextInput
           style={styles.textInput}
           onChangeText={(text) => setFirstName(text)}
@@ -62,15 +85,15 @@ export default function App() {
           value={password}
           placeholder="Password"
         />
+        <View style={styles.separator}/>
         <View style={styles.buttonContainer}>
-          <Button title="Sign Up!!" onPress={handlePress} />
+          <Button title="Sign Up" onPress={handlePress} />
         </View>
         <View style={styles.buttonContainer}>
           <Button title="Switch to Login" onPress={handleSwitchLogin} />
         </View>
         <Text
-          style={[styles.paragraph, { color: isComplete ? "green" : "red" }]}
-        >
+          style={[styles.paragraph, { color: isComplete ? "green" : "red" }]}>
           {greeting}
         </Text>
       </SafeAreaView>
@@ -79,7 +102,7 @@ export default function App() {
     return (
       <SafeAreaView style={styles.container}>
         <Text style={styles.title}> Sign In </Text>
-
+        <View style={styles.separator}/>
         <TextInput
           style={styles.textInput}
           onChangeText={(text) => setEmail(text)}
@@ -92,13 +115,18 @@ export default function App() {
           value={password}
           placeholder="Password"
         />
+        <View style={styles.separator}/>
         <View style={styles.buttonContainer}>
-          <Button title="Login In!!" onPress={handlePress} />
+          <Button title="Login" onPress={handlePress} />
         </View>
 
         <View style={styles.buttonContainer}>
-          <Button title="Back to sign up!" onPress={handlePress} />
+          <Button title="Switch to Sign Up" onPress={handleSwitchLogin} />
         </View>
+        <Text
+          style={[styles.paragraph, { color: isComplete ? "green" : "red" }]}>
+          {greeting}
+        </Text>
       </SafeAreaView>
     );
   }
@@ -119,7 +147,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     height: 40,
-    width: "75%",
+    width: 400,
     borderColor: "gray",
     borderWidth: 1,
     marginHorizontal: "auto",
@@ -135,7 +163,12 @@ const styles = StyleSheet.create({
 
   buttonContainer: {
     height: 40,
-    width: "40%",
+    width: 200,
     marginHorizontal: "auto",
+    marginVertical: 5, 
   },
+
+  separator: {
+    marginVertical: 8,
+  }
 });
