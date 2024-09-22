@@ -73,6 +73,7 @@ export default function App() {
         <Text style={styles.smallTitle}>First Name</Text>
           <TextInput
             style={styles.textInput}
+            selectionColor={"azure"}
             onChangeText={(text) => setFirstName(text)}
             value={firstName}
           />
@@ -81,7 +82,7 @@ export default function App() {
         <Text style={styles.smallTitle}>Last Name</Text>
           <TextInput
             style={styles.textInput}
-            selectionColor="white"
+            selectionColor={"azure"}
             onChangeText={(text) => setLastName(text)}
             value={lastName}
           />
@@ -90,6 +91,7 @@ export default function App() {
           <Text style={styles.smallTitle}>Email</Text>
           <TextInput
             style={styles.textInput}
+            selectionColor={"azure"}
             onChangeText={(text) => setEmail(text)}
             value={email}
           />
@@ -98,6 +100,7 @@ export default function App() {
         <Text style={styles.smallTitle}>Password</Text>
           <TextInput
             style={styles.textInput}
+            selectionColor={"azure"}
             onChangeText={(text) => setPassword(text)}
             value={password}
           />
@@ -118,7 +121,7 @@ export default function App() {
             />
         </View>
         <Text
-          style={[styles.paragraph, { color: isComplete ? "green" : "red" }]}>
+          style={[styles.paragraph, { color: isComplete ? "aquamarine" : "salmon" }]}>
           {greeting}
         </Text>
         </LinearGradient>
@@ -140,6 +143,7 @@ export default function App() {
             <Text style={styles.smallTitle}>Email</Text>
             <TextInput
               style={styles.textInput}
+              selectionColor={"azure"}
               onChangeText={(text) => setEmail(text)}
               value={email}
             />
@@ -148,6 +152,7 @@ export default function App() {
           <Text style={styles.smallTitle}>Password</Text>
             <TextInput
               style={styles.textInput}
+              selectionColor={"azure"}
               onChangeText={(text) => setPassword(text)}
               value={password}
             />
@@ -168,7 +173,7 @@ export default function App() {
               />
           </View>
           <Text
-            style={[styles.paragraph, { color: isComplete ? "green" : "gray" }]}>
+            style={[styles.paragraph, { color: isComplete ? "aquamarine" : "salmon" }]}>
             {greeting}
           </Text>
         </LinearGradient>
