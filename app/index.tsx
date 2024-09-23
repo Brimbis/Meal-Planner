@@ -110,14 +110,14 @@ export default function App() {
           <Button
             title="Sign Up"
             onPress={handlePress}
-            color="#0D2A26"
+            color="white"
             />
         </View>
         <View style={styles.buttonContainer}>
           <Button
             title="Switch to Login"
             onPress={handleSwitchLogin}
-            color="#0D2A26"
+            color="white"
             />
         </View>
         <Text
@@ -162,14 +162,14 @@ export default function App() {
             <Button 
               title="Login" 
               onPress={handlePress}
-              color="#0D2A26"
+              color="white"
               />
           </View>
           <View style={styles.buttonContainer}>
             <Button 
               title="Switch to Sign Up" 
               onPress={handleSwitchLogin}
-              color="#0D2A26"
+              color="white"
               />
           </View>
           <Text
@@ -206,16 +206,20 @@ const styles = StyleSheet.create({
 
   textInput: {
     height: 40,
-    width: 400,
+    width: 300,
     borderColor: "white",
     borderWidth: 1,
     marginHorizontal: "auto",
     marginVertical: 10,
     padding: 10,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    borderBottomLeftRadius: 10, 
+    borderBottomRightRadius: 10, 
   },
 
   inputContainer: {
-    width: 400,
+    width: 300,
     marginHorizontal: "auto",
     fontFamily: "Inter", 
   },
@@ -235,8 +239,14 @@ const styles = StyleSheet.create({
   buttonContainer: {
     height: 40,
     width: 200,
+    alignItems: "center", 
+    backgroundColor: "#0D2A26", 
     marginHorizontal: "auto",
     marginVertical: 5, 
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    borderBottomLeftRadius: 10, 
+    borderBottomRightRadius: 10, 
   },
 
   separator: {
