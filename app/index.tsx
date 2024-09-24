@@ -5,6 +5,7 @@ import {
   Button,
   StyleSheet,
   View,
+  Pressable, 
 } from "react-native";
 import React, { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
@@ -67,7 +68,7 @@ export default function App() {
         start={[0.1, 0.2]}
         style={styles.linearGradient}
       >
-        <Text style={styles.title}> Register Now </Text>
+        <Text style={styles.title}>Register Now</Text>
         <View style={styles.separator}/>
         <View style={styles.inputContainer}>
         <Text style={styles.smallTitle}>First Name</Text>
@@ -106,20 +107,12 @@ export default function App() {
           />
         </View>
         <View style={styles.separator}/>
-        <View style={styles.buttonContainer}>
-          <Button
-            title="Sign Up"
-            onPress={handlePress}
-            color="white"
-            />
-        </View>
-        <View style={styles.buttonContainer}>
-          <Button
-            title="Switch to Login"
-            onPress={handleSwitchLogin}
-            color="white"
-            />
-        </View>
+        <Pressable style={styles.buttonContainer} onPress={handlePress}>
+            <Text style={styles.smallTitle}>Sign Up</Text> 
+          </Pressable>
+          <Pressable style={styles.buttonContainer} onPress={handleSwitchLogin}>
+            <Text style={styles.smallTitle}>Switch to Login</Text> 
+          </Pressable>
         <Text
           style={[styles.paragraph, { color: isComplete ? "aquamarine" : "salmon" }]}>
           {greeting}
@@ -158,20 +151,12 @@ export default function App() {
             />
           </View>
           <View style={styles.separator}/>
-          <View style={styles.buttonContainer}>
-            <Button 
-              title="Login" 
-              onPress={handlePress}
-              color="white"
-              />
-          </View>
-          <View style={styles.buttonContainer}>
-            <Button 
-              title="Switch to Sign Up" 
-              onPress={handleSwitchLogin}
-              color="white"
-              />
-          </View>
+          <Pressable style={styles.buttonContainer} onPress={handlePress}>
+            <Text style={styles.smallTitle}>Login</Text> 
+          </Pressable>
+          <Pressable style={styles.buttonContainer} onPress={handleSwitchLogin}>
+            <Text style={styles.smallTitle}>Switch to Sign Up</Text> 
+          </Pressable>
           <Text
             style={[styles.paragraph, { color: isComplete ? "aquamarine" : "salmon" }]}>
             {greeting}
@@ -212,8 +197,8 @@ const styles = StyleSheet.create({
     marginHorizontal: "auto",
     marginVertical: 10,
     padding: 10,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10, 
+    borderTopRightRadius: 10, 
     borderBottomLeftRadius: 10, 
     borderBottomRightRadius: 10, 
   },
@@ -227,26 +212,28 @@ const styles = StyleSheet.create({
   title: {
     textAlign: "center",
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: "bold", 
     color: "white", 
   },
+
   smallTitle: {
     fontSize: 15, 
     fontWeight: "bold",
-    color: "white",  
+    color: "white", 
   }, 
 
   buttonContainer: {
     height: 40,
     width: 200,
     alignItems: "center", 
+    justifyContent: "center", 
     backgroundColor: "#0D2A26", 
     marginHorizontal: "auto",
     marginVertical: 5, 
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    borderBottomLeftRadius: 10, 
-    borderBottomRightRadius: 10, 
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+    borderBottomLeftRadius: 5, 
+    borderBottomRightRadius: 5, 
   },
 
   separator: {
