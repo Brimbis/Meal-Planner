@@ -68,7 +68,7 @@ export default function App() {
         start={[0.1, 0.2]}
         style={styles.linearGradient}
       >
-        <Text style={styles.title}>Register Now</Text>
+        <Text style={styles.title}>Sign Up</Text>
         <View style={styles.separator}/>
         <View style={styles.inputContainer}>
         <Text style={styles.smallTitle}>First Name</Text>
@@ -107,10 +107,10 @@ export default function App() {
           />
         </View>
         <View style={styles.separator}/>
-        <Pressable style={styles.buttonContainer} onPress={handlePress}>
-            <Text style={styles.smallTitle}>Sign Up</Text> 
+        <Pressable style={styles.buttonContainerLarge} onPress={handlePress}>
+            <Text style={styles.title}>Sign Up</Text> 
           </Pressable>
-          <Pressable style={styles.buttonContainer} onPress={handleSwitchLogin}>
+          <Pressable style={styles.buttonContainerSmall} onPress={handleSwitchLogin}>
             <Text style={styles.smallTitle}>Switch to Login</Text> 
           </Pressable>
         <Text
@@ -130,7 +130,7 @@ export default function App() {
         start={[0.1, 0.2]}
         style={styles.linearGradient}
         >
-          <Text style={styles.title}> Sign In </Text>
+          <Text style={styles.title}>Login</Text>
           <View style={styles.separator}/>
           <View style={styles.inputContainer}>
             <Text style={styles.smallTitle}>Email</Text>
@@ -151,10 +151,10 @@ export default function App() {
             />
           </View>
           <View style={styles.separator}/>
-          <Pressable style={styles.buttonContainer} onPress={handlePress}>
-            <Text style={styles.smallTitle}>Login</Text> 
+          <Pressable style={styles.buttonContainerLarge} onPress={handlePress}>
+            <Text style={styles.title}>Login</Text> 
           </Pressable>
-          <Pressable style={styles.buttonContainer} onPress={handleSwitchLogin}>
+          <Pressable style={styles.buttonContainerSmall} onPress={handleSwitchLogin}>
             <Text style={styles.smallTitle}>Switch to Sign Up</Text> 
           </Pressable>
           <Text
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     height: 40,
     width: 300,
     borderColor: "white",
-    borderWidth: 1,
+    borderWidth: 2,
     marginHorizontal: "auto",
     marginVertical: 10,
     padding: 10,
@@ -222,12 +222,26 @@ const styles = StyleSheet.create({
     color: "white", 
   }, 
 
-  buttonContainer: {
+  buttonContainerLarge: {
     height: 40,
     width: 200,
     alignItems: "center", 
     justifyContent: "center", 
     backgroundColor: "#0D2A26", 
+    marginHorizontal: "auto",
+    marginVertical: 5, 
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+    borderBottomLeftRadius: 5, 
+    borderBottomRightRadius: 5, 
+  },
+
+  buttonContainerSmall: {
+    height: 40,
+    width: 150,
+    alignItems: "center", 
+    justifyContent: "center", 
+    backgroundColor: "#1f3d39", 
     marginHorizontal: "auto",
     marginVertical: 5, 
     borderTopLeftRadius: 5,
