@@ -2,13 +2,13 @@ import {
   Text,
   SafeAreaView,
   TextInput,
-  Button,
   StyleSheet,
   View,
   Pressable, 
 } from "react-native";
 import React, { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
+import {NavigationContainer} from '@react-navigation/native';
 
 export default function App() {
   const [firstName, setFirstName] = useState("");
@@ -120,6 +120,7 @@ export default function App() {
         </LinearGradient>
       </SafeAreaView>
     );
+
   } else {
     return (
       <SafeAreaView style={styles.container}>
@@ -167,90 +168,90 @@ export default function App() {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    backgroundColor: "#16423C",
-    padding: 8,
-  },
+  const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: "center",
+        backgroundColor: "#16423C",
+        padding: 8,
+    },
 
-  paragraph: {
-    margin: 24,
-    fontSize: 18,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
+    paragraph: {
+        margin: 24,
+        fontSize: 18,
+        fontWeight: "bold",
+        textAlign: "center",
+    },
 
-  linearGradient: {
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
+    linearGradient: {
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
 
-  textInput: {
-    height: 40,
-    width: 300,
-    borderColor: "white",
-    borderWidth: 2,
-    marginHorizontal: "auto",
-    marginVertical: 10,
-    padding: 10,
-    borderTopLeftRadius: 10, 
-    borderTopRightRadius: 10, 
-    borderBottomLeftRadius: 10, 
-    borderBottomRightRadius: 10, 
-  },
+    textInput: {
+        height: 40,
+        width: 300,
+        borderColor: "white",
+        borderWidth: 2,
+        marginHorizontal: "auto",
+        marginVertical: 10,
+        padding: 10,
+        borderTopLeftRadius: 10, 
+        borderTopRightRadius: 10, 
+        borderBottomLeftRadius: 10, 
+        borderBottomRightRadius: 10, 
+    },
 
-  inputContainer: {
-    width: 300,
-    marginHorizontal: "auto",
-    fontFamily: "Inter", 
-  },
+    inputContainer: {
+        width: 300,
+        marginHorizontal: "auto",
+        fontFamily: "Inter", 
+    },
 
-  title: {
-    textAlign: "center",
-    fontSize: 20,
-    fontWeight: "bold", 
-    color: "white", 
-  },
+    title: {
+        textAlign: "center",
+        fontSize: 20,
+        fontWeight: "bold", 
+        color: "white", 
+    },
 
-  smallTitle: {
-    fontSize: 15, 
-    fontWeight: "bold",
-    color: "white", 
-  }, 
+    smallTitle: {
+        fontSize: 15, 
+        fontWeight: "bold",
+        color: "white", 
+    }, 
 
-  buttonContainerLarge: {
-    height: 40,
-    width: 200,
-    alignItems: "center", 
-    justifyContent: "center", 
-    backgroundColor: "#0D2A26", 
-    marginHorizontal: "auto",
-    marginVertical: 5, 
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5,
-    borderBottomLeftRadius: 5, 
-    borderBottomRightRadius: 5, 
-  },
+    buttonContainerLarge: {
+        height: 45,
+        width: 200,
+        alignItems: "center", 
+        justifyContent: "center", 
+        backgroundColor: "#0D2A26", 
+        marginHorizontal: "auto",
+        marginVertical: 5, 
+        borderTopLeftRadius: 5,
+        borderTopRightRadius: 5,
+        borderBottomLeftRadius: 5, 
+        borderBottomRightRadius: 5, 
+    },
 
-  buttonContainerSmall: {
-    height: 40,
-    width: 150,
-    alignItems: "center", 
-    justifyContent: "center", 
-    backgroundColor: "#1f3d39", 
-    marginHorizontal: "auto",
-    marginVertical: 5, 
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5,
-    borderBottomLeftRadius: 5, 
-    borderBottomRightRadius: 5, 
-  },
+    buttonContainerSmall: {
+        height: 45,
+        width: 150,
+        alignItems: "center", 
+        justifyContent: "center", 
+        backgroundColor: "#1f3d39", 
+        marginHorizontal: "auto",
+        marginVertical: 5, 
+        borderTopLeftRadius: 5,
+        borderTopRightRadius: 5,
+        borderBottomLeftRadius: 5, 
+        borderBottomRightRadius: 5, 
+        },
 
-  separator: {
-    marginVertical: 8,
-  }
+    separator: {
+        marginVertical: 8,
+      },
 });
