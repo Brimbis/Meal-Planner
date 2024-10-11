@@ -1,14 +1,21 @@
-import React, { useState } from 'react';
-import { Text, SafeAreaView, StyleSheet, TextInput, Button, View } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+  Text,
+  SafeAreaView,
+  TextInput,
+  StyleSheet,
+  View,
+  Pressable, 
+} from "react-native";
+import React, { useState } from "react";
+import { LinearGradient } from "expo-linear-gradient";
 
-export default function LoginScreen({ navigation, setIsLoggedIn }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [isLogin, setIsLogin] = useState(true); 
-  const [message, setMessage] = useState('');
+export default function App() {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const [isLogin, setIsLogin] = useState(false);
 
   const handlePress = async () => {
     if (isLogin) {
@@ -24,8 +31,8 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
     }
   
     const url = isLogin
-      ? 'http://192.168.0.8:5000/login'
-      : 'http://192.168.0.8:5000/register';
+      ? 'http://10.200.199.179:5000/login'
+      : 'http://10.200.199.179:5000/register';
   
     const body = isLogin
       ? { username: email, password }
@@ -66,95 +73,214 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
     }
   };
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <View>
-        <Text style={styles.headerText}>{isLogin ? "Login" : "Sign Up"}</Text>
-        
-        {!isLogin && (
-          <>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter first name"
-              value={firstName}
-              onChangeText={text => setFirstName(text)}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Enter last name"
-              value={lastName}
-              onChangeText={text => setLastName(text)}
-            />
-          </>
-        )}
-        
-        <TextInput
-          style={styles.input}
-          placeholder="Enter email"
-          value={email}
-          onChangeText={text => setEmail(text)}
-          keyboardType="email-address"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Enter password"
-          value={password}
-          onChangeText={text => setPassword(text)}
-          secureTextEntry={true}
-        />
+  const handleSwitchLogin = () => {
+    if (isLogin){
+      setIsLogin(false);
+    }
+    else {
+      setIsLogin(true)
+    }
+    setFirstName("")
+    setLastName("")
+    setEmail("")
+    setPassword("")
+    setMessage("")
+  };
 
-        <View style={styles.buttonContainer}>
-          <View style={styles.button}>
-            <Button
-              title={isLogin ? "Login" : "Sign Up"}
-              onPress={handlePress}
-            />
-          </View>
-          <View style={styles.button}>
-            <Button
-              title={isLogin ? "Switch to Sign Up" : "Switch to Login"}
-              onPress={() => setIsLogin(!isLogin)}
-            />
-          </View>
+  if (isLogin == false) {
+    return (
+      <SafeAreaView style={styles.container}>
+      <LinearGradient
+        colors={["#6A9C89", "#16423C"]}
+        dither={true}
+        locations={[0.1, 0.8]}
+        start={[0.1, 0.2]}
+        style={styles.linearGradient}
+      >
+        <Text style={styles.title}>Sign Up</Text>
+        <View style={styles.separator}/>
+        <View style={styles.inputContainer}>
+        <Text style={styles.smallTitle}>First Name</Text>
+          <TextInput
+            style={styles.textInput}
+            selectionColor={"azure"}
+            onChangeText={(text) => setFirstName(text)}
+            value={firstName}
+          />
         </View>
+        <View style={styles.inputContainer}>
+        <Text style={styles.smallTitle}>Last Name</Text>
+          <TextInput
+            style={styles.textInput}
+            selectionColor={"azure"}
+            onChangeText={(text) => setLastName(text)}
+            value={lastName}
+          />
+        </View>
+          <View style={styles.inputContainer}>
+          <Text style={styles.smallTitle}>Email</Text>
+          <TextInput
+            style={styles.textInput}
+            selectionColor={"azure"}
+            onChangeText={(text) => setEmail(text)}
+            value={email}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+        <Text style={styles.smallTitle}>Password</Text>
+          <TextInput
+            style={styles.textInput}
+            selectionColor={"azure"}
+            onChangeText={(text) => setPassword(text)}
+            value={password}
+          />
+        </View>
+        <View style={styles.separator}/>
+        <Pressable style={styles.buttonContainerLarge} onPress={handlePress}>
+            <Text style={styles.title}>Sign Up</Text> 
+          </Pressable>
+          <Pressable style={styles.buttonContainerSmall} onPress={handleSwitchLogin}>
+            <Text style={styles.smallTitle}>Switch to Login</Text> 
+          </Pressable>
+        <Text
+          style={[styles.paragraph, color="aquamarine"]}>
+          {message}
+        </Text>
+        </LinearGradient>
+      </SafeAreaView>
+    );
 
-        {message ? <Text style={styles.message}>{message}</Text> : null}
-      </View>
-    </SafeAreaView>
-  );
+  } else {
+    return (
+      <SafeAreaView style={styles.container}>
+        <LinearGradient
+        colors={["#6A9C89", "#16423C"]}
+        dither={true}
+        locations={[0.1, 0.8]}
+        start={[0.1, 0.2]}
+        style={styles.linearGradient}
+        >
+          <Text style={styles.title}>Login</Text>
+          <View style={styles.separator}/>
+          <View style={styles.inputContainer}>
+            <Text style={styles.smallTitle}>Email</Text>
+            <TextInput
+              style={styles.textInput}
+              selectionColor={"azure"}
+              onChangeText={(text) => setEmail(text)}
+              value={email}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+          <Text style={styles.smallTitle}>Password</Text>
+            <TextInput
+              style={styles.textInput}
+              selectionColor={"azure"}
+              onChangeText={(text) => setPassword(text)}
+              value={password}
+            />
+          </View>
+          <View style={styles.separator}/>
+          <Pressable style={styles.buttonContainerLarge} onPress={handlePress}>
+            <Text style={styles.title}>Login</Text> 
+          </Pressable>
+          <Pressable style={styles.buttonContainerSmall} onPress={handleSwitchLogin}>
+            <Text style={styles.smallTitle}>Switch to Sign Up</Text> 
+          </Pressable>
+          <Text
+            style={[styles.paragraph, color="aquamarine"]}>
+            {message}
+          </Text>
+        </LinearGradient>
+      </SafeAreaView>
+    );
+  }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 16,
-  },
-  headerText: {
-    fontSize: 24,
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  input: {
-    height: 40,
-    width:'80%',
-    borderColor: 'gray',
-    borderWidth: 1,
-    margin: 'auto',
-    marginBottom: 12,
-    paddingLeft: 8,
-  },
-  buttonContainer: {
-    marginTop: 20,
-    alignItems: 'center',
-  },
-  button: {
-    width: '75%', // 75% of the width
-    marginBottom: 15, // spacing between buttons
-  },
-  message: {
-    marginTop: 20,
-    color: 'green',
-    textAlign: 'center',
-  },
+  const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: "center",
+        backgroundColor: "#16423C",
+        padding: 8,
+    },
+
+    paragraph: {
+        margin: 24,
+        fontSize: 18,
+        fontWeight: "bold",
+        textAlign: "center",
+    },
+
+    linearGradient: {
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    textInput: {
+        height: 40,
+        width: 300,
+        borderColor: "white",
+        borderWidth: 2,
+        marginHorizontal: "auto",
+        marginVertical: 10,
+        padding: 10,
+        borderTopLeftRadius: 10, 
+        borderTopRightRadius: 10, 
+        borderBottomLeftRadius: 10, 
+        borderBottomRightRadius: 10, 
+    },
+
+    inputContainer: {
+        width: 300,
+        marginHorizontal: "auto",
+        fontFamily: "Inter", 
+    },
+
+    title: {
+        textAlign: "center",
+        fontSize: 20,
+        fontWeight: "bold", 
+        color: "white", 
+    },
+
+    smallTitle: {
+        fontSize: 15, 
+        fontWeight: "bold",
+        color: "white", 
+    }, 
+
+    buttonContainerLarge: {
+        height: 45,
+        width: 200,
+        alignItems: "center", 
+        justifyContent: "center", 
+        backgroundColor: "#0D2A26", 
+        marginHorizontal: "auto",
+        marginVertical: 5, 
+        borderTopLeftRadius: 5,
+        borderTopRightRadius: 5,
+        borderBottomLeftRadius: 5, 
+        borderBottomRightRadius: 5, 
+    },
+
+    buttonContainerSmall: {
+        height: 45,
+        width: 150,
+        alignItems: "center", 
+        justifyContent: "center", 
+        backgroundColor: "#1f3d39", 
+        marginHorizontal: "auto",
+        marginVertical: 5, 
+        borderTopLeftRadius: 5,
+        borderTopRightRadius: 5,
+        borderBottomLeftRadius: 5, 
+        borderBottomRightRadius: 5, 
+        },
+
+    separator: {
+        marginVertical: 8,
+      },
 });
