@@ -8,8 +8,9 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function App() {
+export default function LoginScreen({ navigation, setIsLoggedIn }) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -31,8 +32,8 @@ export default function App() {
     }
   
     const url = isLogin
-      ? 'http://10.200.199.179:5000/login'
-      : 'http://10.200.199.179:5000/register';
+      ? 'http://192.168.254.77:5000/login'
+      : 'http://192.168.254.77:5000/register';
   
     const body = isLogin
       ? { username: email, password }
@@ -133,6 +134,7 @@ export default function App() {
             selectionColor={"azure"}
             onChangeText={(text) => setPassword(text)}
             value={password}
+            secureTextEntry={true}
           />
         </View>
         <View style={styles.separator}/>
@@ -143,7 +145,8 @@ export default function App() {
             <Text style={styles.smallTitle}>Switch to Login</Text> 
           </Pressable>
         <Text
-          style={[styles.paragraph, color="aquamarine"]}>
+          style={styles.paragraph}
+          color={"aquamarine"}>
           {message}
         </Text>
         </LinearGradient>
@@ -178,6 +181,7 @@ export default function App() {
               selectionColor={"azure"}
               onChangeText={(text) => setPassword(text)}
               value={password}
+              secureTextEntry={true}
             />
           </View>
           <View style={styles.separator}/>
@@ -188,7 +192,8 @@ export default function App() {
             <Text style={styles.smallTitle}>Switch to Sign Up</Text> 
           </Pressable>
           <Text
-            style={[styles.paragraph, color="aquamarine"]}>
+            style={styles.paragraph}
+            color={"aquamarine"}>
             {message}
           </Text>
         </LinearGradient>
