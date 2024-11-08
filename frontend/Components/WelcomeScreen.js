@@ -203,7 +203,16 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
             />
       )}
       <View style={styles.footerContainer}>
+          {/* Navigate to APItest screen */}
+          <Pressable
+            style={styles.buttonContainerSmall}
+            onPress={() => navigation.navigate("APItest")}
+          >
+            <Text style={styles.smallTitle}>Go to API Test</Text>
+          </Pressable>
       </View>
+
+      
       <View style={styles.footerContainer}>
         <Pressable style={styles.buttonContainerSmall} onPress={handleLogout}>
           <Text style={styles.smallTitle}>Logout</Text>
@@ -220,6 +229,8 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
         source={require('./Pictures/vineboomcatrainbowatthesametimething.gif')}/>
       </View>
       </LinearGradient>
+
+
     </SafeAreaView>
   );
 }

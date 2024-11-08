@@ -7,7 +7,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // Import your screens
 import LoginScreen from './Components/LoginScreen';
 import WelcomeScreen from './Components/WelcomeScreen';
-import ProfileScreen from './Components/ProfileScreen'
+import ProfileScreen from './Components/ProfileScreen';
+import APItest from './Components/APITest';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -45,7 +47,9 @@ export default function App() {
             <Stack.Screen name="Profile" options={{ headerShown: false }}>
               {props => <ProfileScreen {...props} setIsLoggedIn={setIsLoggedIn} />}
             </Stack.Screen>
+            <Stack.Screen name="APItest" component={APItest} />
           </>
+          
         ) : (
           // Not logged in, show the Login screen
           <Stack.Screen name="Login" options={{ headerShown: false }}>
