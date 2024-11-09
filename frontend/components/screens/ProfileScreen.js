@@ -30,17 +30,22 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
         fetchUserData();
     }, []);
 
+    const handleLogout = async () => {
+        await AsyncStorage.removeItem("token");
+        await AsyncStorage.removeItem('email');
+        await AsyncStorage.removeItem('firstname');
+        await AsyncStorage.removeItem('lastname');
+        setIsLoggedIn(false);
+        navigation.reset({
+            index: 0,
+            routes: [{ name: "Login" }],
+        });
+    };
+
     const updateUserData = async () => {
         await AsyncStorage.setItem('email', email);
         await AsyncStorage.setItem('firstname', firstName);
         await AsyncStorage.setItem('lastname', lastName);
-    }
-
-    const handleSwitchToWelcome = () => {
-        navigation.reset({
-            index: 0,
-            routes: [{ name: "Home" }],
-        });
     }
 
     return(
@@ -87,8 +92,8 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
                     <Text style={styles.smallTitle}>Save</Text>
                 </Pressable>
                 <View style={styles.separator}/>
-                <Pressable style={styles.buttonContainerSmall} onPress={handleSwitchToWelcome}>
-                    <Text style={styles.smallTitle}>Go Back</Text>
+                <Pressable style={styles.buttonContainerSmall} onPress={handleLogout}>
+                    <Text style={styles.smallTitle}>Logout</Text>
                 </Pressable>
             </LinearGradient>
         </SafeAreaView>

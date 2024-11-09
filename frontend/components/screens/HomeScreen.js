@@ -1,42 +1,16 @@
 // HomeScreen.js
-import getIPAddress from "../IPAddress.js";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   SafeAreaView,
   Text,
   Pressable,
-  TouchableOpacity,
   View,
-  FlatList,
-  ActivityIndicator,
   Image, 
 } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../styles/styles.js";
-import { FontAwesome } from '@expo/vector-icons';
 import { LinearGradient } from "expo-linear-gradient";
 
-export default function HomeScreen({ navigation, setIsLoggedIn }) {
-
-  const handleSwitchToProfile = () => {
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "Profile" }],
-    });
-  }
-
-  const handleLogout = async () => {
-    await AsyncStorage.removeItem("token");
-    await AsyncStorage.removeItem('email');
-    await AsyncStorage.removeItem('firstname');
-    await AsyncStorage.removeItem('lastname');
-    setIsLoggedIn(false);
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "Login" }],
-    });
-  };
-
+export default function HomeScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <LinearGradient
@@ -47,14 +21,15 @@ export default function HomeScreen({ navigation, setIsLoggedIn }) {
         <Text style={styles.headerText}>Welcome!</Text>
       </View>
       <View style={styles.footerContainer}>
-        <Pressable style={styles.buttonContainerSmall} onPress={handleLogout}>
-          <Text style={styles.smallTitle}>Logout</Text>
-        </Pressable>
+          {/* Navigate to APItest screen */}
+          <Pressable
+            style={styles.buttonContainerSmall}
+            onPress={() => navigation.navigate("APICall")}
+          >
+            <Text style={styles.smallTitle}>Go to API Test</Text>
+          </Pressable>
       </View>
       <View style={styles.separator}/>
-      <Pressable style={styles.buttonContainerSmall} onPress={handleSwitchToProfile}>
-          <Text style={styles.smallTitle}>View Profile</Text>
-      </Pressable>
       <Text style={styles.title}>Meet the team!</Text>
       <View style={styles.separator}/>
       <View style = {styles.footerContainer}>

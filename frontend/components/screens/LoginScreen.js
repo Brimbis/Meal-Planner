@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Text,
   SafeAreaView,
@@ -5,7 +6,6 @@ import {
   View,
   Pressable,
 } from "react-native";
-import React, { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from '../styles/styles.js';
