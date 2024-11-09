@@ -17,8 +17,17 @@ import APItest from './components/APITest';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
+const HomeStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Home" component={HomeScreen}/>
+      <Stack.Screen name="APICall" component={APItest}/>
+    </Stack.Navigator>
+  );
+};
+
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(null); // Initialize as null
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
 
   useEffect(() => {
     const checkLoginStatus = async () => {
@@ -65,11 +74,11 @@ export default function App() {
           })}
 
           tabBarOptions={{
-            activeTintColor: 'tomato',
+            activeTintColor: 'white',
             inactiveTintColor: 'gray',
             }}
           >
-          <Tab.Screen name="Home" component={HomeScreen} 
+          <Tab.Screen name="Home" component={HomeStack} 
             options={{ headerShown: false }}
             />
           <Tab.Screen name="Search" component={SearchScreen}
@@ -81,7 +90,7 @@ export default function App() {
           <Tab.Screen name="Profile" component={ProfileScreen}
             options={{ headerShown: false }}
           />
-  
+
         </Tab.Navigator>
       ) : (
         // Not logged in, show the Login screen
