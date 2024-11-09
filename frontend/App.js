@@ -12,6 +12,7 @@ import HomeScreen from './components/screens/HomeScreen';
 import ProfileScreen from './components/screens/ProfileScreen'
 import BookmarkScreen from './components/screens/BookmarkScreen';
 import SearchScreen from './components/screens/SearchScreen';
+import APItest from './components/APITest';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -77,7 +78,7 @@ export default function App() {
             inactiveTintColor: 'gray',
             }}
           >
-          <Tab.Screen name="Home" component={HomeScreen} 
+          <Tab.Screen name="Home" component={HomeStack} 
             options={{ headerShown: false }}
             />
           <Tab.Screen name="Search" component={SearchScreen}
