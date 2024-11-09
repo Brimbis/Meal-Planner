@@ -8,8 +8,8 @@ import {
 import React, { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import styles from './styles/styles.js';
-import getIPAddress from "./IPAddress.js";
+import styles from '../styles/styles.js';
+import getIPAddress from "../IPAddress.js";
 
 export default function LoginScreen({ navigation, setIsLoggedIn }) {
   const [firstName, setFirstName] = useState("");

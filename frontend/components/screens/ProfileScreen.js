@@ -8,7 +8,7 @@ import {
     Image, 
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import styles from "./styles/styles";
+import styles from "../styles/styles";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function ProfileScreen({ navigation, setIsLoggedIn }) {
@@ -39,7 +39,7 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
     const handleSwitchToWelcome = () => {
         navigation.reset({
             index: 0,
-            routes: [{ name: "Welcome" }],
+            routes: [{ name: "Home" }],
         });
     }
 
@@ -53,7 +53,7 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
             <View style={styles.separator}/>
                 <View>
                     <Image style={styles.profileImage} 
-                    source={require('./Pictures/blank-profile-picture-png.png')}/>
+                    source={require('../pictures/blank-profile-picture-png.png')}/>
                 </View>
             <View style={styles.inputContainer}>
                 <Text style={styles.smallTitle}>First Name</Text>
