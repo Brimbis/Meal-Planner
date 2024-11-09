@@ -12,7 +12,6 @@ import HomeScreen from './components/screens/HomeScreen';
 import ProfileScreen from './components/screens/ProfileScreen'
 import BookmarkScreen from './components/screens/BookmarkScreen';
 import SearchScreen from './components/screens/SearchScreen';
-import APItest from './components/APITest';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -74,11 +73,11 @@ export default function App() {
           })}
 
           tabBarOptions={{
-            activeTintColor: 'white',
+            activeTintColor: 'tomato',
             inactiveTintColor: 'gray',
             }}
           >
-          <Tab.Screen name="Home" component={HomeStack} 
+          <Tab.Screen name="Home" component={HomeScreen} 
             options={{ headerShown: false }}
             />
           <Tab.Screen name="Search" component={SearchScreen}
@@ -90,7 +89,7 @@ export default function App() {
           <Tab.Screen name="Profile" component={ProfileScreen}
             options={{ headerShown: false }}
           />
-
+  
         </Tab.Navigator>
       ) : (
         // Not logged in, show the Login screen
