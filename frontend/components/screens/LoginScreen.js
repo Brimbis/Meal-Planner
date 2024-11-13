@@ -65,10 +65,6 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
             await AsyncStorage.setItem("lastname", result.lastname);
             await AsyncStorage.setItem("email", result.email);
             setIsLoggedIn(true);
-            navigation.reset({
-              index: 0,
-              routes: [{ name: "Welcome" }],
-            });
           }
         } else {
           setMessage("Registration successful. Please log in.");

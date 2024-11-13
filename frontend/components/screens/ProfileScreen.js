@@ -36,10 +36,6 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
         await AsyncStorage.removeItem('firstname');
         await AsyncStorage.removeItem('lastname');
         setIsLoggedIn(false);
-        navigation.reset({
-            index: 0,
-            routes: [{ name: "Login" }],
-        });
     };
 
     const updateUserData = async () => {
