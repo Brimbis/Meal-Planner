@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -82,31 +82,31 @@ export default function App() {
           screenOptions={({ route }) => ({
             tabBarIcon: ({ focused, color, size }) => {
               let iconName;
-                
+        
+              // Determine icon based on the route name
               if (route.name === 'HomeTab') {
                 iconName = focused ? 'home' : 'home-outline';
-    
               } else if (route.name === 'SearchTab') {
                 iconName = focused ? 'search' : 'search-outline';
-    
               } else if (route.name === 'BookmarksTab') {
                 iconName = focused ? 'bookmark' : 'bookmark-outline';
-    
               } else if (route.name === 'ProfileTab') {
                 iconName = focused ? 'person' : 'person-outline';
-              
               }
+        
+              // Return the icon component
               return <Ionicons name={iconName} size={size} color={color} />;
             },
-            tabBarShowLabel: false
-
+            tabBarActiveTintColor: 'white',  // Active tab color
+            tabBarInactiveTintColor: 'white',  // Inactive tab color
+            tabBarShowLabel: false,            // Hide labels for tabs
+            tabBarActiveBackgroundColor: "#6A9C89", 
+            tabBarStyle: {
+              backgroundColor: '#16423C', // Set the background color of the tab bar
+            },
+            animation: 'fade',
           })}
-
-          tabBarOptions={{
-            activeTintColor: 'tomato',
-            inactiveTintColor: 'black',
-            }}
-          >
+        >
           <Tab.Screen
             name="HomeTab"
             component={HomeStack} 
