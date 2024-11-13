@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView } from 'react-native';
-import styles from './styles/styles'; // Correct import path for styles
+import styles from '../styles/styles'; // Correct import path for styles
 
 const RecipeSearch = () => {
   const [data, setData] = useState(null);

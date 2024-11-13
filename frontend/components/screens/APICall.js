@@ -6,7 +6,7 @@ FlatList,
 ActivityIndicator,
 View,
 } from 'react-native';
-import styles from './styles/styles.js';
+import styles from '../styles/styles.js';
 
 export default function TestScreen({ navigation }) {
     const [data, setData] = useState([]); // To store the fetched data
