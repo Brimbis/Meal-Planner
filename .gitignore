@@ -2,6 +2,9 @@
 frontend/components/IPAddress.js
 frontend/Components/IPAddress.js
 /backend/
+.yarn/
+yarn.lock
+.pnp.*
 package-lock.json
 .expo/
 dist/
