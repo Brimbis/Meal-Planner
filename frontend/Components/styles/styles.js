@@ -164,8 +164,55 @@ export default StyleSheet.create({
   imageContainer: {
     alignSelf: "center",
   },
+
+
   listContainer: {
     flex: 0.75,
     paddingHorizontal: 10,
   },
+
+  mealBox: {
+    height: 'auto',
+    width: "80%",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#C4DAD2",
+    marginHorizontal: "auto",
+    marginVertical: 5,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+  }, 
+
+  mealBoxText: {
+    fontSize: 16, 
+    textAlign: "center",
+    justifyContent: 'center', 
+    color: '#5D5D5D', 
+    paddingVertical: 5, 
+  }, 
+
+  weekdayText: {
+    fontSize: 20,
+    fontWeight: 'bold', 
+    textAlign: "left",
+    justifyContent: 'left', 
+    color: '#16423C', 
+    paddingLeft: 20, 
+  }, 
+
+  weekdayBox: {
+    height: 45,
+    width: "80%",
+    alignItems: "left",
+    justifyContent: "center",
+    backgroundColor: "#C4DAD2",
+    marginHorizontal: "auto",
+    marginVertical: 5,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+  }, 
 });
