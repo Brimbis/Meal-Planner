@@ -1,8 +1,8 @@
 /frontend/node_modules/
-frontend/components/IPAddress.js
-frontend/Components/IPAddress.js
+/frontend/components/IPAddress.js
 /backend/
 package-lock.json
+yarn.lock
 .expo/
 dist/
 npm-debug.*

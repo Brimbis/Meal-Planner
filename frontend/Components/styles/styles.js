@@ -5,7 +5,7 @@ export default StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         backgroundColor: "#16423C",
-        padding: 8,
+        padding: 0,
     },
 
     paragraph: {
@@ -19,7 +19,6 @@ export default StyleSheet.create({
     linearGradient: {
         width: "100%",
         height: "100%",
-        justifyContent: 'center', 
     },
 
     textInput: {
@@ -92,16 +91,19 @@ export default StyleSheet.create({
         marginBottom: 20,
         textAlign: 'center',
     },
+
     item: {
         backgroundColor: '#172e2b',
         padding: 20,
         marginVertical: 8,
         borderRadius: 8,
     }, 
+
     description: {
         fontSize: 14,
         color: 'white',
     },
+
     buttonContainer: {
         marginVertical: 10,
         alignSelf: 'center',
@@ -110,32 +112,87 @@ export default StyleSheet.create({
         justifyContent: 'space-between',
         height: 80,
     },
+
     footerContainer: {
         alignSelf: 'center',
         width: '50%', 
     }, 
+
     itemActions: {
         flexDirection: 'row',
         justifyContent: 'flex-end',
         gap: 12,
     },
+
     headerText: {
         fontSize: 24,
         marginBottom: 20,
         textAlign: "center",
         color: 'white', 
     },
+
     profileImage: {
         height: '20%', 
         width: '20%', 
         alignSelf: 'center',
         paddingVertical: 50,
     }, 
+
     imageContainer: {
         alignSelf: 'center', 
     }, 
+
     listContainer: {
         flex: 0.75,
         paddingHorizontal: 10,
+    }, 
+
+    weekdayBox: {
+        height: 50,
+        width: '80%',
+        alignItems: "left",
+        justifyContent: "center",
+        backgroundColor: "#C4DAD2",
+        marginHorizontal: "auto",
+        marginVertical: 5,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
+    }, 
+
+    weekdayText: {
+        color: '#16423C', 
+        fontWeight: 'bold',
+        paddingHorizontal: 15, 
+        fontSize: 20, 
+    }, 
+
+    topContainer: {
+        flex: 1,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+    },
+
+    mealBox: {
+        height: 'auto',
+        width: '80%',
+        alignContent: "center",
+        justifyContent: "center",
+        backgroundColor: "#C4DAD2",
+        marginHorizontal: "auto",
+        marginVertical: 5,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
+    }, 
+
+    mealBoxText: {
+        color: '#5D5D5D', 
+        paddingHorizontal: 15, 
+        paddingVertical: 10, 
+        textAlign: 'center', 
+        fontSize: 16, 
     }
 });

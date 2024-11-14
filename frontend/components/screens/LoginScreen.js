@@ -98,6 +98,8 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
         <LinearGradient
           colors={["#6A9C89", "#16423C"]}
           style={styles.linearGradient}
+          locations={[0, 0.9]}
+          start={[0.1, 0.3]}
         >
           <Text style={styles.title}>Sign Up</Text>
           <View style={styles.separator} />
@@ -139,9 +141,12 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
             />
           </View>
           <View style={styles.separator} />
-          <Pressable style={styles.buttonContainerLarge} onPress={handlePress}>
+          <Pressable
+            style={styles.buttonContainerLarge}
+            onPress={handlePress}>
             <Text style={styles.title}>Sign Up</Text>
           </Pressable>
+          <View style={styles.separator}/>
           <Pressable
             style={styles.buttonContainerSmall}
             onPress={handleSwitchLogin}
@@ -160,7 +165,7 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
         <LinearGradient
           colors={["#6A9C89", "#16423C"]}
           dither={true}
-          locations={[0.1, 0.8]}
+          locations={[0.2, 0.7]}
           start={[0.1, 0.2]}
           style={styles.linearGradient}
         >
@@ -186,9 +191,13 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
             />
           </View>
           <View style={styles.separator} />
-          <Pressable style={styles.buttonContainerLarge} onPress={handlePress}>
+          <Pressable
+            style={styles.buttonContainerLarge}
+            onPress={handlePress}
+          >
             <Text style={styles.title}>Login</Text>
           </Pressable>
+          <View style={styles.separator}/>
           <Pressable
             style={styles.buttonContainerSmall}
             onPress={handleSwitchLogin}
