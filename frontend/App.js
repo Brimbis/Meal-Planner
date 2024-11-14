@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react';
+import { StatusBar, StatusBarStyle } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// Native imports
+import styles from './components/styles/styles';
 
 // Import your screens
 import LoginScreen from './components/screens/LoginScreen';
@@ -77,6 +81,10 @@ export default function App() {
 
   return (
     <NavigationContainer>
+      <StatusBar
+        translucent={true}
+        backgroundColor={'transparent'}
+      />
       {isLoggedIn ? (
         <Tab.Navigator
           screenOptions={({ route }) => ({
@@ -85,13 +93,13 @@ export default function App() {
         
               // Determine icon based on the route name
               if (route.name === 'HomeTab') {
-                iconName = focused ? 'home' : 'home-outline';
+                iconName = 'home';
               } else if (route.name === 'SearchTab') {
-                iconName = focused ? 'search' : 'search-outline';
+                iconName = 'search';
               } else if (route.name === 'BookmarksTab') {
-                iconName = focused ? 'bookmark' : 'bookmark-outline';
+                iconName = 'bookmark';
               } else if (route.name === 'ProfileTab') {
-                iconName = focused ? 'person' : 'person-outline';
+                iconName = 'person';
               }
         
               // Return the icon component
@@ -102,8 +110,18 @@ export default function App() {
             tabBarShowLabel: false,            // Hide labels for tabs
             tabBarActiveBackgroundColor: "#6A9C89", 
             tabBarStyle: {
+              position: 'absolute', 
               backgroundColor: '#16423C', // Set the background color of the tab bar
+              height: '5.5%',
+              width: '100%',
+              borderTopStartRadius: 10, 
+              borderTopEndRadius: 10, 
+              borderTopWidth: 0, 
             },
+            tabBarIconStyle: {
+              alignItems: 'center', 
+              justifyContent: 'center', 
+            }, 
             animation: 'fade',
           })}
         >
