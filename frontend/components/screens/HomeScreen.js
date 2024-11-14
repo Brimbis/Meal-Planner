@@ -28,10 +28,8 @@ export default function HomeScreen({ navigation }) {
           <View style={styles.weekdayBox}>
             <Text style={styles.weekdayText}>{day}</Text>
           </View>
-          <View style={styles.separator}/>
           <View style={styles.mealBox}>
             <Text style={styles.mealBoxText}>Estimated Calories:</Text>
-
           </View>
           <Text style={styles.title}>Meet the team!</Text>
           <View style={styles.separator}/>
