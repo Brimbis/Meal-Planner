@@ -193,6 +193,14 @@ export default StyleSheet.create({
     paddingVertical: 5, 
   }, 
 
+  mealBoxSeparatorLine: {
+    margin: 10,
+    width: "80%",
+    borderBottomColor: "#6A9C89",
+    borderBottomWidth: 1,
+    paddingBottom: 10,
+  }, 
+
   weekdayText: {
     fontSize: 20,
     fontWeight: 'bold', 
