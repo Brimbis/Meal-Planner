@@ -1,25 +1,40 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, View, Text, SafeAreaView, FlatList } from 'react-native';
 import styles from '../styles/styles'; // Correct import path for styles
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import getIPAddress from '../IPAddress';
 
-const RecipeSearch = () => {
+export default function APITest({ navigation }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const fetchRecipes = async () => {
-    const url = 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?ingredients=apples,flour,sugar&number=5&ignorePantry=true&ranking=1';
-    const options = {
-      method: 'GET',
-      headers: {
-        'x-rapidapi-key': '176739f866msh27757afccb10db1p171ceajsn0e4ff12ef3b1',
-        'x-rapidapi-host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
-      }
-    };
-
+    setLoading(true);
+    console.log("fetching data...");
     try {
-      const response = await fetch(url, options);
+      const token = await AsyncStorage.getItem("token");
+      if (!token) {
+        console.log('No token found');
+        return;
+      }
+      console.log('Token found:', token);
+
+      const response = await fetch(`http://${getIPAddress()}:5000/API`, {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        console.error("Error: response not ok", response.status);
+        return;
+      }
+
       const result = await response.json();
-      setData(result);
+      console.log("API response data:", result);
+      setData(result); // Update state with the data from API
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -28,18 +43,29 @@ const RecipeSearch = () => {
   };
 
   useEffect(() => {
+    console.log("useEffect triggered");
     fetchRecipes();
   }, []);
 
   return (
-    <ScrollView>
+    <SafeAreaView style={styles.container}>
       {loading ? (
-        <Text>Loading...</Text>
+        <ActivityIndicator size="large" color="#0000ff" />
       ) : (
-        <Text>{JSON.stringify(data, null, 2)}</Text>
+        // Render FlatList only if data is an array
+        <FlatList
+          data={data}
+          keyExtractor={(item, index) => index.toString()} // Provide a unique key for each item
+          renderItem={({ item }) => (
+            <View style={styles.container}>
+              {/* Assuming each item has a "name" and "ingredients" property */}
+              <Text style={styles.itemText}>{item.id}</Text>
+              <Text style={styles.itemText}>{item.title}</Text>
+              <Text style={styles.itemText}>{item.image}</Text>
+            </View>
+          )}
+        />
       )}
-    </ScrollView>
+    </SafeAreaView>
   );
 };
-
-export default RecipeSearch;

@@ -11,7 +11,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from '../styles/styles.js';
 import getIPAddress from "../IPAddress.js";
 
-export default function LoginScreen({ navigation, setIsLoggedIn }) {
+export default function LoginScreen({ setIsLoggedIn }) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -65,6 +65,7 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
             await AsyncStorage.setItem("lastname", result.lastname);
             await AsyncStorage.setItem("email", result.email);
             setIsLoggedIn(true);
+            navigation.navigate("Home");
           }
         } else {
           setMessage("Registration successful. Please log in.");
