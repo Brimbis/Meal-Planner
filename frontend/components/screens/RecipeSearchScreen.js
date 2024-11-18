@@ -5,45 +5,70 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 export default function RecipeSearchScreen() {
   const navigation = useNavigation();
   const route = useRoute();
-  const { ingredients } = route.params; // Get the selected ingredients from the previous screen
+  const { query, ingredients } = route.params; // Get query and selected ingredients
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchRecipes = async () => {
-    if (ingredients.length === 0) return;
-
     try {
       setLoading(true);
-      let allRecipes = [];
-
-      // Loop through each selected ingredient and make an API call for each
-      for (let ingredient of ingredients) {
-        const url = `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?ingredients=${ingredient}&number=5&ignorePantry=true&ranking=1`;
-
-        const options = {
-          method: "GET",
-          headers: {
-            "x-rapidapi-key": "176739f866msh27757afccb10db1p171ceajsn0e4ff12ef3b1", // Replace with your actual API key
-            "x-rapidapi-host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
-          },
-        };
-
-        const response = await fetch(url, options);
-        const result = await response.json();
-        allRecipes = [...allRecipes, ...result]; // Combine results from all API calls
-      }
-
-      setData(allRecipes); // Set combined data from all ingredients
+  
+      // Construct the API URL with query and ingredients
+      const baseUrl = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch";
+      const params = new URLSearchParams({
+        query: query || "",
+        includeIngredients: ingredients.join(","),
+        number: 10,
+        instructionsRequired: "true",
+        ignorePantry: "true",
+        sort: "max-used-ingredients",
+      }).toString();
+  
+      const url = `${baseUrl}?${params}`;
+  
+      const options = {
+        method: "GET",
+        headers: {
+          "x-rapidapi-key": "176739f866msh27757afccb10db1p171ceajsn0e4ff12ef3b1",
+          "x-rapidapi-host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
+        },
+      };
+  
+      // First API call
+      const response = await fetch(url, options);
+      const result = await response.json();
+      const recipes = result.results || []; // Extract recipes
+  
+      // Nested API calls to fetch calorie data
+      const enrichedRecipes = await Promise.all(
+        recipes.map(async (recipe) => {
+          try {
+            const calorieUrl = `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${recipe.id}/nutritionWidget.json`;
+  
+            const calorieResponse = await fetch(calorieUrl, options);
+            const calorieData = await calorieResponse.json();
+  
+            return { ...recipe, calories: calorieData.calories }; // Append calorie data
+          } catch (error) {
+            console.error(`Error fetching calorie data for recipe ${recipe.id}:`, error);
+            return { ...recipe, calories: "N/A" }; // Fallback for failed requests
+          }
+        })
+      );
+  
+      setData(enrichedRecipes); // Update state with enriched recipes
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Error fetching recipes:", error);
     } finally {
       setLoading(false);
     }
   };
+  
+
 
   useEffect(() => {
-    fetchRecipes(); // Fetch recipes once ingredients are passed
-  }, [ingredients]);
+    fetchRecipes(); // Fetch recipes when component mounts
+  }, [query, ingredients]);
 
   return (
     <SafeAreaView style={{ flex: 1, padding: 20 }}>
@@ -66,9 +91,15 @@ export default function RecipeSearchScreen() {
                 {recipe.image && (
                   <Image
                     source={{ uri: recipe.image }}
-                    style={{ width: "100%", height: 200, marginVertical: 10, resizeMode: 'cover' }}
+                    style={{ width: "100%", height: 200, marginVertical: 10, resizeMode: "cover" }}
                   />
                 )}
+
+                {/* Recipe Calories */}
+                <Text style={{ fontSize: 16, color: "#555", textAlign: "center" }}>
+                  Calories: {recipe.calories || "N/A"}
+                </Text>
+
               </View>
             ))}
         </ScrollView>

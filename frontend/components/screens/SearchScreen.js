@@ -1,14 +1,16 @@
 import React, { useState } from "react";
-import { SafeAreaView, Text, View, Button, TouchableOpacity, ScrollView } from "react-native";
-import { useNavigation } from "@react-navigation/native"; // To navigate to the new screen
+import { SafeAreaView, Text, TextInput, View, Button, TouchableOpacity, ScrollView } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 export default function SearchScreen() {
   const navigation = useNavigation();
-  const [selectedIngredients, setSelectedIngredients] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(""); // State for meal type search
+  const [selectedIngredients, setSelectedIngredients] = useState([]); // State for selected ingredients
 
-  // Sample list of ingredients
+  // List of ingredients
   const ingredientList = ["blueberries", "strawberries", "beef", "chicken", "carrots", "spinach", "bread"];
 
+  // Add/remove ingredients from selected list
   const handleIngredientSelect = (ingredient) => {
     setSelectedIngredients((prev) =>
       prev.includes(ingredient)
@@ -17,16 +19,31 @@ export default function SearchScreen() {
     );
   };
 
+  // Navigate to RecipeSearchScreen with query and selected ingredients
   const handleSearch = () => {
-    // Navigate to 'RecipeSearchScreen' within the 'SearchStack' and pass the ingredients as params
-    navigation.navigate('RecipeSearchScreen', {
-      ingredients: selectedIngredients,  // Pass the selected ingredients to the RecipeSearchScreen
+    navigation.navigate("RecipeSearchScreen", {
+      query: searchQuery.trim(),
+      ingredients: selectedIngredients,
     });
   };
-  
+
   return (
     <SafeAreaView style={{ flex: 1, padding: 20 }}>
       <Text style={{ fontSize: 24, fontWeight: "bold", textAlign: "center" }}>Search</Text>
+
+      {/* Search Bar */}
+      <TextInput
+        placeholder="Enter a meal type (e.g., salad, sandwich)"
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+        style={{
+          borderWidth: 1,
+          borderColor: "#ccc",
+          borderRadius: 5,
+          padding: 10,
+          marginVertical: 20,
+        }}
+      />
 
       {/* Scrollable Ingredient Buttons */}
       <ScrollView horizontal style={{ marginVertical: 20 }} showsHorizontalScrollIndicator={false}>
@@ -35,12 +52,13 @@ export default function SearchScreen() {
             key={ing}
             onPress={() => handleIngredientSelect(ing)}
             style={{
-              backgroundColor: "#6A9C89",
+              backgroundColor: selectedIngredients.includes(ing) ? "#16423C" : "#6A9C89",
               padding: 10,
               marginRight: 10,
               borderRadius: 5,
               justifyContent: "center",
               alignItems: "center",
+              height: 40,
             }}
           >
             <Text style={{ color: "white", fontWeight: "bold" }}>{ing}</Text>
@@ -48,8 +66,9 @@ export default function SearchScreen() {
         ))}
       </ScrollView>
 
-      {/* Button to trigger the recipe search */}
-      <Button title="Search Recipes" onPress={handleSearch} />
+      <View style={{ marginTop: 20, marginBottom: 20 }}>
+        <Button title="Search Recipes" onPress={handleSearch} />
+      </View>
     </SafeAreaView>
   );
 }
