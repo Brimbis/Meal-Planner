@@ -9,10 +9,12 @@ import {
 } from "react-native";
 import styles from "../styles/styles.js";
 import { LinearGradient } from "expo-linear-gradient";
+import { useNavigation } from "@react-navigation/native"; // To navigate to the new screen
 
 const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 var now = new Date();
 var dayNum = now.getDay() - 1;
+
 
 function getNextDay() {
   (dayNum < 6) ? dayNum += 1 : dayNum = 0;
@@ -65,6 +67,11 @@ export default function HomeScreen({ navigation }) {
           style={styles.linearGradient}
           locations={[0.6, 1]}
       >
+        <Pressable style={styles.buttonContainerSmall} 
+          onPress={() => navigation.navigate('APITest')} // Wrap in a function
+        >
+          <Text>APITest</Text>
+        </Pressable>
         <FlatList
           data={WEEKDAYS}
           renderItem={({ item }) => (
@@ -80,10 +87,10 @@ export default function HomeScreen({ navigation }) {
               <View style={styles.mealBoxSeparatorLine}></View>
                 <Text style={styles.mealBoxText}>Estimated Calories:</Text>
               </View>
-            <View paddingTop={50}/>
           </View>
           )}
           />
+          <View paddingBottom={50}/>
       </LinearGradient>
     </SafeAreaView>
   );
