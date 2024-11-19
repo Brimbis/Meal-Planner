@@ -3,6 +3,7 @@ import { SafeAreaView, Text, View, FlatList, Image, Pressable } from "react-nati
 import styles from "../styles/styles"; // Ensure it's the correct path for styles
 import { LinearGradient } from "expo-linear-gradient";
 import API from "../API"; // Import the API class
+import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
 
 export default function BookmarkScreen({ navigation, setIsLoggedIn }) {
     const [favorites, setFavorites] = useState([]);
@@ -11,45 +12,56 @@ export default function BookmarkScreen({ navigation, setIsLoggedIn }) {
 
     // Fetch favorite meals on component mount
     useEffect(() => {
-        // Get favorite meal IDs from localStorage
-        const savedFavoritesIds = JSON.parse(localStorage.getItem("favoriteMealIds")) || [];
+        // Get favorite meal IDs from AsyncStorage
+        const fetchFavoritesFromStorage = async () => {
+            try {
+                const savedFavoritesIds = JSON.parse(await AsyncStorage.getItem("favoriteMealIds")) || [];
+                if (savedFavoritesIds.length > 0) {
+                    const fetchFavorites = async () => {
+                        try {
+                            const mealRequests = savedFavoritesIds.map((mealId) =>
+                                API.getMealData(mealId) // Using API class method to fetch meal data
+                            );
 
-        if (savedFavoritesIds.length > 0) {
-            const fetchFavorites = async () => {
-                try {
-                    const mealRequests = savedFavoritesIds.map((mealId) =>
-                        API.getMealData(mealId) // Using API class method to fetch meal data
-                    );
+                            // Wait for all meal data requests to resolve
+                            const fetchedMeals = await Promise.all(mealRequests);
 
-                    // Wait for all meal data requests to resolve
-                    const fetchedMeals = await Promise.all(mealRequests);
+                            // Update the state with the fetched meal data
+                            setFavorites(fetchedMeals);
+                        } catch (err) {
+                            setError("Failed to load favorite meals. Please try again.");
+                        } finally {
+                            setLoading(false);
+                        }
+                    };
 
-                    // Update the state with the fetched meal data
-                    setFavorites(fetchedMeals);
-                } catch (err) {
-                    setError("Failed to load favorite meals. Please try again.");
-                } finally {
-                    setLoading(false);
+                    fetchFavorites();
+                } else {
+                    setLoading(false); // If no favorites, stop loading
                 }
-            };
+            } catch (err) {
+                setError("Error retrieving favorites.");
+                setLoading(false);
+            }
+        };
 
-            fetchFavorites();
-        } else {
-            setLoading(false); // If no favorites, stop loading
-        }
+        fetchFavoritesFromStorage();
     }, []);
 
     // Function to remove meal from favorites
-    const removeFromFavorites = (mealId) => {
+    const removeFromFavorites = async (mealId) => {
         const updatedFavorites = favorites.filter(meal => meal.id !== mealId);
         setFavorites(updatedFavorites);
 
-        // Optionally, update localStorage or API here as well
+        // Update AsyncStorage with the new list of favorite IDs
         const updatedFavoriteIds = updatedFavorites.map(meal => meal.id);
-        localStorage.setItem("favoriteMealIds", JSON.stringify(updatedFavoriteIds));
+        try {
+            await AsyncStorage.setItem("favoriteMealIds", JSON.stringify(updatedFavoriteIds));
+        } catch (err) {
+            setError("Error saving favorites.");
+        }
 
-        // If you want to remove from your API's saved meals, you can add functionality here.
-        // API.removeSavedMeals(mealId); // Implement in the API class if necessary.
+        
     };
 
     // Render the bookmarks
