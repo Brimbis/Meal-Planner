@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { SafeAreaView, Text, View, Button, ScrollView, Image } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import getIPAddress from "../IPAddress";
 
 export default function RecipeSearchScreen() {
   const navigation = useNavigation();
@@ -9,6 +11,8 @@ export default function RecipeSearchScreen() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  console.log(query, ingredients);
+  /*
   const fetchRecipes = async () => {
     try {
       setLoading(true);
@@ -63,8 +67,46 @@ export default function RecipeSearchScreen() {
       setLoading(false);
     }
   };
-  
+  */
 
+  const fetchRecipes = async () => {
+    setLoading(true);
+    try {
+
+      // Build query parameters
+      const queryParams = new URLSearchParams();
+      if (query) queryParams.append('query', query);
+      if (ingredients.length > 0) queryParams.append('ingredients', ingredients.join(','));
+
+      const requestBody = JSON.stringify({
+        query: query,
+        ingredients: ingredients,
+      });
+
+      // Make POST request
+      const response = await fetch(`http://${getIPAddress()}:5000/API/search`, {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: {
+          requestBody,
+        }
+      });
+
+      if (!response.ok) {
+        console.error("Error: response not ok", response.status);
+        return;
+      }
+
+      const result = await response.json();
+      setData(result); // Update state with the data from API
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     fetchRecipes(); // Fetch recipes when component mounts

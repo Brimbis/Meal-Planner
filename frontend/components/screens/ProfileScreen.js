@@ -12,7 +12,7 @@ import styles from "../styles/styles";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function ProfileScreen({ navigation, setIsLoggedIn }) {
+export default function ProfileScreen({ setIsLoggedIn }) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
