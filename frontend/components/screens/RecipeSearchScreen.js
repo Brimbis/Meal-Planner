@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { SafeAreaView, Text, View, Button, ScrollView, Image, ActivityIndicator } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import getIPAddress from "../IPAddress";
+import API from "../API";
 
 export default function RecipeSearchScreen() {
   const navigation = useNavigation();
@@ -10,39 +9,34 @@ export default function RecipeSearchScreen() {
   const { query, ingredients } = route.params; // Get query and selected ingredients
   const [data, setData] = useState([]);
   const [recipeLoading, setRecipeLoading] = useState(true);
+  const [calories, setCalories] = useState({});
 
   const fetchRecipes = async () => {
     setRecipeLoading(true);
-    try {
-
-      const requestBody = {
-        query: query,
-        ingredients: ingredients.toString(),
-      };
-
-      console.log(JSON.stringify(requestBody));
-      // Make POST request
-      const response = await fetch(`http://${getIPAddress()}:5000/API/search`, {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
-      });
-
-      if (!response.ok) {
-        console.error("Error: response not ok", response);
-        return;
-      }
-
-      const result = await response.json();
-      setData(result); // Update state with the data from API
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    } finally {
-      setRecipeLoading(false);
-    }
+    const recipeData = await API.searchAPI(query, ingredients.toString());
+    setData(recipeData);
+    setRecipeLoading(false);
   };
+
+  const fetchCalories = async (id) => {
+    let mealData = await API.getMealData(JSON.stringify(id));
+    return mealData.calories;
+  };
+
+  useEffect(() => {
+    // Once recipes are loaded, fetch calories for each recipe
+    if (data && data.results) {
+      data.results.forEach(async (recipe) => {
+        if (!calories[recipe.id]) {
+          const calorieData = await fetchCalories(recipe.id);
+          setCalories((prevState) => ({
+            ...prevState,
+            [recipe.id]: calorieData,
+          }));
+        }
+      });
+    }
+  }, [data]); // Run this effect when `data` changes (i.e., recipes are fetched)
 
   useEffect(() => {
     fetchRecipes(); // Fetch recipes when component mounts
@@ -75,7 +69,7 @@ export default function RecipeSearchScreen() {
 
                 {/* Recipe Calories */}
                 <Text style={{ fontSize: 16, color: "#555", textAlign: "center" }}>
-                  Calories: {recipe.calories || "N/A"}
+                  Calories: {calories[recipe.id] !== undefined ? calories[recipe.id] : "Loading..."}
                 </Text>
 
               </View>
