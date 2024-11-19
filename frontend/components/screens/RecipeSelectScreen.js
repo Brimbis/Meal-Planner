@@ -18,13 +18,13 @@ export default function RecipeSelectScreen() {
 
   const fetchRecipeDetails = async (id) => {
     try {
-      // Replace PORT with the actual port number
-      const calorieResponse = await fetch("http://localhost:5000/api/id", {
+      const calorieResponse = await fetch("http://localhost:5000/api/nutrition", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id }),
       });
       const calorieData = await calorieResponse.json();
+      console.log('Calorie Data:', calorieData); // Add this log to check the response
       setCalories(calorieData.calories);
   
       const ingredientResponse = await fetch("http://localhost:5000/api/ingredients", {
@@ -33,6 +33,7 @@ export default function RecipeSelectScreen() {
         body: JSON.stringify({ id }),
       });
       const ingredientData = await ingredientResponse.json();
+      console.log('Ingredient Data:', ingredientData); // Add this log as well
       setIngredients(ingredientData.ingredients || []);
     } catch (error) {
       console.error("Error fetching recipe details:", error);
@@ -40,7 +41,6 @@ export default function RecipeSelectScreen() {
       setLoading(false);
     }
   };
-  
 
   return (
     <SafeAreaView style={{ flex: 1, padding: 20 }}>
