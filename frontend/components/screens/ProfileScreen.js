@@ -6,6 +6,7 @@ import {
   View,
   TextInput,
   Image,
+  StyleSheet,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../styles/styles";
@@ -51,13 +52,12 @@ export default function ProfileScreen({ setIsLoggedIn }) {
         colors={["#6A9C89", "#16423C"]}
         style={styles.linearGradient}
       >
-        <View style={styles.profileContainer}>
-          <View style={styles.profileImageContainer}>
+        <View style={profileStyles.profileContainer}>
+          <View style={profileStyles.profileImageContainer}>
             <Image
-              style={styles.profileImage}
+              style={profileStyles.profileImage}
               source={require("../pictures/blank-profile-picture-png.png")}
             />
-            <View style={styles.separator} />
           </View>
           <View style={{ marginTop: 70 }}>
             <Text style={styles.title}>
@@ -65,19 +65,23 @@ export default function ProfileScreen({ setIsLoggedIn }) {
               {firstName} {lastName}
             </Text>
           </View>
-          <Pressable style={styles.separatorLine} onPress={updateUserData}>
-            <View style={{ flexDirection: "row" }}>
-              <Text style={styles.smallTitle}>Daily Calories{""}</Text>
+          <Pressable style={profileStyles.pressable} onPress={updateUserData}>
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <Text style={styles.smallTitle}>Daily Calories</Text>
               <Ionicons
-                iconStyle={{ postion: "absolute", alignSelf: "right" }}
+                // iconStyle={{ alignSelf: "right" }}
                 name="chevron-forward-outline"
                 size={20}
                 color="white"
-              ></Ionicons>{" "}
+              />
             </View>
           </Pressable>
-          <Pressable style={styles.separatorLine} onPress={updateUserData}>
-            <View style={{ flexDirection: "row" }}>
+          <Pressable style={profileStyles.pressable} onPress={updateUserData}>
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
               <Text style={styles.smallTitle}>Allergen List{""}</Text>
               <Ionicons
                 iconStyle={{ postion: "absolute", alignSelf: "right" }}
@@ -87,18 +91,20 @@ export default function ProfileScreen({ setIsLoggedIn }) {
               ></Ionicons>{" "}
             </View>
           </Pressable>
-          <Pressable style={styles.separatorLine} onPress={updateUserData}>
-            <View style={{ flexDirection: "row" }}>
+          <Pressable style={profileStyles.pressable} onPress={updateUserData}>
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
               <Text style={styles.smallTitle}>Accessibility{""}</Text>
               <Ionicons
-                iconStyle={{ flex: "row", marginLeft: 10 }}
+                // iconStyle={{ flex: "row", marginLeft: 10 }}
                 name="chevron-forward-outline"
                 size={20}
                 color="white"
               ></Ionicons>
             </View>
           </Pressable>
-          <Pressable style={styles.buttonContainerSmall} onPress={handleLogout}>
+          <Pressable style={profileStyles.logout} onPress={handleLogout}>
             <Text style={styles.smallTitle}>Logout</Text>
           </Pressable>
         </View>
@@ -106,3 +112,52 @@ export default function ProfileScreen({ setIsLoggedIn }) {
     </SafeAreaView>
   );
 }
+
+const profileStyles = StyleSheet.create({
+  logout: {
+    height: 45,
+    width: 150,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#6A9C89",
+    marginHorizontal: "auto",
+    marginTop: 10,
+    borderRadius: 5,
+  },
+  profileImage: {
+    height: 100,
+    width: 100,
+    borderRadius: 20,
+    backgroundColor: "white",
+  },
+  profileImageContainer: {
+    height: "auto",
+    width: "auto",
+    borderRadius: 20,
+    backgroundColor: "#2D6059",
+    alignSelf: "center",
+    justifyContent: "center",
+    padding: 10,
+    position: "absolute",
+    top: -60,
+  },
+
+  profileContainer: {
+    display: "flex",
+    backgroundColor: "#0D2A26",
+    padding: 10,
+    height: "auto",
+    width: "80%",
+    alignSelf: "center",
+    borderRadius: 20,
+  },
+
+  pressable: {
+    marginVertical: 10,
+    width: "80%",
+    borderBottomColor: "#FFFFFF",
+    borderBottomWidth: 1,
+    paddingBottom: 20,
+    marginHorizontal: "auto",
+  },
+});

@@ -125,46 +125,10 @@ export default StyleSheet.create({
     textAlign: "center",
     color: "white",
   },
-  profileImage: {
-    height: 100,
-    width: 100,
-    borderRadius: 20,
-    backgroundColor: "white",
-  },
-  profileImageContainer: {
-    height: "auto",
-    width: "auto",
-    borderRadius: 20,
-    backgroundColor: "#2D6059",
-    alignSelf: "center",
-    justifyContent: "center",
-    padding: 10,
-    position: "absolute",
-    top: -60,
-  },
-
-  profileContainer: {
-    display: "flex",
-    backgroundColor: "#16423C",
-    padding: 10,
-    height: "auto",
-    width: "80%",
-    alignSelf: "center",
-    borderRadius: 20,
-  },
-
-  separatorLine: {
-    margin: 10,
-    width: "80%",
-    borderBottomColor: "#FFFFFF",
-    borderBottomWidth: 1,
-    paddingBottom: 10,
-  },
 
   imageContainer: {
     alignSelf: "center",
   },
-
 
   listContainer: {
     flex: 0.75,
@@ -172,7 +136,7 @@ export default StyleSheet.create({
   },
 
   mealBox: {
-    height: 'auto',
+    height: "auto",
     width: "80%",
     alignItems: "center",
     justifyContent: "center",
@@ -183,15 +147,15 @@ export default StyleSheet.create({
     borderTopRightRadius: 10,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-  }, 
+  },
 
   mealBoxText: {
-    fontSize: 16, 
+    fontSize: 16,
     textAlign: "center",
-    justifyContent: 'center', 
-    color: '#5D5D5D', 
-    paddingVertical: 5, 
-  }, 
+    justifyContent: "center",
+    color: "#5D5D5D",
+    paddingVertical: 5,
+  },
 
   mealBoxSeparatorLine: {
     margin: 10,
@@ -199,16 +163,16 @@ export default StyleSheet.create({
     borderBottomColor: "#6A9C89",
     borderBottomWidth: 1,
     paddingBottom: 10,
-  }, 
+  },
 
   weekdayText: {
     fontSize: 20,
-    fontWeight: 'bold', 
+    fontWeight: "bold",
     textAlign: "left",
-    justifyContent: 'left', 
-    color: '#16423C', 
-    paddingLeft: 20, 
-  }, 
+    justifyContent: "left",
+    color: "#16423C",
+    paddingLeft: 20,
+  },
 
   weekdayBox: {
     height: 45,
@@ -222,5 +186,6 @@ export default StyleSheet.create({
     borderTopRightRadius: 10,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-  }, 
+  },
+  
 });
