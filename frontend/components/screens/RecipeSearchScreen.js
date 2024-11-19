@@ -19,7 +19,7 @@ export default function RecipeSearchScreen() {
   };
 
   const fetchCalories = async (id) => {
-    let mealData = await API.getMealData(JSON.stringify(id));
+    let mealData = await API.getNutritionData(JSON.stringify(id));
     return mealData.calories;
   };
 
