@@ -17,7 +17,7 @@ import ProfileScreen from './components/screens/ProfileScreen'
 import BookmarkScreen from './components/screens/BookmarkScreen';
 import SearchScreen from './components/screens/SearchScreen';
 import RecipeSearchScreen from './components/screens/RecipeSearchScreen';  // Import RecipeSearchScreen
-import APITest from './components/screens/APITest';
+import { APITest, RecipeSearchTest } from './components/screens/APITest';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -32,7 +32,7 @@ const HomeStack = () => {
       </Stack.Screen>
       <Stack.Screen
         name="APITest"
-        component={APITest}>
+        component={RecipeSearchTest}>
       </Stack.Screen>
     </Stack.Navigator>
   );
