@@ -125,6 +125,12 @@ export default StyleSheet.create({
     justifyContent: "flex-end",
     gap: 12,
   },
+  headerText: {
+    fontSize: 24,
+    marginBottom: 20,
+    textAlign: "center",
+    color: "white",
+  },
 
   profileImage: {
     height: 100,
@@ -267,7 +273,7 @@ export default StyleSheet.create({
 
   // Meal box styling for other parts of the app
   mealBox: {
-    height: 'auto',
+    height: "auto",
     width: "80%",
     alignItems: "center",
     justifyContent: "center",
@@ -281,7 +287,7 @@ export default StyleSheet.create({
   },
 
   mealBoxText: {
-    fontSize: 16, 
+    fontSize: 16,
     textAlign: "center",
     justifyContent: 'center', 
     color: '#5D5D5D', 
@@ -295,14 +301,15 @@ export default StyleSheet.create({
     borderBottomWidth: 1,
     paddingBottom: 10,
   },
+  },
 
   weekdayText: {
     fontSize: 20,
-    fontWeight: 'bold', 
+    fontWeight: "bold",
     textAlign: "left",
-    justifyContent: 'left', 
-    color: '#16423C', 
-    paddingLeft: 20, 
+    justifyContent: "left",
+    color: "#16423C",
+    paddingLeft: 20,
   },
 
   weekdayBox: {
@@ -318,4 +325,6 @@ export default StyleSheet.create({
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
   },
+  },
+  
 });
