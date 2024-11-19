@@ -35,12 +35,17 @@ export default function HomeScreen() {
     for (let i = 0; i < mealIDs.length; i += 2) {
       const meal1 = await API.getMealData(mealIDs[i].toString());
       const meal2 = await API.getMealData(mealIDs[i + 1].toString());
+      const nutrition1 = await API.getNutritionData(mealIDs[i].toString());
+      const nutrition2 = await API.getNutritionData(mealIDs[i + 1].toString());
+
+      let calories = parseInt(nutrition1.calories) + parseInt(nutrition2.calories);
 
       // Add day information
       const mealWithDay = {
         day: getNextDay(),
         meal1: meal1,
         meal2: meal2, 
+        calories: calories, 
       };
 
       mealDataArray.push(mealWithDay); // Append the augmented meal data
@@ -86,7 +91,7 @@ export default function HomeScreen() {
                   <View style={styles.mealBoxSeparatorLine}></View>
                     <Text style={styles.mealBoxText}>{item.meal2.title}</Text>
                   <View style={styles.mealBoxSeparatorLine}></View>
-                    <Text style={styles.mealBoxText}>Estimated Calories:</Text>
+                    <Text style={styles.mealBoxText}>Estimated Calories: {(item.calories).toString()}</Text>
                   </View>
               </View>
               )}
