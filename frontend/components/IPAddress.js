@@ -1,3 +1,3 @@
 export default function getIPAddress() {
-  return '192.168.1.92';
+  return '10.200.236.156';
 }
