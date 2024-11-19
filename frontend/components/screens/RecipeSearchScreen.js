@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { SafeAreaView, Text, View, Button, ScrollView, Image, ActivityIndicator } from "react-native";
+import { SafeAreaView, Text, View, Button, ScrollView, Image, ActivityIndicator, TouchableOpacity } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import API from "../API";
 
@@ -45,37 +45,75 @@ export default function RecipeSearchScreen() {
   return (
     <SafeAreaView style={{ flex: 1, padding: 20 }}>
       <Text style={{ fontSize: 24, fontWeight: "bold", textAlign: "center" }}>Recipes</Text>
-
+  
       {/* Back Button */}
       <Button title="Go Back" onPress={() => navigation.goBack()} />
-
+  
       {recipeLoading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
         <ScrollView style={{ marginTop: 20 }}>
-          {data &&
-            data.results.map((recipe, index) => (
-              <View key={index} style={{ marginBottom: 20, borderBottomWidth: 1, paddingBottom: 10 }}>
-                {/* Recipe Title */}
-                <Text style={{ fontSize: 18, fontWeight: "bold" }}>{recipe.title}</Text>
-
-                {/* Recipe Image */}
-                {recipe.image && (
-                  <Image
-                    source={{ uri: recipe.image }}
-                    style={{ width: "100%", height: 200, marginVertical: 10, resizeMode: "cover" }}
-                  />
-                )}
-
-                {/* Recipe Calories */}
-                <Text style={{ fontSize: 16, color: "#555", textAlign: "center" }}>
-                  Calories: {calories[recipe.id] !== undefined ? calories[recipe.id] : "Loading..."}
-                </Text>
-
-              </View>
-            ))}
+          <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between" }}>
+            {data &&
+              data.results.map((recipe, index) => (
+                <View
+                  key={index}
+                  style={{
+                    width: "45%", // Each box takes up 45% of the width
+                    borderRadius: 15,
+                    backgroundColor: "#f8f8f8",
+                    marginBottom: 20,
+                    padding: 10,
+                    shadowColor: "#000",
+                    shadowOffset: { width: 0, height: 2 },
+                    shadowOpacity: 0.1,
+                    shadowRadius: 5,
+                    elevation: 2, // for Android shadow
+                    alignItems: "center",
+                  }}
+                >
+                  {/* Recipe Image */}
+                  {recipe.image && (
+                    <Image
+                      source={{ uri: recipe.image }}
+                      style={{
+                        width: "100%",
+                        height: 120,
+                        borderRadius: 10,
+                        resizeMode: "cover",
+                        marginBottom: 10,
+                      }}
+                    />
+                  )}
+  
+                  {/* Recipe Title */}
+                  <Text style={{ fontSize: 16, fontWeight: "bold", textAlign: "center" }}>
+                    {recipe.title}
+                  </Text>
+  
+                  {/* Recipe Calories */}
+                  <Text style={{ fontSize: 14, color: "#555", textAlign: "center" }}>
+                    Calories: {calories[recipe.id] !== undefined ? calories[recipe.id] : "Loading..."}
+                  </Text>
+  
+                  {/* Navigate to RecipeSelectScreen */}
+                  <TouchableOpacity
+                    style={{
+                      marginTop: 10,
+                      backgroundColor: "#007bff",
+                      paddingVertical: 8,
+                      paddingHorizontal: 16,
+                      borderRadius: 5,
+                    }}
+                    onPress={() => navigation.navigate("RecipeSelectScreen", { recipe })}
+                  >
+                    <Text style={{ color: "#fff" }}>View Recipe</Text>
+                  </TouchableOpacity>
+                </View>
+              ))}
+          </View>
         </ScrollView>
       )}
     </SafeAreaView>
-  ); 
+  );
 }

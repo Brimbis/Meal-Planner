@@ -16,7 +16,8 @@ import HomeScreen from './components/screens/HomeScreen';
 import ProfileScreen from './components/screens/ProfileScreen'
 import BookmarkScreen from './components/screens/BookmarkScreen';
 import SearchScreen from './components/screens/SearchScreen';
-import RecipeSearchScreen from './components/screens/RecipeSearchScreen';  // Import RecipeSearchScreen
+import RecipeSearchScreen from './components/screens/RecipeSearchScreen'; 
+import RecipeSelectScreen from './components/screens/RecipeSelectScreen'
 import { APITest, RecipeSearchTest } from './components/screens/APITest';
 
 const Tab = createBottomTabNavigator();
@@ -43,9 +44,11 @@ const SearchStack = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Search" component={SearchScreen} />
       <Stack.Screen name="RecipeSearchScreen" component={RecipeSearchScreen} />
+      <Stack.Screen name="RecipeSelectScreen" component={RecipeSelectScreen} />
     </Stack.Navigator>
   );
 };
+
 
 // Add multiple screens if necessary
 const BookmarkStack = () => {
