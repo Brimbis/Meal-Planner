@@ -4,7 +4,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    backgroundColor: "#16423C",
+    backgroundColor: "#16423C", // Dark green background
     padding: 0,
   },
 
@@ -91,17 +91,21 @@ export default StyleSheet.create({
     fontSize: 24,
     marginBottom: 20,
     textAlign: "center",
+    color: "white",
   },
+
   item: {
     backgroundColor: "#172e2b",
     padding: 20,
     marginVertical: 8,
     borderRadius: 8,
   },
+
   description: {
     fontSize: 14,
     color: "white",
   },
+
   buttonContainer: {
     marginVertical: 10,
     alignSelf: "center",
@@ -110,27 +114,25 @@ export default StyleSheet.create({
     justifyContent: "space-between",
     height: 80,
   },
+
   footerContainer: {
     alignSelf: "center",
     width: "50%",
   },
+
   itemActions: {
     flexDirection: "row",
     justifyContent: "flex-end",
     gap: 12,
   },
-  headerText: {
-    fontSize: 24,
-    marginBottom: 20,
-    textAlign: "center",
-    color: "white",
-  },
+
   profileImage: {
     height: 100,
     width: 100,
     borderRadius: 20,
     backgroundColor: "white",
   },
+
   profileImageContainer: {
     height: "auto",
     width: "auto",
@@ -165,12 +167,105 @@ export default StyleSheet.create({
     alignSelf: "center",
   },
 
-
   listContainer: {
     flex: 0.75,
     paddingHorizontal: 10,
   },
 
+  // Bookmark-specific styles
+  bookmarkContainer: {
+    flex: 1,
+    justifyContent: "flex-start", // Align content at the top
+    backgroundColor: "#16423C", // Dark background color for bookmark section
+    padding: 0,
+  },
+
+  bookmarkLinearGradient: {
+    width: "100%",
+    height: 200, // Fixed height for the gradient section
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  bookmarkTitle: {
+    textAlign: "center",
+    fontSize: 24, // Larger font for bookmarks title
+    fontWeight: "bold",
+    color: "white",
+    marginTop: 20,
+  },
+
+  bookmarkMealCard: {
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: 15,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 5, // For Android shadow
+  },
+
+  bookmarkMealImage: {
+    width: "100%",
+    height: 200,
+    borderRadius: 10,
+  },
+
+  bookmarkMealTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginTop: 10,
+  },
+
+  bookmarkMealSummary: {
+    fontSize: 14,
+    color: "#666",
+    marginTop: 5,
+  },
+
+  bookmarkRemoveButton: {
+    backgroundColor: "#FF6347",
+    paddingVertical: 5,
+    paddingHorizontal: 15,
+    borderRadius: 5,
+    marginTop: 10,
+  },
+
+  bookmarkRemoveButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
+
+  bookmarkNoFavoritesText: {
+    textAlign: "center",
+    fontSize: 18,
+    color: "#fff",
+    marginTop: 20,
+  },
+
+  bookmarkLoadingText: {
+    textAlign: "center",
+    fontSize: 18,
+    color: "#fff",
+    marginTop: 20,
+  },
+
+  bookmarkErrorText: {
+    textAlign: "center",
+    fontSize: 18,
+    color: "#FF6347", // Red color for error messages
+    marginTop: 20,
+  },
+
+  bookmarkListContainer: {
+    flex: 1, // Flex to fill available space for list
+    paddingHorizontal: 10,
+    paddingBottom: 20, // Padding at the bottom for spacing
+  },
+
+  // Meal box styling for other parts of the app
   mealBox: {
     height: 'auto',
     width: "80%",
@@ -183,7 +278,7 @@ export default StyleSheet.create({
     borderTopRightRadius: 10,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-  }, 
+  },
 
   mealBoxText: {
     fontSize: 16, 
@@ -191,7 +286,7 @@ export default StyleSheet.create({
     justifyContent: 'center', 
     color: '#5D5D5D', 
     paddingVertical: 5, 
-  }, 
+  },
 
   mealBoxSeparatorLine: {
     margin: 10,
@@ -199,7 +294,7 @@ export default StyleSheet.create({
     borderBottomColor: "#6A9C89",
     borderBottomWidth: 1,
     paddingBottom: 10,
-  }, 
+  },
 
   weekdayText: {
     fontSize: 20,
@@ -208,7 +303,7 @@ export default StyleSheet.create({
     justifyContent: 'left', 
     color: '#16423C', 
     paddingLeft: 20, 
-  }, 
+  },
 
   weekdayBox: {
     height: 45,
@@ -222,5 +317,5 @@ export default StyleSheet.create({
     borderTopRightRadius: 10,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-  }, 
+  },
 });
