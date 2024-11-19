@@ -301,7 +301,6 @@ export default StyleSheet.create({
     borderBottomWidth: 1,
     paddingBottom: 10,
   },
-  },
 
   weekdayText: {
     fontSize: 20,
@@ -325,6 +324,4 @@ export default StyleSheet.create({
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
   },
-  },
-  
 });
