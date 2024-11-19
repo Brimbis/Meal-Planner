@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import styles from "../styles/styles.js";
 import { LinearGradient } from "expo-linear-gradient";
-import { useNavigation } from "@react-navigation/native"; // To navigate to the new screen
 
 const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 var now = new Date();
@@ -67,11 +66,6 @@ export default function HomeScreen({ navigation }) {
           style={styles.linearGradient}
           locations={[0.6, 1]}
       >
-        <Pressable style={styles.buttonContainerSmall} 
-          onPress={() => navigation.navigate('APITest')} // Wrap in a function
-        >
-          <Text>APITest</Text>
-        </Pressable>
         <FlatList
           data={WEEKDAYS}
           renderItem={({ item }) => (
