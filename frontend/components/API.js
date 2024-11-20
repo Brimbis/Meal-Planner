@@ -2,17 +2,44 @@ import getIPAddress from "./IPAddress";
 
 export default class API {
 
-    static savedMeals = [];
+    static savedMeals = []; // Bookmarking meals to display on Bookmarks tab
+    static selectedMeals = [] // Selecting meals to display on Home tab
 
     get savedMeals() {
         return savedMeals;
     }
 
+    get selectedMeals() {
+        return selectedMeals;
+    }
+
+    static addSelectedMeals(meal) {
+        try {
+
+            if (this.selectedMeals.includes(meal)) { // Catch duplicate entries
+                console.log(`Meal ID ${meal} is already in selectedMeals.`);
+                return;
+            }
+        
+            this.selectedMeals.push(meal); // Append the meal ID
+            console.log("Meal successfully selected. Current selected meals:", this.selectedMeals);
+
+        } catch (error) {
+            console.log("Unable to save meal", error, meal);
+        }
+    }
+
     static addSavedMeals(meal) {
         try {
-            savedMeals.append(meal);
+
+        if (this.savedMeals.includes(meal)) { // Catch duplicate enteries
+            console.log(`Meal ID ${meal} is already in savedMeals.`);
+            return;
         }
-        catch (error) {
+            this.savedMeals.push(meal); // Append the meal ID
+            console.log("Meal successfully bookmarked. Current saved meals:", this.savedMeals);
+
+        } catch (error) {
             console.log("Unable to save meal", error, meal);
         }
     }

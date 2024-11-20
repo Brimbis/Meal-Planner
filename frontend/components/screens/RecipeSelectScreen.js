@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, Text, Button, View, Image, FlatList, ActivityIndicator } from "react-native";
+import { SafeAreaView, Text, Button, View, Image, FlatList, ScrollView, ActivityIndicator } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import API from "../API"
 
 export default function RecipeSelectScreen() {
   const navigation = useNavigation();
@@ -44,33 +45,38 @@ export default function RecipeSelectScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1, padding: 20 }}>
-      <Text style={{ fontSize: 24, fontWeight: "bold", textAlign: "center", marginBottom: 20 }}>
-        Recipe Details
-      </Text>
+        {/* Container for the top buttons */}
+        <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 20 }}>
+            <Button title="Go Back" onPress={() => navigation.goBack()} />
+            <Button title="Bookmark" onPress={() =>  API.addSavedMeals(recipe.id)} />
+        </View>
 
-      {/* Display recipe details */}
-      <View style={{ marginBottom: 20, alignItems: "center" }}>
-        <Image
-          source={{ uri: recipe?.image }}
-          style={{ width: 200, height: 200, borderRadius: 10 }}
-          resizeMode="cover"
-        />
-        <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: 10 }}>Title: {recipe?.title}</Text>
-        <Text style={{ fontSize: 16, marginTop: 10 }}>Calories: {calories || "N/A"}</Text>
-      </View>
+        <ScrollView style={{ marginTop: 10 }}>
+            {/* Display recipe details */}
+            <View style={{ marginBottom: 20, alignItems: "center" }}>
+                <Image
+                    source={{ uri: recipe?.image }}
+                    style={{ width: 200, height: 200, borderRadius: 10 }}
+                    resizeMode="cover"
+                />
+                <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: 10 }}>Title: {recipe?.title}</Text>
+                <Text style={{ fontSize: 16, marginTop: 10 }}>Calories: {calories || "N/A"}</Text>
+            </View>
 
-      {/* Display ingredients */}
-      <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>Ingredients:</Text>
-      <FlatList
-        data={ingredients}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-          <Text style={{ fontSize: 16 }}>- {item.name}: {item.amount.us.value} {item.amount.us.unit}</Text>
-        )}
-      />
+            {/* Display ingredients */}
+            <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>Ingredients:</Text>
+            <FlatList
+                data={ingredients}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item }) => (
+                    <Text style={{ fontSize: 16 }}>- {item.name}: {item.amount.us.value} {item.amount.us.unit}</Text>
+                )}
+            />
+        </ScrollView>
 
-      {/* Back to RecipeSearchScreen */}
-      <Button title="Go Back" onPress={() => navigation.goBack()} />
+        {/* Back to RecipeSearchScreen */}
+        <Button title="Add Recipe" onPress={() =>  API.addSelectedMeals(recipe.id)} />
     </SafeAreaView>
-  );
+);
+
 }
