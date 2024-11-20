@@ -12,8 +12,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../styles/styles";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
+import DailyCalories from "./DailyCalories";
+import { useNavigation, navigation } from "@react-navigation/native";
 
 export default function ProfileScreen({ setIsLoggedIn }) {
+  const navigation = useNavigation();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -45,6 +48,9 @@ export default function ProfileScreen({ setIsLoggedIn }) {
     await AsyncStorage.setItem("firstname", firstName);
     await AsyncStorage.setItem("lastname", lastName);
   };
+  const navigateToDailyCalories = () => {
+    navigation.navigate("DailyCalories");
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -61,17 +67,18 @@ export default function ProfileScreen({ setIsLoggedIn }) {
           </View>
           <View style={{ marginTop: 70 }}>
             <Text style={styles.title}>
-              {" "}
               {firstName} {lastName}
             </Text>
           </View>
-          <Pressable style={profileStyles.pressable} onPress={updateUserData}>
+          <Pressable
+            style={profileStyles.pressable}
+            onPress={navigateToDailyCalories}
+          >
             <View
               style={{ flexDirection: "row", justifyContent: "space-between" }}
             >
               <Text style={styles.smallTitle}>Daily Calories</Text>
               <Ionicons
-                // iconStyle={{ alignSelf: "right" }}
                 name="chevron-forward-outline"
                 size={20}
                 color="white"
@@ -84,11 +91,10 @@ export default function ProfileScreen({ setIsLoggedIn }) {
             >
               <Text style={styles.smallTitle}>Allergen List{""}</Text>
               <Ionicons
-                iconStyle={{ postion: "absolute", alignSelf: "right" }}
                 name="chevron-forward-outline"
                 size={20}
                 color="white"
-              ></Ionicons>{" "}
+              ></Ionicons>
             </View>
           </Pressable>
           <Pressable style={profileStyles.pressable} onPress={updateUserData}>
@@ -97,7 +103,6 @@ export default function ProfileScreen({ setIsLoggedIn }) {
             >
               <Text style={styles.smallTitle}>Accessibility{""}</Text>
               <Ionicons
-                // iconStyle={{ flex: "row", marginLeft: 10 }}
                 name="chevron-forward-outline"
                 size={20}
                 color="white"
