@@ -289,9 +289,9 @@ export default StyleSheet.create({
   mealBoxText: {
     fontSize: 16,
     textAlign: "center",
-    justifyContent: 'center', 
-    color: '#5D5D5D', 
-    paddingVertical: 5, 
+    justifyContent: "center",
+    color: "#5D5D5D",
+    paddingVertical: 5,
   },
 
   mealBoxSeparatorLine: {
