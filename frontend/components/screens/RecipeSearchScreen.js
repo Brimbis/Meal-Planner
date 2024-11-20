@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { SafeAreaView, Text, View, Button, ScrollView, Image, ActivityIndicator, TouchableOpacity } from "react-native";
+import {
+  SafeAreaView,
+  Text,
+  View,
+  Pressable,
+  ScrollView,
+  Image,
+  ActivityIndicator,
+} from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons"; // Import Ionicons
 import API from "../API";
 
 export default function RecipeSearchScreen() {
@@ -44,11 +53,26 @@ export default function RecipeSearchScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1, padding: 20 }}>
-      <Text style={{ fontSize: 24, fontWeight: "bold", textAlign: "center" }}>Recipes</Text>
-  
+      <Text style={{ fontSize: 16, textAlign: "center" }}>Here are some recipes based on your selections:</Text>
+
       {/* Back Button */}
-      <Button title="Go Back" onPress={() => navigation.goBack()} />
-  
+      <Pressable
+        style={{
+          backgroundColor: "#E0E0E0",
+          padding: 10,
+          borderRadius: 50,
+          alignItems: "center",
+          justifyContent: "center",
+          width: 40,
+          height: 40,
+          alignSelf: "flex-start",
+          marginTop: 10,
+        }}
+        onPress={() => navigation.goBack()}
+      >
+        <Ionicons name="arrow-back" size={24} color="black" />
+      </Pressable>
+
       {recipeLoading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
@@ -85,19 +109,19 @@ export default function RecipeSearchScreen() {
                       }}
                     />
                   )}
-  
+
                   {/* Recipe Title */}
                   <Text style={{ fontSize: 16, fontWeight: "bold", textAlign: "center" }}>
                     {recipe.title}
                   </Text>
-  
+
                   {/* Recipe Calories */}
                   <Text style={{ fontSize: 14, color: "#555", textAlign: "center" }}>
                     Calories: {calories[recipe.id] !== undefined ? calories[recipe.id] : "Loading..."}
                   </Text>
-  
+
                   {/* Navigate to RecipeSelectScreen */}
-                  <TouchableOpacity
+                  <Pressable
                     style={{
                       marginTop: 10,
                       backgroundColor: "#007bff",
@@ -107,8 +131,10 @@ export default function RecipeSearchScreen() {
                     }}
                     onPress={() => navigation.navigate("RecipeSelectScreen", { recipe })}
                   >
-                    <Text style={{ color: "#fff" }}>View Recipe</Text>
-                  </TouchableOpacity>
+                    <Text style={{ color: "#fff", fontWeight: "bold", textAlign: "center" }}>
+                      View Recipe
+                    </Text>
+                  </Pressable>
                 </View>
               ))}
           </View>
