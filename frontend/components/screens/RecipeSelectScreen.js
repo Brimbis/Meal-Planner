@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons"; // Import Ionicons
+import getIPAddress from "../IPAddress";
 import API from "../API";
 
 export default function RecipeSelectScreen() {
@@ -29,7 +30,7 @@ export default function RecipeSelectScreen() {
 
   const fetchRecipeDetails = async (id) => {
     try {
-      const calorieResponse = await fetch("http://localhost:5000/api/nutrition", {
+      const calorieResponse = await fetch(`http://${getIPAddress()}:5000/api/nutrition`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id }),
@@ -37,7 +38,7 @@ export default function RecipeSelectScreen() {
       const calorieData = await calorieResponse.json();
       setCalories(calorieData.calories);
 
-      const ingredientResponse = await fetch("http://localhost:5000/api/ingredients", {
+      const ingredientResponse = await fetch(`http://${getIPAddress()}:5000/api/ingredients`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id }),
@@ -92,9 +93,10 @@ export default function RecipeSelectScreen() {
           <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: 10 }}>Title: {recipe?.title}</Text>
           <Text style={{ fontSize: 16, marginTop: 10 }}>Calories: {calories || "N/A"}</Text>
         </View>
+      </ScrollView>
 
-        {/* Display ingredients */}
-        <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>Ingredients:</Text>
+      {/* Display ingredients */}
+      <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>Ingredients:</Text>
         <FlatList
           data={ingredients}
           keyExtractor={(item, index) => index.toString()}
@@ -104,7 +106,6 @@ export default function RecipeSelectScreen() {
             </Text>
           )}
         />
-      </ScrollView>
 
       {/* Back to RecipeSearchScreen */}
       <Pressable
