@@ -314,7 +314,7 @@ export default StyleSheet.create({
   weekdayBox: {
     height: 45,
     width: "80%",
-    alignItems: "left",
+  alignItems: "left",
     justifyContent: "center",
     backgroundColor: "#C4DAD2",
     marginHorizontal: "auto",
