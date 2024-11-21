@@ -169,6 +169,17 @@ export default StyleSheet.create({
     paddingBottom: 10,
   },
 
+  separatorLineSearch: {
+    margin: 10,
+    width: "100%",
+    borderBottomColor: "#16423C",
+    borderBottomWidth: 3,
+    borderCurve: 5,
+    paddingBottom: 0,
+    alignSelf: 'center', 
+  },
+  
+
   imageContainer: {
     alignSelf: "center",
   },
@@ -270,4 +281,65 @@ export default StyleSheet.create({
     paddingHorizontal: 10,
     paddingBottom: 20, // Padding at the bottom for spacing
   },
+
+  // View background style
+  viewContainer: {
+    flex: 1,
+    marginTop: 30, // Adds spacing from the top
+    backgroundColor: "#C4DAD2", // Background color
+    borderRadius: 20, // Rounds the corners
+    overflow: "hidden", // Ensures content respects rounded corners
+  },
+
+  // Search bar style
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 20,
+  },
+  searchInputWrapper: {
+    flexDirection: "row",
+    flex: 1,
+    overflow: "hidden",
+  },
+  searchInput: {
+    backgroundColor: "white", // White background inside the search bar
+    fontSize: 12,
+    color: "#888", // Grey text color
+    borderWidth: 1,
+    borderRadius: 20,
+    padding: 10,
+    flex: 1, // Ensures TextInput takes up available space
+  },
+  searchIconWrapper: {
+    position: "absolute", // To position the icon inside the TextInput
+    right: 10, // Places the icon on the right side
+    top: "50%", // Vertically centers the icon
+    transform: [{ translateY: -11 }], // Adjusts for perfect vertical centering
+  },
+
+  // Ingredient buttons style
+  ingredientSectionTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  ingredientButtonWrapper: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+  ingredientButton: {
+    padding: 10,
+    marginRight: 10,
+    marginBottom: 10,
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    height: 40,
+  },
+  ingredientButtonText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+
 });

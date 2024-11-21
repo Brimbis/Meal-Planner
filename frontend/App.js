@@ -116,7 +116,7 @@ export default function App() {
             tabBarStyle: {
               position: "absolute",
               backgroundColor: "#16423C", // Set the background color of the tab bar
-              height: "5.5%",
+              height: "8%",
               width: "100%",
               borderTopStartRadius: 10,
               borderTopEndRadius: 10,
@@ -124,6 +124,7 @@ export default function App() {
             },
             tabBarIconStyle: {
               alignItems: "center",
+              marginVertical: "auto",
               justifyContent: "center",
             },
             animation: "fade",
