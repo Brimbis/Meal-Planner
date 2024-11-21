@@ -125,6 +125,12 @@ export default StyleSheet.create({
     justifyContent: "flex-end",
     gap: 12,
   },
+  headerText: {
+    fontSize: 24,
+    marginBottom: 20,
+    textAlign: "center",
+    color: "white",
+  },
 
   profileImage: {
     height: 100,
@@ -263,59 +269,5 @@ export default StyleSheet.create({
     flex: 1, // Flex to fill available space for list
     paddingHorizontal: 10,
     paddingBottom: 20, // Padding at the bottom for spacing
-  },
-
-  // Meal box styling for other parts of the app
-  mealBox: {
-    height: 'auto',
-    width: "80%",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#C4DAD2",
-    marginHorizontal: "auto",
-    marginVertical: 5,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
-  },
-
-  mealBoxText: {
-    fontSize: 16, 
-    textAlign: "center",
-    justifyContent: 'center', 
-    color: '#5D5D5D', 
-    paddingVertical: 5, 
-  },
-
-  mealBoxSeparatorLine: {
-    margin: 10,
-    width: "80%",
-    borderBottomColor: "#6A9C89",
-    borderBottomWidth: 1,
-    paddingBottom: 10,
-  },
-
-  weekdayText: {
-    fontSize: 20,
-    fontWeight: 'bold', 
-    textAlign: "left",
-    justifyContent: 'left', 
-    color: '#16423C', 
-    paddingLeft: 20, 
-  },
-
-  weekdayBox: {
-    height: 45,
-    width: "80%",
-    alignItems: "left",
-    justifyContent: "center",
-    backgroundColor: "#C4DAD2",
-    marginHorizontal: "auto",
-    marginVertical: 5,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
   },
 });
