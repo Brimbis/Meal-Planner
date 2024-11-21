@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { SafeAreaView, Text, View, Button, ScrollView, Image, ActivityIndicator } from "react-native";
+import {
+  SafeAreaView,
+  Text,
+  View,
+  Pressable,
+  ScrollView,
+  Image,
+  ActivityIndicator,
+} from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons"; // Import Ionicons
 import API from "../API";
 
 export default function RecipeSearchScreen() {
@@ -44,38 +53,93 @@ export default function RecipeSearchScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1, padding: 20 }}>
-      <Text style={{ fontSize: 24, fontWeight: "bold", textAlign: "center" }}>Recipes</Text>
+      <Text style={{ fontSize: 16, textAlign: "center" }}>Here are some recipes based on your selections:</Text>
 
       {/* Back Button */}
-      <Button title="Go Back" onPress={() => navigation.goBack()} />
+      <Pressable
+        style={{
+          backgroundColor: "#E0E0E0",
+          padding: 10,
+          borderRadius: 50,
+          alignItems: "center",
+          justifyContent: "center",
+          width: 40,
+          height: 40,
+          alignSelf: "flex-start",
+          marginTop: 10,
+        }}
+        onPress={() => navigation.goBack()}
+      >
+        <Ionicons name="arrow-back" size={24} color="black" />
+      </Pressable>
 
       {recipeLoading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
         <ScrollView style={{ marginTop: 20 }}>
-          {data &&
-            data.results.map((recipe, index) => (
-              <View key={index} style={{ marginBottom: 20, borderBottomWidth: 1, paddingBottom: 10 }}>
-                {/* Recipe Title */}
-                <Text style={{ fontSize: 18, fontWeight: "bold" }}>{recipe.title}</Text>
+          <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between" }}>
+            {data &&
+              data.results.map((recipe, index) => (
+                <View
+                  key={index}
+                  style={{
+                    width: "45%", // Each box takes up 45% of the width
+                    borderRadius: 15,
+                    backgroundColor: "#f8f8f8",
+                    marginBottom: 20,
+                    padding: 10,
+                    shadowColor: "#000",
+                    shadowOffset: { width: 0, height: 2 },
+                    shadowOpacity: 0.1,
+                    shadowRadius: 5,
+                    elevation: 2, // for Android shadow
+                    alignItems: "center",
+                  }}
+                >
+                  {/* Recipe Image */}
+                  {recipe.image && (
+                    <Image
+                      source={{ uri: recipe.image }}
+                      style={{
+                        width: "100%",
+                        height: 120,
+                        borderRadius: 10,
+                        resizeMode: "cover",
+                        marginBottom: 10,
+                      }}
+                    />
+                  )}
 
-                {/* Recipe Image */}
-                {recipe.image && (
-                  <Image
-                    source={{ uri: recipe.image }}
-                    style={{ width: "100%", height: 200, marginVertical: 10, resizeMode: "cover" }}
-                  />
-                )}
+                  {/* Recipe Title */}
+                  <Text style={{ fontSize: 16, fontWeight: "bold", textAlign: "center" }}>
+                    {recipe.title}
+                  </Text>
 
-                {/* Recipe Calories */}
-                <Text style={{ fontSize: 16, color: "#555", textAlign: "center" }}>
-                  Calories: {calories[recipe.id] !== undefined ? calories[recipe.id] : "Loading..."}
-                </Text>
+                  {/* Recipe Calories */}
+                  <Text style={{ fontSize: 14, color: "#555", textAlign: "center" }}>
+                    Calories: {calories[recipe.id] !== undefined ? calories[recipe.id] : "Loading..."}
+                  </Text>
 
-              </View>
-            ))}
+                  {/* Navigate to RecipeSelectScreen */}
+                  <Pressable
+                    style={{
+                      marginTop: 10,
+                      backgroundColor: "#007bff",
+                      paddingVertical: 8,
+                      paddingHorizontal: 16,
+                      borderRadius: 5,
+                    }}
+                    onPress={() => navigation.navigate("RecipeSelectScreen", { recipe })}
+                  >
+                    <Text style={{ color: "#fff", fontWeight: "bold", textAlign: "center" }}>
+                      View Recipe
+                    </Text>
+                  </Pressable>
+                </View>
+              ))}
+          </View>
         </ScrollView>
       )}
     </SafeAreaView>
-  ); 
+  );
 }
