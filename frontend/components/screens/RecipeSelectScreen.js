@@ -11,6 +11,8 @@ import {
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons"; // Import Ionicons
+import { LinearGradient } from "expo-linear-gradient";
+import styles from '../styles/styles.js';
 import getIPAddress from "../IPAddress";
 import API from "../API";
 
@@ -81,39 +83,46 @@ export default function RecipeSelectScreen() {
           <Ionicons name="bookmark" size={24} color="white" />
         </Pressable>
       </View>
-
-      <ScrollView style={{ marginTop: 10 }}>
-        {/* Display recipe details */}
-        <View style={{ marginBottom: 20, alignItems: "center" }}>
-          <Image
-            source={{ uri: recipe?.image }}
-            style={{ width: 200, height: 200, borderRadius: 10 }}
-            resizeMode="cover"
+  
+      {/* Main Content Area */}
+      <View style={{ flex: 1 }}>
+        <ScrollView
+          contentContainerStyle={{ paddingBottom: 80 }} // Add bottom padding to avoid overlap
+        >
+          {/* Display recipe details */}
+          <View style={{ marginBottom: 20, alignItems: "center" }}>
+            <Image
+              source={{ uri: recipe?.image }}
+              style={{ width: 200, height: 200, borderRadius: 10 }}
+              resizeMode="cover"
+            />
+            <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: 10 }}>Title: {recipe?.title}</Text>
+            <Text style={{ fontSize: 16, marginTop: 10 }}>Calories: {calories || "N/A"}</Text>
+          </View>
+  
+          {/* Display ingredients */}
+          <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>Ingredients:</Text>
+          <FlatList
+            data={ingredients}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => (
+              <Text style={{ fontSize: 16 }}>
+                - {item.name}: {item.amount.us.value} {item.amount.us.unit}
+              </Text>
+            )}
           />
-          <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: 10 }}>Title: {recipe?.title}</Text>
-          <Text style={{ fontSize: 16, marginTop: 10 }}>Calories: {calories || "N/A"}</Text>
-        </View>
-      </ScrollView>
-
-      {/* Display ingredients */}
-      <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>Ingredients:</Text>
-        <FlatList
-          data={ingredients}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (
-            <Text style={{ fontSize: 16 }}>
-              - {item.name}: {item.amount.us.value} {item.amount.us.unit}
-            </Text>
-          )}
-        />
-
+        </ScrollView>
+      </View>
+  
       {/* Back to RecipeSearchScreen */}
       <Pressable
         style={{
           backgroundColor: "#4CAF50",
           padding: 10,
           borderRadius: 5,
-          marginTop: 20,
+          marginBottom: 70, // Space from the bottom edge
+          alignSelf: "center", // Center the button horizontally
+          width: "90%", // Make the button wide
         }}
         onPress={() => API.addSelectedMeals(recipe.id)}
       >
@@ -121,4 +130,5 @@ export default function RecipeSelectScreen() {
       </Pressable>
     </SafeAreaView>
   );
+  
 }
