@@ -12,8 +12,8 @@ export default class API {
         calories: calories, 
       };
 
-      dailyCalories.push(caloriesPerDay);
-    }
+    dailyCalories.push(caloriesPerDay);
+  }
 
     static clearDailyCalories() {
       dailyCalories = [];
