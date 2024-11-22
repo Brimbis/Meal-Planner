@@ -11,6 +11,8 @@ import {
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons"; // Import Ionicons
+import { LinearGradient } from "expo-linear-gradient";
+import styles from '../styles/styles.js';
 import getIPAddress from "../IPAddress";
 import API from "../API";
 
