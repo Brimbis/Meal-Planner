@@ -1,16 +1,28 @@
 import getIPAddress from "./IPAddress";
+import React, { useContext, useState } from "react";
 
 export default class API {
-  static savedMeals = []; // Bookmarking meals to display on Bookmarks tab
-  static selectedMeals = [649314, 638488, 1095996, 657889]; // Selecting meals to display on Home tab
 
-  get savedMeals() {
-    return savedMeals;
-  }
+    static savedMeals = []; // Bookmarking meals to display on Bookmarks tab
+    static selectedMeals = []; // Selecting meals to display on Home tab
 
-  get selectedMeals() {
-    return selectedMeals;
-  }
+    static deleteSelectedMeal(id) {
+        for (let i = 0; i < selectedMeals.length; i++) {
+            if (selectedMeals[i] === id) {
+                selectedMeals.splice(i, 1); // Remove 1 element at index i
+                break; // Exit the loop once the element is found and removed
+            }
+        }
+    }
+
+    static deleteSavedMeal(id) {
+        for (let i = 0; i < savedMeals.length; i++) {
+            if (savedMeals[i] === id) {
+                savedMeals.splice(i, 1); // Remove 1 element at index i
+              break; // Exit the loop once the element is found and removed
+            }
+        }
+    }
 
   static addSelectedMeals(meal) {
     try {

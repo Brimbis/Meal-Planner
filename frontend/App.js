@@ -8,7 +8,6 @@ import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Native imports
-import styles from "./components/styles/styles";
 
 // Import your screens
 import LoginScreen from './components/screens/LoginScreen';
@@ -18,7 +17,6 @@ import BookmarkScreen from './components/screens/BookmarkScreen';
 import SearchScreen from './components/screens/SearchScreen';
 import RecipeSearchScreen from './components/screens/RecipeSearchScreen'; 
 import RecipeSelectScreen from './components/screens/RecipeSelectScreen'
-import { APITest, RecipeSearchTest } from './components/screens/APITest';
 import DailyCalories from "./components/screens/DailyCalories";
 
 const Tab = createBottomTabNavigator();
