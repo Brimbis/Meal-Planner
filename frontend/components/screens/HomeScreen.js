@@ -1,5 +1,5 @@
 // HomeScreen.js
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
   Text,
@@ -17,22 +17,14 @@ import API from "../API";
 
 export default function HomeScreen() {
   const navigation = useNavigation();
+  const [homeMeals, setHomeMeals] = useState([{}]);
   const [mealData, setMealData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [selectedMeals, setSelectedMeals] = useState(API.selectedMeals);
 
   const fetchMeals = async () => {
-    setLoading(true);
-    setMealData([]);
+    setHomeMeals(API.homeMeals);
+    API.clearDailyCalories();
 
     try {
-        // Fetch meal and nutrition data for each meal ID
-        const mealPromises = selectedMeals.map(id => API.getMealData(id.toString()));
-        const nutritionPromises = selectedMeals.map(id => API.getNutritionData(id.toString()));
-
-        // Await all meal and nutrition fetches
-        const meals = await Promise.all(mealPromises);
-        const nutrition = await Promise.all(nutritionPromises);
 
         const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
@@ -50,17 +42,16 @@ export default function HomeScreen() {
             const dayName = daysOfWeek[dayIndex];
 
             // Get meal1 and meal2 sequentially
-            const meal1 = meals[mealIndex] || {}; // Fallback to empty object if no meal data
+            const meal1 = homeMeals[mealIndex] || {}; // Fallback to empty object if no meal data
             mealIndex++;
-            const meal2 = meals[mealIndex] || {}; // Fallback to empty object if no meal data
+            const meal2 = homeMeals[mealIndex] || {}; // Fallback to empty object if no meal data
             mealIndex++;
-
-            const nutritionData1 = nutrition[mealIndex - 2] || {}; // Nutrition for the first meal (adjusted index)
-            const nutritionData2 = nutrition[mealIndex - 1] || {}; // Nutrition for the second meal (adjusted index)
 
             // Calculate total calories for the day
-            const calories = (nutritionData1.calories ? parseInt(nutritionData1.calories) : 0) + 
-                             (nutritionData2.calories ? parseInt(nutritionData2.calories) : 0);
+            const calories = (meal1.calories ? parseInt(meal1.calories) : 0) + 
+                             (meal2.calories ? parseInt(meal2.calories) : 0);
+
+            API.addDailyCalories(dayName, calories);
 
             const mealWithDay = {
                 day: dayName,
@@ -78,15 +69,13 @@ export default function HomeScreen() {
 
     } catch (error) {
         console.error("Error fetching meals:", error);
-    } finally {
-        setLoading(false);
     }
 };
 
   // Trigger meals fetching when the screen is focused
   useFocusEffect(
     React.useCallback(() => {
-      setSelectedMeals(API.selectedMeals);
+      setHomeMeals(API.homeMeals);
       fetchMeals();
     }, [])
   );
@@ -133,7 +122,10 @@ export default function HomeScreen() {
                     >
                       {item.meal1.title}
                     </Text>
+                    <Pressable style={homeStyles.deleteButton}>
+                      
                     </Pressable>
+                  </Pressable>
                 </>
               ) : (
                 <View marginVertical={50}>
@@ -180,14 +172,7 @@ export default function HomeScreen() {
           </View>
         )}
       />
-      {loading ? (
-        <>
-          <ActivityIndicator size="large" color="#61A69C" />
-          <View paddingBottom={50} />
-        </>
-      ) : (
-        <View paddingBottom={50} />
-      )}
+      <View paddingBottom={50} />
       </LinearGradient>
     </SafeAreaView>
   );

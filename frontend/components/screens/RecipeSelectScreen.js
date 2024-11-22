@@ -155,7 +155,7 @@ export default function RecipeSelectScreen() {
           alignSelf: "center", // Center the button horizontally
           width: "90%", // Make the button wide
         }}
-        onPress={() => API.addSelectedMeals(recipe.id)}
+        onPress={() => API.addHomeMeals(recipe.id, recipe.title, recipe.image, calories)}
       >
         <Text style={{ color: "white", fontWeight: "bold", textAlign: "center", fontSize: 16 }}>Add to Home</Text>
       </Pressable>
