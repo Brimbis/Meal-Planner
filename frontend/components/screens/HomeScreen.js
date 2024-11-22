@@ -71,7 +71,7 @@ export default function HomeScreen() {
     } catch (error) {
         console.error("Error fetching meals:", error);
     }
-};
+  };
 
   useFocusEffect(
     React.useCallback(() => {
@@ -89,7 +89,7 @@ export default function HomeScreen() {
   }
 
   const handleBookmarkPress = (id) => {
-    API.addSavedMeals(id);
+    API.addBookmarkedMeal(id);
   }
 
   return (
