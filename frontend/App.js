@@ -4,7 +4,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Native imports
@@ -133,7 +132,7 @@ export default function App() {
             component={HomeStack}
             options={{ headerShown: false }}
           />
-          <Tab.Screen
+         <Tab.Screen
             name="SearchTab"
             component={SearchStack}
             options={{ headerShown: false }}

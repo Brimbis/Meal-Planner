@@ -105,7 +105,7 @@ export default function SearchScreen() {
           Select ingredients
         </Text>
 
-        <ScrollView style={{ marginBottom: 20 }} showsVerticalScrollIndicator={false}>
+        <ScrollView style={{ marginBottom: 60 }} showsVerticalScrollIndicator={false}>
           {/* Protein Section */}
           <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 5}}>Protein:</Text>
           <View style={styles.separatorLineSearch}/>
@@ -115,7 +115,7 @@ export default function SearchScreen() {
                 key={item}
                 onPress={() => handleIngredientSelect(item)}
                 style={{
-                  backgroundColor: selectedIngredients.includes(item) ? "#03E18D" : "#6A9C89",
+                  backgroundColor: selectedIngredients.includes(item) ? "#4CAF50" : "#6A9C89",
                   padding: 10,
                   marginRight: 10,
                   marginBottom: 10,
