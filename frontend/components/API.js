@@ -1,33 +1,31 @@
 import getIPAddress from "./IPAddress";
-import React, { useContext, useState } from "react";
 
 export default class API {
 
     static savedMeals = []; // Bookmarking meals to display on Bookmarks tab
-    static selectedMeals = []; // Selecting meals to display on Home tab
+    static homeMeals = [];
     static dailyCalories = [];
 
-    static addDailyCalories(id, day, calories) {
+    static addDailyCalories(day, calories) {
       const caloriesPerDay = {
-        id: id, 
-        day: day,
-        calories: calories, 
+        day: day || "",
+        calories: calories || "", 
       };
 
       dailyCalories.push(caloriesPerDay);
     }
 
-    static clearDailyCalories(id) {
+    static clearDailyCalories() {
       dailyCalories = [];
     }
 
-    static deleteSelectedMeal(id) {
-        for (let i = 0; i < selectedMeals.length; i++) {
-            if (selectedMeals[i] === id) {
-                selectedMeals.splice(i, 1); // Remove 1 element at index i
-                break; // Exit the loop once the element is found and removed
-            }
-        }
+    static removeHomeMeal(id) {
+      const index = this.homeMeals.findIndex(entry => entry.id === id);
+
+      // If an entry with the given id is found, remove it from the array
+      if (index !== -1) {
+        this.homeMeals.splice(index, 1);
+      }
     }
 
     static deleteSavedMeal(id) {
@@ -39,22 +37,15 @@ export default class API {
         }
     }
 
-  static addSelectedMeals(meal) {
-    try {
-      if (this.selectedMeals.includes(meal)) {
-        // Catch duplicate entries
-        console.log(`Meal ID ${meal} is already in selectedMeals.`);
-        return;
-      }
+  static addHomeMeals(id, title, image, calories) {
+      const meal = {
+        id: id, 
+        title: title, 
+        image: image, 
+        calories: calories, 
+      };
 
-      this.selectedMeals.push(meal); // Append the meal ID
-      console.log(
-        "Meal successfully selected. Current selected meals:",
-        this.selectedMeals
-      );
-    } catch (error) {
-      console.log("Unable to save meal", error, meal);
-    }
+      this.homeMeals.push(meal);
   }
 
   static addSavedMeals(meal) {
