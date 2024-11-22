@@ -4,7 +4,7 @@ export default class API {
 
     static savedMeals = []; // Bookmarking meals to display on Bookmarks tab
     static homeMeals = [];
-    static dailyCalories = [];
+    static dailyCalories = [{}];
 
     static addDailyCalories(day, calories) {
       const caloriesPerDay = {
