@@ -1,5 +1,5 @@
 // HomeScreen.js
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
   Text,
@@ -133,7 +133,10 @@ export default function HomeScreen() {
                     >
                       {item.meal1.title}
                     </Text>
+                    <Pressable style={homeStyles.deleteButton}>
+                      
                     </Pressable>
+                  </Pressable>
                 </>
               ) : (
                 <View marginVertical={50}>
