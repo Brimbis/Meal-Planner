@@ -5,6 +5,21 @@ export default class API {
 
     static savedMeals = []; // Bookmarking meals to display on Bookmarks tab
     static selectedMeals = []; // Selecting meals to display on Home tab
+    static dailyCalories = [];
+
+    static addDailyCalories(id, day, calories) {
+      const caloriesPerDay = {
+        id: id, 
+        day: day,
+        calories: calories, 
+      };
+
+      dailyCalories.push(caloriesPerDay);
+    }
+
+    static clearDailyCalories(id) {
+      dailyCalories = [];
+    }
 
     static deleteSelectedMeal(id) {
         for (let i = 0; i < selectedMeals.length; i++) {
