@@ -102,9 +102,7 @@ export default function RecipeSelectScreen() {
   
       {/* Main Content Area */}
       <View style={{ flex: 1 }}>
-        <ScrollView
-          contentContainerStyle={{ paddingBottom: 80 }} // Add bottom padding to avoid overlap
-        >
+        <ScrollView>
           {/* Display recipe details */}
           <View style={{ marginBottom: 20, alignItems: "center" }}>
             <Image
@@ -130,7 +128,10 @@ export default function RecipeSelectScreen() {
             <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 10, color: "#16423C" }}>
               Ingredients:
             </Text>
-            <FlatList
+          </View>
+        </ScrollView>
+
+        <FlatList
               data={ingredients}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
@@ -139,10 +140,7 @@ export default function RecipeSelectScreen() {
                 </Text>
               )}
             />
-          </View>
 
-
-        </ScrollView>
       </View>
   
       {/* Back to RecipeSearchScreen */}
