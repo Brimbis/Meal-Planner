@@ -12,8 +12,8 @@ export default class API {
         calories: calories || "", 
       };
 
-      dailyCalories.push(caloriesPerDay);
-    }
+    dailyCalories.push(caloriesPerDay);
+  }
 
     static clearDailyCalories() {
       dailyCalories = [];
@@ -28,14 +28,14 @@ export default class API {
       }
     }
 
-    static deleteSavedMeal(id) {
-        for (let i = 0; i < savedMeals.length; i++) {
-            if (savedMeals[i] === id) {
-                savedMeals.splice(i, 1); // Remove 1 element at index i
-              break; // Exit the loop once the element is found and removed
-            }
-        }
+  static deleteSavedMeal(id) {
+    for (let i = 0; i < savedMeals.length; i++) {
+      if (savedMeals[i] === id) {
+        savedMeals.splice(i, 1); // Remove 1 element at index i
+        break; // Exit the loop once the element is found and removed
+      }
     }
+  }
 
   static addHomeMeals(id, title, image, calories) {
       const meal = {
