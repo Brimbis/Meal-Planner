@@ -2,24 +2,25 @@ import React, { useState, useEffect } from "react";
 import { SafeAreaView, Text, View, FlatList, Image, Pressable } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import API from "../API"; // Import the API class
-import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
 import styles from "../styles/styles"; // Import the global styles from styles.js
 
 export default function BookmarkScreen({ navigation, setIsLoggedIn }) {
-    const [favorites, setFavorites] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [favorites, setFavorites] = useState([]); // Meals to display
+    const [loading, setLoading] = useState(true); // Loading state
+    const [error, setError] = useState(null); // Error state
 
     // Fetch favorite meals on component mount
     useEffect(() => {
-        const fetchFavoritesFromStorage = async () => {
+        const fetchFavorites = async () => {
             try {
-                const savedFavoritesIds = JSON.parse(await AsyncStorage.getItem("favoriteMealIds")) || [];
-                if (savedFavoritesIds.length > 0) {
-                    const fetchFavorites = async () => {
+                // Check if there are any saved meals in API.savedMeals
+                const savedMealIds = API.savedMeals; // This is now pulling from the static API.savedMeals
+                if (savedMealIds.length > 0) {
+                    const fetchMealDetails = async () => {
                         try {
-                            const mealRequests = savedFavoritesIds.map((mealId) =>
-                                API.getMealData(mealId) // Using API class method to fetch meal data
+                            // Fetch meal data for all saved meal IDs
+                            const mealRequests = savedMealIds.map((mealId) =>
+                                API.getMealData(mealId) // Using API class method to fetch meal data by ID
                             );
 
                             // Wait for all meal data requests to resolve
@@ -34,7 +35,7 @@ export default function BookmarkScreen({ navigation, setIsLoggedIn }) {
                         }
                     };
 
-                    fetchFavorites();
+                    fetchMealDetails();
                 } else {
                     setLoading(false); // If no favorites, stop loading
                 }
@@ -44,21 +45,20 @@ export default function BookmarkScreen({ navigation, setIsLoggedIn }) {
             }
         };
 
-        fetchFavoritesFromStorage();
-    }, []);
+        fetchFavorites(); // Fetch favorite meals when component mounts
+    }, []); // Only run on mount
 
     // Function to remove meal from favorites
     const removeFromFavorites = async (mealId) => {
+        // Filter out the meal with the given ID from the saved meals
         const updatedFavorites = favorites.filter(meal => meal.id !== mealId);
-        setFavorites(updatedFavorites);
+        setFavorites(updatedFavorites); // Update state
 
-        // Update AsyncStorage with the new list of favorite IDs
-        const updatedFavoriteIds = updatedFavorites.map(meal => meal.id);
-        try {
-            await AsyncStorage.setItem("favoriteMealIds", JSON.stringify(updatedFavoriteIds));
-        } catch (err) {
-            setError("Error saving favorites.");
-        }
+        // If you want to save the updated list back to API.savedMeals:
+        const updatedMealIds = updatedFavorites.map(meal => meal.id);
+        API.savedMeals = updatedMealIds; // Update the static savedMeals array
+
+        // Optionally update AsyncStorage here if needed
     };
 
     // Render the bookmarks
