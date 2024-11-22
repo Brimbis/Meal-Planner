@@ -13,21 +13,16 @@ import styles from "../styles/styles";
 import { LinearGradient } from "expo-linear-gradient";
 import API from "../API";
 import { Ionicons } from "@expo/vector-icons";
-//import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 export default function DailyCalories({ navigation }) {
-  const [weeklyCalories, setWeeklyCalories] = useState([{}]);
+  const [weeklyCalories, setWeeklyCalories] = useState([]);
+
+  const fetchDailyCalories = async () => {
+    setWeeklyCalories(API.dailyCalories);
+    console.log("Daily calories:", weeklyCalories);
+  };
 
   useEffect(() => {
-    async function fetchDailyCalories() {
-      try {
-        const dailyCalories = await API.dailyCalories;
-        setWeeklyCalories(dailyCalories);
-      } catch (error) {
-        console.error("Error fetching daily calories:", error);
-      }
-    }
-
     fetchDailyCalories();
   }, []);
 
@@ -58,23 +53,15 @@ export default function DailyCalories({ navigation }) {
             <Ionicons name="arrow-back" size={24} color="#16423C" />
           </Pressable>
         </View>
-        <View style={{ flex: 1, marginTop: 30 }}>
-          <Text style={CaloriesStyles.title}>Weekly Calories</Text>
-        </View>
+
+        <Text style={CaloriesStyles.title}>Weekly Calories</Text>
+
         <View style={CaloriesStyles.caloriesContainer}>
           <FlatList
             data={weeklyCalories}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
-              <View
-                style={{
-                  padding: 10,
-                  borderBottomWidth: 1,
-                  borderColor: "white",
-                  width: "60%",
-                  alignSelf: "center",
-                }}
-              >
+              <View style={CaloriesStyles.seporator}>
                 <Text style={styles.title}>
                   {item.day}: {item.calories}
                 </Text>
@@ -104,5 +91,12 @@ const CaloriesStyles = StyleSheet.create({
     textDecorationLine: "underline",
     textAlign: "center",
     top: -50,
+  },
+  seporator: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderColor: "white",
+    width: "60%",
+    alignSelf: "center",
   },
 });
