@@ -24,6 +24,7 @@ export default function HomeScreen() {
   const fetchMeals = async () => {
     setLoading(true);
     setMealData([]);
+    API.clearDailyCalories();
 
     try {
         // Fetch meal and nutrition data for each meal ID
@@ -61,6 +62,8 @@ export default function HomeScreen() {
             // Calculate total calories for the day
             const calories = (nutritionData1.calories ? parseInt(nutritionData1.calories) : 0) + 
                              (nutritionData2.calories ? parseInt(nutritionData2.calories) : 0);
+
+            API.addDailyCalories(dayName, calories);
 
             const mealWithDay = {
                 day: dayName,
