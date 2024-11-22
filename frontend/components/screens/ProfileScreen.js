@@ -85,18 +85,7 @@ export default function ProfileScreen({ setIsLoggedIn }) {
               />
             </View>
           </Pressable>
-          <Pressable style={profileStyles.pressable} onPress={updateUserData}>
-            <View
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
-            >
-              <Text style={styles.smallTitle}>Allergen List{""}</Text>
-              <Ionicons
-                name="chevron-forward-outline"
-                size={20}
-                color="white"
-              ></Ionicons>
-            </View>
-          </Pressable>
+
           <Pressable style={profileStyles.pressable} onPress={updateUserData}>
             <View
               style={{ flexDirection: "row", justifyContent: "space-between" }}
