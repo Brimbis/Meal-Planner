@@ -1,52 +1,59 @@
-import React, { useState, useEffect } from "react";
-import { SafeAreaView, Text, View, FlatList, Image, Pressable } from "react-native";
+import React, { useState, useEffect, useCallback } from "react";
+import { SafeAreaView, Text, View, FlatList, Image, Pressable, ActivityIndicator } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import API from "../API"; // Import the API class
 import styles from "../styles/styles"; // Import the global styles from styles.js
+import { useFocusEffect } from "@react-navigation/native"; // Import the useFocusEffect hook
 
-export default function BookmarkScreen({ navigation, setIsLoggedIn }) {
+export default function BookmarkScreen({ navigation }) {
     const [favorites, setFavorites] = useState([]); // Meals to display
     const [loading, setLoading] = useState(true); // Loading state
     const [error, setError] = useState(null); // Error state
 
-    // Fetch favorite meals on component mount
-    useEffect(() => {
-        const fetchFavorites = async () => {
-            try {
-                // Check if there are any saved meals in API.savedMeals
-                const savedMealIds = API.savedMeals; // This is now pulling from the static API.savedMeals
-                if (savedMealIds.length > 0) {
-                    const fetchMealDetails = async () => {
-                        try {
-                            // Fetch meal data for all saved meal IDs
-                            const mealRequests = savedMealIds.map((mealId) =>
-                                API.getMealData(mealId) // Using API class method to fetch meal data by ID
-                            );
+    // Fetch favorite meals on component mount or when the screen is focused
+    const fetchFavorites = useCallback(async () => {
+        setLoading(true); // Start loading
+        setError(null); // Reset any previous errors
 
-                            // Wait for all meal data requests to resolve
-                            const fetchedMeals = await Promise.all(mealRequests);
+        try {
+            const savedMealIds = API.savedMeals; // Pull saved meal IDs
+            if (savedMealIds.length > 0) {
+                const fetchMealDetails = async () => {
+                    try {
+                        // Fetch meal data for all saved meal IDs
+                        const mealRequests = savedMealIds.map((mealId) =>
+                            API.getMealData(mealId) // Using API class method to fetch meal data by ID
+                        );
 
-                            // Update the state with the fetched meal data
-                            setFavorites(fetchedMeals);
-                        } catch (err) {
-                            setError("Failed to load favorite meals. Please try again.");
-                        } finally {
-                            setLoading(false);
-                        }
-                    };
+                        // Wait for all meal data requests to resolve
+                        const fetchedMeals = await Promise.all(mealRequests);
 
-                    fetchMealDetails();
-                } else {
-                    setLoading(false); // If no favorites, stop loading
-                }
-            } catch (err) {
-                setError("Error retrieving favorites.");
-                setLoading(false);
+                        // Update the state with the fetched meal data
+                        setFavorites(fetchedMeals);
+                    } catch (err) {
+                        setError("Failed to load favorite meals. Please try again.");
+                    } finally {
+                        setLoading(false); // End loading
+                    }
+                };
+
+                fetchMealDetails();
+            } else {
+                setLoading(false); // If no favorites, stop loading
             }
-        };
+        } catch (err) {
+            setError("Error retrieving favorites.");
+            setLoading(false);
+        }
+    }, []); // Empty dependency array ensures this is only created once
 
-        fetchFavorites(); // Fetch favorite meals when component mounts
-    }, []); // Only run on mount
+    // Use useFocusEffect to refetch meals when screen is focused
+    useFocusEffect(
+        React.useCallback(() => {
+            // Call the async fetchFavorites function
+            fetchFavorites();
+        }, []) // Dependency array ensures it runs once per focus
+    );
 
     // Function to remove meal from favorites
     const removeFromFavorites = async (mealId) => {
@@ -54,7 +61,7 @@ export default function BookmarkScreen({ navigation, setIsLoggedIn }) {
         const updatedFavorites = favorites.filter(meal => meal.id !== mealId);
         setFavorites(updatedFavorites); // Update state
 
-        // If you want to save the updated list back to API.savedMeals:
+        // Update savedMeals in the API (sync state)
         const updatedMealIds = updatedFavorites.map(meal => meal.id);
         API.savedMeals = updatedMealIds; // Update the static savedMeals array
 
@@ -84,11 +91,15 @@ export default function BookmarkScreen({ navigation, setIsLoggedIn }) {
             </LinearGradient>
 
             {loading ? (
-                <Text style={bookmarkStyles.bookmarkLoadingText}>Loading...</Text>
+                <View style={bookmarkStyles.loadingContainer}>
+                    <ActivityIndicator size="large" color="#61A69C" />
+                    <Text style={bookmarkStyles.bookmarkLoadingText}>Loading...</Text>
+                </View>
             ) : error ? (
-                <Text style={bookmarkStyles.bookmarkErrorText}>{error}</Text>
+                <View style={bookmarkStyles.errorContainer}>
+                    <Text style={bookmarkStyles.bookmarkErrorText}>{error}</Text>
+                </View>
             ) : (
-                // Render the savedMealsBox regardless of favorites length
                 <View style={bookmarkStyles.savedMealsBox}>
                     {favorites.length === 0 ? (
                         <Text style={bookmarkStyles.bookmarkNoFavoritesText}>No favorite meals yet!</Text>
@@ -127,6 +138,17 @@ const bookmarkStyles = {
         marginVertical: 10,
         height: 1,
         backgroundColor: "#fff",
+    },
+    loadingContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    errorContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        paddingHorizontal: 20,
     },
     savedMealsBox: {
         flex: 1,

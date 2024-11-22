@@ -11,7 +11,7 @@ import {
 import styles from "../styles/styles";
 import { LinearGradient } from "expo-linear-gradient";
 import API from "../API";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
+//import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 export default function DailyCalories({ navigation }) {
   const [weeklyCalories, setWeeklyCalories] = useState({
