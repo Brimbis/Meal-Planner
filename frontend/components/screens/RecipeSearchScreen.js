@@ -54,26 +54,45 @@ export default function RecipeSearchScreen() {
   }, [query, ingredients]);
 
   return (
-    <SafeAreaView style={{ flex: 1, padding: 20 }}>
-      <Text style={{ fontSize: 16, textAlign: "center" }}>Here are some recipes based on your selections:</Text>
-
+    <LinearGradient
+          colors={["#6A9C89", "#03E18D"]}
+          style={styles.linearGradient}
+          locations={[0, 0.9]}
+          start={[0.1, 0.3]}
+        >
+      <View
+        style={{
+        flex: 1,
+        marginTop: 30, // Adds spacing from the top
+        backgroundColor: "#C4DAD2", // Background color
+        borderRadius: 20, // Rounds the corners
+        overflow: "hidden", // Ensures content respects rounded corners
+      }}
+    >
+    <SafeAreaView style={{ flex: 1, padding: 20, paddingBottom: 70}}>
+    <View style={{ flexDirection: "row", alignItems: "center", marginTop: 10 }}>
       {/* Back Button */}
       <Pressable
         style={{
-          backgroundColor: "#E0E0E0",
+          backgroundColor: "#C4DAD2",
           padding: 10,
           borderRadius: 50,
           alignItems: "center",
           justifyContent: "center",
           width: 40,
           height: 40,
-          alignSelf: "flex-start",
-          marginTop: 10,
         }}
         onPress={() => navigation.goBack()}
       >
         <Ionicons name="arrow-back" size={24} color="black" />
       </Pressable>
+
+      {/* Text next to the back button */}
+      <Text style={{ fontSize: 16, textAlign: "center", flex:1, marginLeft: -1 }}>
+        Here are some recipes based on your selections:
+      </Text>
+    </View>
+
 
       {recipeLoading ? (
         <ActivityIndicator size="large" color="#0000ff" />
@@ -89,7 +108,7 @@ export default function RecipeSearchScreen() {
                     borderRadius: 15,
                     backgroundColor: "#f8f8f8",
                     marginBottom: 20,
-                    padding: 10,
+                    padding: 7,
                     shadowColor: "#000",
                     shadowOffset: { width: 0, height: 2 },
                     shadowOpacity: 0.1,
@@ -103,11 +122,15 @@ export default function RecipeSearchScreen() {
                     <Image
                       source={{ uri: recipe.image }}
                       style={{
-                        width: "100%",
+                        width: 120, // Set width and height to the same value
                         height: 120,
-                        borderRadius: 10,
+                        borderRadius: 60, // Half of the width/height
+                        borderWidth: 3,
+                        borderColor: "#16423C",
+                        overflow: "hidden", // Ensures the image respects the border radius
                         resizeMode: "cover",
                         marginBottom: 10,
+                        marginTop: 10,
                       }}
                     />
                   )}
@@ -126,10 +149,11 @@ export default function RecipeSearchScreen() {
                   <Pressable
                     style={{
                       marginTop: 10,
-                      backgroundColor: "#007bff",
+                      backgroundColor: "#6A9C89",
                       paddingVertical: 8,
                       paddingHorizontal: 16,
                       borderRadius: 5,
+                      marginBottom: 10,
                     }}
                     onPress={() => navigation.navigate("RecipeSelectScreen", { recipe })}
                   >
@@ -142,6 +166,9 @@ export default function RecipeSearchScreen() {
           </View>
         </ScrollView>
       )}
+      
     </SafeAreaView>
+    </View>
+    </LinearGradient>
   );
 }
