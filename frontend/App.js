@@ -47,6 +47,7 @@ const BookmarkStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Bookmarks" component={BookmarkScreen} />
+      <Stack.Screen name="BookmarkSelectScreen" component={RecipeSelectScreen} />
     </Stack.Navigator>
   );
 };

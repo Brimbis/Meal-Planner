@@ -94,7 +94,7 @@ export default function RecipeSelectScreen() {
             alignItems: "center",
             justifyContent: "center",
           }}
-          onPress={() => API.addSavedMeals(recipe.id)}
+          onPress={() => API.addBookmarkedMeal(recipe.id, recipe.title, recipe.image)}
         >
           <Ionicons name="bookmark" size={24} color="#16423C" />
         </Pressable>
@@ -153,7 +153,7 @@ export default function RecipeSelectScreen() {
           alignSelf: "center", // Center the button horizontally
           width: "90%", // Make the button wide
         }}
-        onPress={() => API.addHomeMeals(recipe.id, recipe.title, recipe.image, calories)}
+        onPress={() => API.addHomeMeal(recipe.id, recipe.title, recipe.image, calories)}
       >
         <Text style={{ color: "white", fontWeight: "bold", textAlign: "center", fontSize: 16 }}>Add to Home</Text>
       </Pressable>
