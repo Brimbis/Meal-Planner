@@ -23,7 +23,7 @@ export default function HomeScreen() {
 
   const fetchMeals = async () => {
     setHomeMeals(API.homeMeals);
-    API.clearDailyCalories();
+    //API.clearDailyCalories();
 
     try {
 
@@ -52,7 +52,7 @@ export default function HomeScreen() {
             const calories = (meal1.calories ? parseInt(meal1.calories) : 0) + 
                              (meal2.calories ? parseInt(meal2.calories) : 0);
 
-            API.addDailyCalories(dayName, calories);
+           //API.addDailyCalories(dayName, calories);
 
             const mealWithDay = {
                 day: dayName,

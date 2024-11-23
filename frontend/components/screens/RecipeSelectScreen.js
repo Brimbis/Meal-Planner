@@ -23,6 +23,8 @@ export default function RecipeSelectScreen() {
   const [calories, setCalories] = useState(null);
   const [ingredients, setIngredients] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [notification, setNotification] = useState(""); // For showing messages
+
 
   useEffect(() => {
     if (recipe?.id) {
@@ -55,6 +57,11 @@ export default function RecipeSelectScreen() {
     }
   };
 
+  const showNotification = (message) => {
+    setNotification(message);
+    setTimeout(() => setNotification(""), 3000); // Hide after 3 seconds
+  };
+
   return (
     <LinearGradient
           colors={["#6A9C89", "#03E18D"]}
@@ -72,6 +79,27 @@ export default function RecipeSelectScreen() {
       }}
     >
     <SafeAreaView style={{ flex: 1, padding: 20 }}>
+      
+      {/* Notification Message */}
+      {notification ? (
+            <View
+              style={{
+                position: "absolute",
+                top: 20,
+                left: 20,
+                right: 20,
+                backgroundColor: "#6A9C89",
+                padding: 10,
+                borderRadius: 20,
+                zIndex: 1,
+              }}
+            >
+              <Text style={{ color: "white", textAlign: "center", fontWeight: "bold" }}>
+                {notification}
+              </Text>
+            </View>
+          ) : null}
+  
       {/* Container for the top buttons */}
       <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 20 }}>
         <Pressable
@@ -94,7 +122,10 @@ export default function RecipeSelectScreen() {
             alignItems: "center",
             justifyContent: "center",
           }}
-          onPress={() => API.addBookmarkedMeal(recipe.id, recipe.title, recipe.image)}
+          onPress={() => {
+            API.addBookmarkedMeal(recipe.id, recipe.title, recipe.image);
+            showNotification("Meal bookmarked!");
+          }}
         >
           <Ionicons name="bookmark" size={24} color="#16423C" />
         </Pressable>
@@ -102,7 +133,7 @@ export default function RecipeSelectScreen() {
   
       {/* Main Content Area */}
       <View style={{ flex: 1 }}>
-        <ScrollView>
+        
           {/* Display recipe details */}
           <View style={{ marginBottom: 20, alignItems: "center" }}>
             <Image
@@ -119,19 +150,17 @@ export default function RecipeSelectScreen() {
             <Text style={{ fontSize: 16, marginTop: 10, color: "#6A9C89" }}>
               <Text style={{ fontWeight: "bold" }}>{calories || "N/A"}</Text> cal
             </Text>
-
-
           </View>
   
-          {/* Display ingredients */}
-          <View style={{ paddingHorizontal: 20 }}>
+      {/* Display ingredients */}
+      <View style={{ paddingHorizontal: 30, }}>
             <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 10, color: "#16423C" }}>
               Ingredients:
             </Text>
-          </View>
-        </ScrollView>
+      </View>
 
-        <FlatList
+      
+        <FlatList style ={{ paddingHorizontal: 30}}
               data={ingredients}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
@@ -139,11 +168,11 @@ export default function RecipeSelectScreen() {
                   • {item.name}: {item.amount.us.value} {item.amount.us.unit}
                 </Text>
               )}
+              contentContainerStyle={{ paddingBottom: 50 }}
             />
-
       </View>
-  
-      {/* Back to RecipeSearchScreen */}
+       
+      {/* Add to Home button*/}
       <Pressable
         style={{
           backgroundColor: "#4CAF50",
@@ -153,7 +182,10 @@ export default function RecipeSelectScreen() {
           alignSelf: "center", // Center the button horizontally
           width: "90%", // Make the button wide
         }}
-        onPress={() => API.addHomeMeal(recipe.id, recipe.title, recipe.image, calories)}
+        onPress={() => {
+          API.addHomeMeal(recipe.id, recipe.title, recipe.image, calories);
+          showNotification("Meal added to home!");
+        }}
       >
         <Text style={{ color: "white", fontWeight: "bold", textAlign: "center", fontSize: 16 }}>Add to Home</Text>
       </Pressable>
