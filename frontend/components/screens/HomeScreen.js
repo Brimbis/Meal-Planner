@@ -20,10 +20,10 @@ export default function HomeScreen() {
   const navigation = useNavigation();
   const [homeMeals, setHomeMeals] = useState(API.homeMeals);
   const [mealData, setMealData] = useState([]);
+  const [notification, setNotification] = useState("");
 
   const fetchMeals = async () => {
     setHomeMeals(API.homeMeals);
-    API.clearDailyCalories();
 
     try {
       const daysOfWeek = [
@@ -95,11 +95,24 @@ export default function HomeScreen() {
   const handleDeletePress = (id) => {
     API.removeHomeMeal(id);
     setHomeMeals([...API.homeMeals]);
+    showNotification("Meal removed from home!");
+  }
+
+  const handleBookmarkPress = (id, title, image) => {
+    console.log("Meal bookmarked: ", id, title, image);
+    if (API.addBookmarkedMeal(id, title, image)) {
+      showNotification("Meal added to bookmarks!")
+    }
+    else {
+      showNotification("Meal is already bookmarked")
+    }
+  }
+
+  const showNotification = (message) => {
+    setNotification(message);
+    setTimeout(() => setNotification(""), 3000); // Hide after 3 seconds
   };
 
-  const handleBookmarkPress = (id) => {
-    API.addBookmarkedMeal(id);
-  };
 
   return (
     <SafeAreaView>
@@ -108,7 +121,27 @@ export default function HomeScreen() {
         style={styles.linearGradient}
         locations={[0.6, 1]}
       >
-        <View paddingTop={50} />
+        {/* Notification Message */}
+      {notification ? (
+            <View
+              style={{
+                position: "absolute",
+                top: 20,
+                left: 20,
+                right: 20,
+                backgroundColor: "#0D2A26",
+                padding: 10,
+                borderRadius: 20,
+                zIndex: 1,
+              }}
+            >
+              <Text style={{ color: "white", textAlign: "center", fontWeight: "bold" }}>
+                {notification}
+              </Text>
+            </View>
+          ) : null}
+      
+      <View paddingTop={50} />
 
         <FlatList
           data={mealData}
@@ -145,82 +178,75 @@ export default function HomeScreen() {
                           paddingVertical={20}
                           onPress={() => handleDeletePress(item.meal1.id)}
                         >
-                          <Ionicons name="trash" size={24} color="#16423C" />
-                        </Pressable>
-                        <Pressable
-                          onPress={() => handleBookmarkPress(item.meal1.id)}
-                        >
-                          <Ionicons name="bookmark" size={24} color="#16423C" />
-                        </Pressable>
-                      </View>
-                    </Pressable>
-                  </>
-                ) : (
-                  <View marginVertical={50}>
-                    <Text style={homeStyles.mealBoxText}>No meal selected</Text>
-                  </View>
-                )}
-
-                {/* Separator Line */}
-                <View style={homeStyles.mealBoxSeparatorLine} />
-
-                {/* Meal 2 */}
-                {Object.keys(item.meal2).length !== 0 ? (
-                  <>
-                    <Pressable
-                      style={homeStyles.imageContainer}
-                      onPress={() =>
-                        navigation.navigate("HomeSelectScreen", {
-                          recipe: item.meal2,
-                        })
-                      }
-                    >
-                      <Image
-                        source={{ uri: item.meal2.image }}
-                        style={homeStyles.mealImage}
-                      />
-                      <Text style={homeStyles.mealBoxText} numberOfLines={0}>
-                        {item.meal2.title}
-                      </Text>
-                      <View paddingRight={20}>
-                        <Pressable
-                          paddingVertical={20}
-                          onPress={() => handleDeletePress(item.meal1.id)}
-                        >
-                          <Ionicons name="trash" size={24} color="#16423C" />
-                        </Pressable>
-                        <Pressable
-                          onPress={() => handleBookmarkPress(item.meal1.id)}
-                        >
-                          <Ionicons name="bookmark" size={24} color="#16423C" />
-                        </Pressable>
-                      </View>
-                    </Pressable>
-                  </>
-                ) : (
-                  <View marginVertical={50}>
-                    <Text style={homeStyles.mealBoxText}>No meal selected</Text>
-                  </View>
-                )}
-
-                {/* Separator Line */}
-                <View style={homeStyles.mealBoxSeparatorLine} />
-
-                {/* Calories Section */}
-                <View style={styles.calorieContainer}>
-                  <Text style={homeStyles.mealBoxText}>
-                    Estimated Calories:
-                  </Text>
-                  <Text style={homeStyles.calorieNumber}>
-                    {" "}
-                    {item.calories.toString()}
-                  </Text>
+                        <Ionicons name="trash" size={24} color="#16423C"/>
+                      </Pressable>
+                      <Pressable
+                        onPress={() => handleBookmarkPress(item.meal2.id, item.meal2.title, item.meal2.image)}
+                      >
+                        <Ionicons name="bookmark" size={24} color="#16423C"/>
+                      </Pressable>
+                    </View>
+                  </Pressable>
+                </>
+              ) : (
+                <View marginVertical={50}>
+                  <Text style={homeStyles.mealBoxNoneAddedText}>No meal added</Text>
                 </View>
+              )}
+                
+
+                {/* Separator Line */}
+                <View style={homeStyles.mealBoxSeparatorLine} />
+
+              {/* Meal 2 */}
+              {Object.keys(item.meal2).length !== 0 ? (
+                <>
+                  <Pressable style={homeStyles.imageContainer}
+                    onPress={() => navigation.navigate("HomeSelectScreen", { recipe: item.meal2 })}>
+                    <Image
+                    source={{ uri: item.meal2.image }}
+                    style={homeStyles.mealImage}
+                    />
+                    <Text
+                      style={homeStyles.mealBoxText}
+                      numberOfLines={0}
+                    >
+                      {item.meal2.title}
+                    </Text>
+                    <View paddingRight={20}>
+                      <Pressable 
+                        paddingVertical={20}
+                        onPress={() => handleDeletePress(item.meal2.id)}
+                        >
+                        <Ionicons name="trash" size={24} color="#16423C"/>
+                      </Pressable>
+                      <Pressable
+                        onPress={() => handleBookmarkPress(item.meal2.id, item.meal2.title, item.meal2.image)}
+                      >
+                        <Ionicons name="bookmark" size={24} color="#16423C"/>
+                      </Pressable>
+                    </View>
+                  </Pressable>
+                </>
+                ) : (
+                  <View marginVertical={50}>
+                    <Text style={homeStyles.mealBoxNoneAddedText}>No meal added</Text>
+                  </View>
+                )}
+
+                {/* Separator Line */}
+                <View style={homeStyles.mealBoxSeparatorLine} />
+
+              {/* Calories Section */}
+              <View style={homeStyles.calorieContainer}>
+                <Text style={homeStyles.calorieText}>Estimated Calories:</Text>
+                <Text style={homeStyles.calorieNumber}>  {item.calories.toString()}</Text>
               </View>
             </View>
-          )}
-        />
-        <View paddingBottom={50} />
+          </View>
+        )}
+      />
+      <View paddingBottom={50} />
       </LinearGradient>
     </SafeAreaView>
   );
@@ -242,9 +268,17 @@ const homeStyles = StyleSheet.create({
     fontSize: 16,
     color: "#5D5D5D",
     fontSize: 18,
-    paddingLeft: 20,
+    paddingHorizontal: 10,
     flex: 1,
   },
+
+  mealBoxNoneAddedText: {
+    fontSize: 16,
+    color: '#5D5D5D', 
+    fontSize: 18,
+    paddingLeft: 20,
+    flex: 1,
+  }, 
 
   mealBoxSeparatorLine: {
     margin: 10,
@@ -281,7 +315,7 @@ const homeStyles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginVertical: 10,
-    paddingLeft: 20,
+    paddingLeft: 15,
   },
 
   mealImage: {
@@ -294,13 +328,23 @@ const homeStyles = StyleSheet.create({
   },
 
   calorieContainer: {
-    paddingTop: 10,
-    width: "90%",
+    paddingBottom: 10,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
+
+  calorieText: {
+    fontSize: 16,
+    color: '#5D5D5D', 
+    fontSize: 18,
+    textAlign: "center",
+  }, 
 
   calorieNumber: {
     fontSize: 26,
     fontWeight: "bold",
     color: "#16423C",
-  },
+    textAlign: "center",
+  }, 
 });
