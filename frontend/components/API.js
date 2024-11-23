@@ -68,7 +68,15 @@ export default class API {
       calories: calories,
     };
 
-    this.homeMeals.push(meal);
+    if (this.homeMeals.length < 14) {
+      this.homeMeals.push(meal);
+      console.log("Added to home: ", meal);
+      return true;
+    }
+    else {
+      console.log("Home meals is full!");
+      return false;
+    }
   }
 
   static addBookmarkedMeal(id, title, image) {
