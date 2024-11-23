@@ -1,18 +1,20 @@
 import React, { useState } from "react";
 import { SafeAreaView, Text, View, FlatList, Image, Pressable } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import API from "../API"; // Import the API class
-import styles from "../styles/styles"; // Import the global styles from styles.js
-import { useFocusEffect } from "@react-navigation/native"; // Import the useFocusEffect hook
+import API from "../API";
+import styles from "../styles/styles";
+import { useFocusEffect } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function BookmarkScreen({ navigation }) {
     const [mealData, setMealData] = useState(API.bookmarkedMeals); // Meals to display
 
     // Fetch favorite meals on screen focus
-    const fetchMeals = () => {
-        
-        setMealData(API.bookmarkedMeals);
+    const fetchMeals = async () => {
+        // Log to ensure we're receiving the right data from API
+        console.log("Fetching meals:", API.bookmarkedMeals);
+        const updatedMeals = [...API.bookmarkedMeals]; // Get the latest bookmarked meals
+        setMealData(updatedMeals); // Update the state to trigger re-render
     };
 
     // Use useFocusEffect to refetch meals when screen is focused
@@ -31,47 +33,48 @@ export default function BookmarkScreen({ navigation }) {
     return (
         <SafeAreaView>
             <LinearGradient
-                colors={["#6A9C89", "#16423C"]}
+                colors={["#6A9C89", "#16423C"]} 
                 style={styles.linearGradient}
                 locations={[0.6, 1]}
             >
                 <View marginTop={40} />
-                <View style={bookmarkStyles.savedMealsBox}>
-                    {Object.keys(mealData).length !== 0 ? (
-                    <FlatList
-                        data={mealData}
-                        keyExtractor={(item, index) => index.toString()}
-                        renderItem={({ item }) => (
-                            <>
-                                <Pressable
-                                    style={bookmarkStyles.imageContainer}
-                                    onPress={() => navigation.navigate("BookmarkSelectScreen", { recipe: item })}
-                                >
-                                    <Image
-                                        source={{ uri: item.image }}
-                                        style={bookmarkStyles.bookmarkMealImage}
-                                    />
-                                    <Text
-                                        style={bookmarkStyles.bookmarkMealTitle}
-                                        numberOfLines={0}
-                                    >
-                                        {item.title}
-                                    </Text>
+                {mealData && mealData.length !== 0 ? (
+                    <View style={bookmarkStyles.savedMealsBox}>
+                        <FlatList
+                            data={mealData}
+                            keyExtractor={(item) => item.id.toString()} // Use `id` as the key for better list optimization
+                            renderItem={({ item }) => (
+                                <>
                                     <Pressable
-                                        style={bookmarkStyles.trashButton}
-                                        onPress={() => handleDeletePress(item.id)}
+                                        style={bookmarkStyles.imageContainer}
+                                        onPress={() => navigation.navigate("BookmarkSelectScreen", { recipe: item })}
                                     >
-                                        <Ionicons name="trash" size={24} color="#FFFFFF" />
+                                        <Image
+                                            source={{ uri: item.image }}
+                                            style={bookmarkStyles.bookmarkMealImage}
+                                        />
+                                        <Text
+                                            style={bookmarkStyles.bookmarkMealTitle}
+                                            numberOfLines={0}
+                                        >
+                                            {item.title}
+                                        </Text>
+                                        <Pressable
+                                            style={bookmarkStyles.trashButton}
+                                            onPress={() => handleDeletePress(item.id)}
+                                        >
+                                            <Ionicons name="trash" size={24} color="#FFFFFF" />
+                                        </Pressable>
                                     </Pressable>
-                                </Pressable>
-                                <View style={bookmarkStyles.separator} />
-                            </>
-                        )}
-                    />
-                    ) : (
-                        <Text style={bookmarkStyles.bookmarkTitle}>No Bookmarked Meals</Text>
-                    )}
-                </View>
+                                    <View style={bookmarkStyles.separator} />
+                                </>
+                            )}
+                        />
+                    </View>
+                ) : (
+                    <Text style={bookmarkStyles.bookmarkTitle}>No Bookmarked Meals</Text>
+                )}
+                
             </LinearGradient>
         </SafeAreaView>
     );

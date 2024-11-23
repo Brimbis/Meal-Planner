@@ -6,6 +6,18 @@ export default class API {
     static homeMeals = [];
     static dailyCalories = [];
 
+    static getBookmarkedMeals() {
+      return this.bookmarkedMeals;
+    }
+
+    static getHomeMeals() {
+      this.homeMeals;
+    }
+
+    static getDailyCalories() {
+      return this.dailyCalories;
+    }
+
     static addDailyCalories(day, calories) {
       const caloriesPerDay = {
         day: day,
@@ -67,6 +79,10 @@ export default class API {
 
     this.bookmarkedMeals.push(meal);
     console.log(this.bookmarkedMeals);
+  }
+
+  static isInBookmarkedMeals(id) {
+    return API.bookmarkedMeals.some(meal => meal.id === id);
   }
 
   static async searchAPI(query, ingredients) {

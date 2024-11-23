@@ -23,7 +23,6 @@ export default function HomeScreen() {
 
   const fetchMeals = async () => {
     setHomeMeals(API.homeMeals);
-    API.clearDailyCalories();
 
     try {
 
@@ -51,8 +50,6 @@ export default function HomeScreen() {
             // Calculate total calories for the day
             const calories = (meal1.calories ? parseInt(meal1.calories) : 0) + 
                              (meal2.calories ? parseInt(meal2.calories) : 0);
-
-            API.addDailyCalories(dayName, calories);
 
             const mealWithDay = {
                 day: dayName,
@@ -88,8 +85,14 @@ export default function HomeScreen() {
     setHomeMeals([...API.homeMeals]);
   }
 
-  const handleBookmarkPress = (id) => {
-    API.addBookmarkedMeal(id);
+  const handleBookmarkPress = (id, title, image) => {
+    console.log("Meal bookmarked: ", id, title, image);
+    API.addBookmarkedMeal(id, title, image);
+  }
+
+  const handleUnbookmarkPress = (id) => {
+    console.log("Meal Unbookmarked: ", id);
+    API.removeBookmarkedMeal(id);
   }
 
   return (
@@ -140,17 +143,33 @@ export default function HomeScreen() {
                         >
                         <Ionicons name="trash" size={24} color="#16423C"/>
                       </Pressable>
-                      <Pressable 
-                        onPress={() => handleBookmarkPress(item.meal1.id)}
-                      >
-                      <Ionicons name="bookmark" size={24} color="#16423C"/>
-                      </Pressable>
+                      {API.isInBookmarkedMeals(item.meal2.id) ? (
+                        <>
+                          <View style={homeStyles.bookmarked}>
+                            <Pressable
+                              onPress={() => handleBookmarkPress(item.meal2.id, item.meal2.title, item.meal2.image)}
+                            >
+                            <Ionicons name="bookmark" size={24} color="#16423C"/>
+                            </Pressable>
+                          </View>
+                        </>
+                      ) : (
+                        <>
+                          <View style={homeStyles.unbookmarked}>
+                            <Pressable
+                              onPress={() => handleUnbookmarkPress(item.meal2.id)}
+                            >
+                            <Ionicons name="bookmark" size={24} color="#16423C"/>
+                            </Pressable>
+                          </View>
+                        </>
+                      )}
                     </View>
                   </Pressable>
                 </>
               ) : (
                 <View marginVertical={50}>
-                  <Text style={homeStyles.mealBoxText}>No meal selected</Text>
+                  <Text style={homeStyles.mealBoxText}>No meal added</Text>
                 </View>
               )}
                 
@@ -176,21 +195,37 @@ export default function HomeScreen() {
                     <View paddingRight={20}>
                       <Pressable 
                         paddingVertical={20}
-                        onPress={() => handleDeletePress(item.meal1.id)}
+                        onPress={() => handleDeletePress(item.meal2.id)}
                         >
                         <Ionicons name="trash" size={24} color="#16423C"/>
                       </Pressable>
-                      <Pressable  
-                        onPress={() => handleBookmarkPress(item.meal1.id)}
-                      >
-                      <Ionicons name="bookmark" size={24} color="#16423C"/>
-                      </Pressable>
+                      {API.isInBookmarkedMeals(item.meal2.id) ? (
+                        <>
+                          <View style={homeStyles.bookmarked}>
+                            <Pressable
+                              onPress={() => handleBookmarkPress(item.meal2.id, item.meal2.title, item.meal2.image)}
+                            >
+                            <Ionicons name="bookmark" size={24} color="#16423C"/>
+                            </Pressable>
+                          </View>
+                        </>
+                      ) : (
+                        <>
+                          <View style={homeStyles.unbookmarked}>
+                            <Pressable
+                              onPress={() => handleUnbookmarkPress(item.meal2.id)}
+                            >
+                            <Ionicons name="bookmark" size={24} color="#16423C"/>
+                            </Pressable>
+                          </View>
+                        </>
+                      )}
                     </View>
                   </Pressable>
                 </>
                 ) : (
                   <View marginVertical={50}>
-                    <Text style={homeStyles.mealBoxText}>No meal selected</Text>
+                    <Text style={homeStyles.mealBoxText}>No meal added</Text>
                   </View>
                 )}
 
@@ -229,7 +264,7 @@ const homeStyles = StyleSheet.create({
     fontSize: 16,
     color: '#5D5D5D', 
     fontSize: 18,
-    paddingLeft: 20,
+    paddingHorizontal: 10,
     flex: 1,
   },
 
@@ -268,7 +303,7 @@ const homeStyles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginVertical: 10,
-    paddingLeft: 20,
+    paddingLeft: 15,
   },
 
   mealImage: {
