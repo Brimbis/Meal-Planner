@@ -4,11 +4,11 @@ import {
   SafeAreaView,
   Text,
   Pressable,
-  View, 
+  View,
   FlatList,
   Image,
-  ActivityIndicator, 
-  StyleSheet, 
+  ActivityIndicator,
+  StyleSheet,
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import styles from "../styles/styles.js";
@@ -26,50 +26,59 @@ export default function HomeScreen() {
     API.clearDailyCalories();
 
     try {
+      const daysOfWeek = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ];
 
-        const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      const now = new Date();
+      const currentDayIndex = now.getDay();
 
-        const now = new Date();
-        const currentDayIndex = now.getDay();
+      const mealsOfTheWeek = [];
 
-        const mealsOfTheWeek = [];
+      // Initialize meal index tracker
+      let mealIndex = 0;
 
-        // Initialize meal index tracker
-        let mealIndex = 0;
+      // Loop through the days of the week starting from today
+      for (let i = 0; i < 7; i++) {
+        const dayIndex = (currentDayIndex + i) % 7; // Cycle through the days of the week
+        const dayName = daysOfWeek[dayIndex];
 
-        // Loop through the days of the week starting from today
-        for (let i = 0; i < 7; i++) {
-            const dayIndex = (currentDayIndex + i) % 7; // Cycle through the days of the week
-            const dayName = daysOfWeek[dayIndex];
+        // Get meal1 and meal2 sequentially
+        const meal1 = homeMeals[mealIndex] || {}; // Fallback to empty object if no meal data
+        mealIndex++;
+        const meal2 = homeMeals[mealIndex] || {}; // Fallback to empty object if no meal data
+        mealIndex++;
 
-            // Get meal1 and meal2 sequentially
-            const meal1 = homeMeals[mealIndex] || {}; // Fallback to empty object if no meal data
-            mealIndex++;
-            const meal2 = homeMeals[mealIndex] || {}; // Fallback to empty object if no meal data
-            mealIndex++;
+        // Calculate total calories for the day
+        const calories =
+          (meal1.calories ? parseInt(meal1.calories) : 0) +
+          (meal2.calories ? parseInt(meal2.calories) : 0);
 
-            // Calculate total calories for the day
-            const calories = (meal1.calories ? parseInt(meal1.calories) : 0) + 
-                             (meal2.calories ? parseInt(meal2.calories) : 0);
+        console.log(`Adding daily calories for ${dayName}: ${calories}`);
+        API.addDailyCalories(dayName, calories);
+        API.logDailyCalories();
 
-            API.addDailyCalories(dayName, calories);
+        const mealWithDay = {
+          day: dayName,
+          meal1: meal1,
+          meal2: meal2,
+          calories: calories,
+        };
 
-            const mealWithDay = {
-                day: dayName,
-                meal1: meal1,
-                meal2: meal2,
-                calories: calories,
-            };
+        // Add the meal object to the array for the week
+        mealsOfTheWeek.push(mealWithDay);
+      }
 
-            // Add the meal object to the array for the week
-            mealsOfTheWeek.push(mealWithDay);
-        }
-
-        // Set the meal data for the entire week (7 days)
-        setMealData(mealsOfTheWeek);
-
+      // Set the meal data for the entire week (7 days)
+      setMealData(mealsOfTheWeek);
     } catch (error) {
-        console.error("Error fetching meals:", error);
+      console.error("Error fetching meals:", error);
     }
   };
 
@@ -86,148 +95,152 @@ export default function HomeScreen() {
   const handleDeletePress = (id) => {
     API.removeHomeMeal(id);
     setHomeMeals([...API.homeMeals]);
-  }
+  };
 
   const handleBookmarkPress = (id) => {
     API.addBookmarkedMeal(id);
-  }
+  };
 
   return (
     <SafeAreaView>
       <LinearGradient
-          colors={["#6A9C89", "#16423C"]}
-          style={styles.linearGradient}
-          locations={[0.6, 1]}
+        colors={["#6A9C89", "#16423C"]}
+        style={styles.linearGradient}
+        locations={[0.6, 1]}
       >
-      
-      <View paddingTop={50} />
+        <View paddingTop={50} />
 
-      <FlatList
-        data={mealData}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-          
-          <View marginBottom={30}>
+        <FlatList
+          data={mealData}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <View marginBottom={30}>
+              {/* Day Title */}
+              <View style={homeStyles.weekdayBox}>
+                <Text style={homeStyles.weekdayText}>{item.day}</Text>
+              </View>
 
-            {/* Day Title */}
-            <View style={homeStyles.weekdayBox}>
-              <Text style={homeStyles.weekdayText}>{item.day}</Text>
-            </View>
-
-            {/* Meal 1 and Meal 2 in a Single View */}
-            <View style={homeStyles.mealBox}>
-
-              {/* Meal 1 */}
-              {Object.keys(item.meal1).length !== 0 ? (
-                <>
-                  <Pressable style={homeStyles.imageContainer}
-                    onPress={() => navigation.navigate("HomeSelectScreen", { recipe: item.meal1 })}>
-
-                    <Image
-                    source={{ uri: item.meal1.image }}
-                    style={homeStyles.mealImage}
-                    />
-                    <Text
-                      style={homeStyles.mealBoxText}
-                      numberOfLines={0}
+              {/* Meal 1 and Meal 2 in a Single View */}
+              <View style={homeStyles.mealBox}>
+                {/* Meal 1 */}
+                {Object.keys(item.meal1).length !== 0 ? (
+                  <>
+                    <Pressable
+                      style={homeStyles.imageContainer}
+                      onPress={() =>
+                        navigation.navigate("HomeSelectScreen", {
+                          recipe: item.meal1,
+                        })
+                      }
                     >
-                      {item.meal1.title}
-                    </Text>
-                    <View paddingRight={20}>
-                      <Pressable 
-                        paddingVertical={20}
-                        onPress={() => handleDeletePress(item.meal1.id)}
+                      <Image
+                        source={{ uri: item.meal1.image }}
+                        style={homeStyles.mealImage}
+                      />
+                      <Text style={homeStyles.mealBoxText} numberOfLines={0}>
+                        {item.meal1.title}
+                      </Text>
+                      <View paddingRight={20}>
+                        <Pressable
+                          paddingVertical={20}
+                          onPress={() => handleDeletePress(item.meal1.id)}
                         >
-                        <Ionicons name="trash" size={24} color="#16423C"/>
-                      </Pressable>
-                      <Pressable 
-                        onPress={() => handleBookmarkPress(item.meal1.id)}
-                      >
-                      <Ionicons name="bookmark" size={24} color="#16423C"/>
-                      </Pressable>
-                    </View>
-                  </Pressable>
-                </>
-              ) : (
-                <View marginVertical={50}>
-                  <Text style={homeStyles.mealBoxText}>No meal selected</Text>
-                </View>
-              )}
-                
-
-              {/* Separator Line */}
-              <View style={homeStyles.mealBoxSeparatorLine} />
-
-              {/* Meal 2 */}
-              {Object.keys(item.meal2).length !== 0 ? (
-                <>
-                  <Pressable style={homeStyles.imageContainer}
-                    onPress={() => navigation.navigate("HomeSelectScreen", { recipe: item.meal2 })}>
-                    <Image
-                    source={{ uri: item.meal2.image }}
-                    style={homeStyles.mealImage}
-                    />
-                    <Text
-                      style={homeStyles.mealBoxText}
-                      numberOfLines={0}
-                    >
-                      {item.meal2.title}
-                    </Text>
-                    <View paddingRight={20}>
-                      <Pressable 
-                        paddingVertical={20}
-                        onPress={() => handleDeletePress(item.meal1.id)}
+                          <Ionicons name="trash" size={24} color="#16423C" />
+                        </Pressable>
+                        <Pressable
+                          onPress={() => handleBookmarkPress(item.meal1.id)}
                         >
-                        <Ionicons name="trash" size={24} color="#16423C"/>
-                      </Pressable>
-                      <Pressable  
-                        onPress={() => handleBookmarkPress(item.meal1.id)}
-                      >
-                      <Ionicons name="bookmark" size={24} color="#16423C"/>
-                      </Pressable>
-                    </View>
-                  </Pressable>
-                </>
+                          <Ionicons name="bookmark" size={24} color="#16423C" />
+                        </Pressable>
+                      </View>
+                    </Pressable>
+                  </>
                 ) : (
                   <View marginVertical={50}>
                     <Text style={homeStyles.mealBoxText}>No meal selected</Text>
                   </View>
                 )}
 
-              {/* Separator Line */}
-              <View style={homeStyles.mealBoxSeparatorLine} />
+                {/* Separator Line */}
+                <View style={homeStyles.mealBoxSeparatorLine} />
 
-              {/* Calories Section */}
-              <View style={styles.calorieContainer}>
-                <Text style={homeStyles.mealBoxText}>Estimated Calories:</Text>
-                <Text style={homeStyles.calorieNumber}>  {item.calories.toString()}</Text>
+                {/* Meal 2 */}
+                {Object.keys(item.meal2).length !== 0 ? (
+                  <>
+                    <Pressable
+                      style={homeStyles.imageContainer}
+                      onPress={() =>
+                        navigation.navigate("HomeSelectScreen", {
+                          recipe: item.meal2,
+                        })
+                      }
+                    >
+                      <Image
+                        source={{ uri: item.meal2.image }}
+                        style={homeStyles.mealImage}
+                      />
+                      <Text style={homeStyles.mealBoxText} numberOfLines={0}>
+                        {item.meal2.title}
+                      </Text>
+                      <View paddingRight={20}>
+                        <Pressable
+                          paddingVertical={20}
+                          onPress={() => handleDeletePress(item.meal1.id)}
+                        >
+                          <Ionicons name="trash" size={24} color="#16423C" />
+                        </Pressable>
+                        <Pressable
+                          onPress={() => handleBookmarkPress(item.meal1.id)}
+                        >
+                          <Ionicons name="bookmark" size={24} color="#16423C" />
+                        </Pressable>
+                      </View>
+                    </Pressable>
+                  </>
+                ) : (
+                  <View marginVertical={50}>
+                    <Text style={homeStyles.mealBoxText}>No meal selected</Text>
+                  </View>
+                )}
+
+                {/* Separator Line */}
+                <View style={homeStyles.mealBoxSeparatorLine} />
+
+                {/* Calories Section */}
+                <View style={styles.calorieContainer}>
+                  <Text style={homeStyles.mealBoxText}>
+                    Estimated Calories:
+                  </Text>
+                  <Text style={homeStyles.calorieNumber}>
+                    {" "}
+                    {item.calories.toString()}
+                  </Text>
+                </View>
               </View>
             </View>
-          </View>
-        )}
-      />
-      <View paddingBottom={50} />
+          )}
+        />
+        <View paddingBottom={50} />
       </LinearGradient>
     </SafeAreaView>
   );
 }
 
 const homeStyles = StyleSheet.create({
-
   mealBox: {
     backgroundColor: "#C4DAD2",
     marginHorizontal: "auto",
     marginVertical: 5,
-    borderRadius: 10, 
+    borderRadius: 10,
     height: "auto",
     width: "85%",
-    borderColor: "#6A9C89", 
-    borderWidth: 5, 
+    borderColor: "#6A9C89",
+    borderWidth: 5,
   },
 
   mealBoxText: {
     fontSize: 16,
-    color: '#5D5D5D', 
+    color: "#5D5D5D",
     fontSize: 18,
     paddingLeft: 20,
     flex: 1,
@@ -239,7 +252,7 @@ const homeStyles = StyleSheet.create({
     borderBottomColor: "#6A9C89",
     borderBottomWidth: 3,
     paddingBottom: 0,
-    alignSelf: 'center', 
+    alignSelf: "center",
   },
 
   weekdayText: {
@@ -259,9 +272,9 @@ const homeStyles = StyleSheet.create({
     backgroundColor: "#C4DAD2",
     marginHorizontal: "auto",
     marginVertical: 5,
-    borderRadius: 10, 
-    borderColor: "#6A9C89", 
-    borderWidth: 5, 
+    borderRadius: 10,
+    borderColor: "#6A9C89",
+    borderWidth: 5,
   },
 
   imageContainer: {
@@ -282,12 +295,12 @@ const homeStyles = StyleSheet.create({
 
   calorieContainer: {
     paddingTop: 10,
-    width: "90%", 
+    width: "90%",
   },
 
   calorieNumber: {
     fontSize: 26,
     fontWeight: "bold",
     color: "#16423C",
-  }, 
+  },
 });

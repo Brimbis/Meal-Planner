@@ -4,8 +4,6 @@ import {
   Text,
   Pressable,
   View,
-  TextInput,
-  Image,
   StyleSheet,
   FlatList,
 } from "react-native";
@@ -15,58 +13,58 @@ import API from "../API";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function DailyCalories({ navigation }) {
-  const [weeklyCalories, setWeeklyCalories] = useState([]);
-
-  const fetchDailyCalories = async () => {
-    setWeeklyCalories(API.dailyCalories);
-    console.log("Daily calories:", weeklyCalories);
-  };
+  const [weeklyCalories, setWeeklyCalories] = useState(API.dailyCalories);
 
   useEffect(() => {
+    async function fetchDailyCalories() {
+      try {
+        const dailyCalories = API.getDailyCalories();
+        setWeeklyCalories(dailyCalories);
+      } catch (error) {
+        console.error("Error fetching daily calories:", error);
+      }
+    }
+
     fetchDailyCalories();
   }, []);
 
+  const renderItem = ({ item }) => (
+    <View style={styles.caloriesContainer}>
+      <Text
+        style={styles.title}
+      >{`${item.day}: ${item.calories} Calories`}</Text>
+      <View style={CaloriesStyles.seporator} />
+    </View>
+  );
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView>
       <LinearGradient
         colors={["#6A9C89", "#16423C"]}
         style={styles.linearGradient}
       >
         <View
           style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginVertical: 20,
-            marginHorizontal: 5,
+            flex: 0.8,
+            borderRadius: 20,
+            //flexDirection: "row",
+            justifyContent: "auto",
+            margin: 10,
           }}
         >
           <Pressable
-            style={{
-              backgroundColor: "#C4DAD2",
-              padding: 10,
-              borderRadius: 50,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
+            style={CaloriesStyles.goBack}
             onPress={() => navigation.goBack()}
           >
             <Ionicons name="arrow-back" size={24} color="#16423C" />
           </Pressable>
+          <Text style={CaloriesStyles.title}>Weekly Calories</Text>
         </View>
-
-        <Text style={CaloriesStyles.title}>Weekly Calories</Text>
-
         <View style={CaloriesStyles.caloriesContainer}>
           <FlatList
             data={weeklyCalories}
+            renderItem={renderItem}
             keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
-              <View style={CaloriesStyles.seporator}>
-                <Text style={styles.title}>
-                  {item.day}: {item.calories}
-                </Text>
-              </View>
-            )}
           />
         </View>
       </LinearGradient>
@@ -80,9 +78,10 @@ const CaloriesStyles = StyleSheet.create({
     backgroundColor: "#16423C",
     width: "70%",
     height: "auto",
-    borderRadius: 10,
+    borderRadius: 20,
     padding: 10,
     marginBottom: 5,
+    position: "absolute",
   },
 
   title: {
@@ -90,13 +89,21 @@ const CaloriesStyles = StyleSheet.create({
     color: "white",
     textDecorationLine: "underline",
     textAlign: "center",
-    top: -50,
+    justifyContent: "center",
   },
   seporator: {
-    padding: 10,
+    margin: 5,
     borderBottomWidth: 1,
     borderColor: "white",
-    width: "60%",
+    width: "70%",
     alignSelf: "center",
+  },
+  goBack: {
+    backgroundColor: "#C4DAD2",
+    borderRadius: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    width: 40,
+    height: 40,
   },
 });
