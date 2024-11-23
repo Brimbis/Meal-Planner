@@ -183,8 +183,12 @@ export default function RecipeSelectScreen() {
           width: "90%", // Make the button wide
         }}
         onPress={() => {
-          API.addHomeMeal(recipe.id, recipe.title, recipe.image, calories);
-          showNotification("Meal added to home!");
+          if (API.addHomeMeal(recipe.id, recipe.title, recipe.image, calories)) {
+            showNotification("Meal added to home!");
+          }
+          else {
+            showNotification("Unable to add meal, too many meals on home");
+          }
         }}
       >
         <Text style={{ color: "white", fontWeight: "bold", textAlign: "center", fontSize: 16 }}>Add to Home</Text>
