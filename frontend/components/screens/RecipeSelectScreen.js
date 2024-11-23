@@ -94,7 +94,7 @@ export default function RecipeSelectScreen() {
             alignItems: "center",
             justifyContent: "center",
           }}
-          onPress={() => API.addSavedMeals(recipe.id)}
+          onPress={() => API.addBookmarkedMeal(recipe.id, recipe.title, recipe.image)}
         >
           <Ionicons name="bookmark" size={24} color="#16423C" />
         </Pressable>
@@ -102,9 +102,7 @@ export default function RecipeSelectScreen() {
   
       {/* Main Content Area */}
       <View style={{ flex: 1 }}>
-        <ScrollView
-          contentContainerStyle={{ paddingBottom: 80 }} // Add bottom padding to avoid overlap
-        >
+        <ScrollView>
           {/* Display recipe details */}
           <View style={{ marginBottom: 20, alignItems: "center" }}>
             <Image
@@ -130,7 +128,10 @@ export default function RecipeSelectScreen() {
             <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 10, color: "#16423C" }}>
               Ingredients:
             </Text>
-            <FlatList
+          </View>
+        </ScrollView>
+
+        <FlatList
               data={ingredients}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
@@ -139,10 +140,7 @@ export default function RecipeSelectScreen() {
                 </Text>
               )}
             />
-          </View>
 
-
-        </ScrollView>
       </View>
   
       {/* Back to RecipeSearchScreen */}
@@ -155,7 +153,7 @@ export default function RecipeSelectScreen() {
           alignSelf: "center", // Center the button horizontally
           width: "90%", // Make the button wide
         }}
-        onPress={() => API.addHomeMeals(recipe.id, recipe.title, recipe.image, calories)}
+        onPress={() => API.addHomeMeal(recipe.id, recipe.title, recipe.image, calories)}
       >
         <Text style={{ color: "white", fontWeight: "bold", textAlign: "center", fontSize: 16 }}>Add to Home</Text>
       </Pressable>

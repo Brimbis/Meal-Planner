@@ -13,11 +13,12 @@ import {
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import styles from "../styles/styles.js";
 import { LinearGradient } from "expo-linear-gradient";
+import { Ionicons } from "@expo/vector-icons";
 import API from "../API";
 
 export default function HomeScreen() {
   const navigation = useNavigation();
-  const [homeMeals, setHomeMeals] = useState([{}]);
+  const [homeMeals, setHomeMeals] = useState(API.homeMeals);
   const [mealData, setMealData] = useState([]);
 
   const fetchMeals = async () => {
@@ -70,16 +71,26 @@ export default function HomeScreen() {
     } catch (error) {
         console.error("Error fetching meals:", error);
     }
-};
+  };
 
-  // Trigger meals fetching when the screen is focused
   useFocusEffect(
     React.useCallback(() => {
-      setHomeMeals(API.homeMeals);
-      fetchMeals();
+      fetchMeals(); // Fetch meals every time the screen is focused
     }, [])
   );
 
+  useEffect(() => {
+    fetchMeals();
+  }, [homeMeals]);
+
+  const handleDeletePress = (id) => {
+    API.removeHomeMeal(id);
+    setHomeMeals([...API.homeMeals]);
+  }
+
+  const handleBookmarkPress = (id) => {
+    API.addBookmarkedMeal(id);
+  }
 
   return (
     <SafeAreaView>
@@ -122,9 +133,19 @@ export default function HomeScreen() {
                     >
                       {item.meal1.title}
                     </Text>
-                    <Pressable style={homeStyles.deleteButton}>
-                      
-                    </Pressable>
+                    <View paddingRight={20}>
+                      <Pressable 
+                        paddingVertical={20}
+                        onPress={() => handleDeletePress(item.meal1.id)}
+                        >
+                        <Ionicons name="trash" size={24} color="#16423C"/>
+                      </Pressable>
+                      <Pressable 
+                        onPress={() => handleBookmarkPress(item.meal1.id)}
+                      >
+                      <Ionicons name="bookmark" size={24} color="#16423C"/>
+                      </Pressable>
+                    </View>
                   </Pressable>
                 </>
               ) : (
@@ -152,6 +173,19 @@ export default function HomeScreen() {
                     >
                       {item.meal2.title}
                     </Text>
+                    <View paddingRight={20}>
+                      <Pressable 
+                        paddingVertical={20}
+                        onPress={() => handleDeletePress(item.meal1.id)}
+                        >
+                        <Ionicons name="trash" size={24} color="#16423C"/>
+                      </Pressable>
+                      <Pressable  
+                        onPress={() => handleBookmarkPress(item.meal1.id)}
+                      >
+                      <Ionicons name="bookmark" size={24} color="#16423C"/>
+                      </Pressable>
+                    </View>
                   </Pressable>
                 </>
                 ) : (
