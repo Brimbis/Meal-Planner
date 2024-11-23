@@ -4,90 +4,69 @@ import {
   Text,
   Pressable,
   View,
-  TextInput,
-  Image,
   StyleSheet,
+  FlatList,
 } from "react-native";
 import styles from "../styles/styles";
 import { LinearGradient } from "expo-linear-gradient";
 import API from "../API";
-//import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function DailyCalories({ navigation }) {
-  const [weeklyCalories, setWeeklyCalories] = useState({
-    Monday: 0,
-    Tuesday: 0,
-    Wednesday: 0,
-    Thursday: 0,
-    Friday: 0,
-    Saturday: 0,
-    Sunday: 0,
-  });
+  const [weeklyCalories, setWeeklyCalories] = useState(API.dailyCalories);
 
-  // Fetch meals and nutrition data
   useEffect(() => {
-    async function fetchMealsAndNutrition() {
-      console.log("API.selectedMeals:", API.selectedMeals);
+    async function fetchDailyCalories() {
       try {
-        const meals = API.selectedMeals;
-        console.log("meals:", meals);
-        console.log("Fetched meals:", meals);
-        if (meals.length > 0) {
-          let dailyCalories = { ...weeklyCalories };
-
-          // Split meals into pairs
-          for (let i = 0; i < meals.length; i += 2) {
-            const mealPair = meals.slice(i, i + 2);
-
-            // Fetch nutrition data for each meal
-            for (let meal of mealPair) {
-              let totalDailyCalories = 0;
-              const nutritionData = await API.getNutritionData(meal.toString());
-              const calories = parseFloat(nutritionData.calories);
-              totalDailyCalories += calories;
-              console.log("Calories for meal:", nutritionData.calories);
-
-              const day = getDay(i / 2);
-              dailyCalories[day] += totalDailyCalories;
-              console.log(`total calories for' ${day}:' ${dailyCalories[day]}`);
-            }
-            setWeeklyCalories(dailyCalories);
-          }
-        }
+        const dailyCalories = API.getDailyCalories();
+        setWeeklyCalories(dailyCalories);
       } catch (error) {
-        console.error("Error fetching meals or nutrition data:", error);
+        console.error("Error fetching daily calories:", error);
       }
     }
 
-    fetchMealsAndNutrition();
-  }, []);
+    fetchDailyCalories();
+  }, [weeklyCalories]);
 
-  const getDay = (index) => {
-    const days = [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday",
-    ];
-    return days[index % 7];
-  };
+  const renderItem = ({ item }) => (
+    <View style={styles.caloriesContainer}>
+      <Text
+        style={styles.title}
+      >{`${item.day}: ${item.calories} Calories`}</Text>
+      <View style={CaloriesStyles.seporator} />
+    </View>
+  );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView>
       <LinearGradient
         colors={["#6A9C89", "#16423C"]}
         style={styles.linearGradient}
       >
-        {Object.keys(weeklyCalories).map((day, index) => (
-          <View key={index} style={CaloriesStyles.caloriesContainer}>
-            <Text style={styles.title}>
-              {day}: {weeklyCalories[day]}
-            </Text>
-          </View>
-        ))}
+        <View
+          style={{
+            flex: 0.8,
+            borderRadius: 20,
+            //flexDirection: "row",
+            justifyContent: "auto",
+            margin: 10,
+          }}
+        >
+          <Pressable
+            style={CaloriesStyles.goBack}
+            onPress={() => navigation.goBack()}
+          >
+            <Ionicons name="arrow-back" size={24} color="#16423C" />
+          </Pressable>
+          <Text style={CaloriesStyles.title}>Weekly Calories</Text>
+        </View>
+        <View style={CaloriesStyles.caloriesContainer}>
+          <FlatList
+            data={weeklyCalories}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index.toString()}
+          />
+        </View>
       </LinearGradient>
     </SafeAreaView>
   );
@@ -97,7 +76,34 @@ const CaloriesStyles = StyleSheet.create({
   caloriesContainer: {
     alignSelf: "center",
     backgroundColor: "#16423C",
-    width: "80%",
+    width: "70%",
     height: "auto",
+    borderRadius: 20,
+    padding: 10,
+    marginBottom: 5,
+    position: "absolute",
+  },
+
+  title: {
+    fontSize: 32,
+    color: "white",
+    textDecorationLine: "underline",
+    textAlign: "center",
+    justifyContent: "center",
+  },
+  seporator: {
+    margin: 5,
+    borderBottomWidth: 1,
+    borderColor: "white",
+    width: "70%",
+    alignSelf: "center",
+  },
+  goBack: {
+    backgroundColor: "#C4DAD2",
+    borderRadius: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    width: 40,
+    height: 40,
   },
 });

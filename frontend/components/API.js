@@ -1,62 +1,108 @@
 import getIPAddress from "./IPAddress";
-import React, { useContext, useState } from "react";
 
 export default class API {
+  static bookmarkedMeals = []; // Bookmarking meals to display on Bookmarks tab
+  static homeMeals = [];
+  static dailyCalories = [];
 
-    static savedMeals = []; // Bookmarking meals to display on Bookmarks tab
-    static selectedMeals = []; // Selecting meals to display on Home tab
-
-    static deleteSelectedMeal(id) {
-        for (let i = 0; i < selectedMeals.length; i++) {
-            if (selectedMeals[i] === id) {
-                selectedMeals.splice(i, 1); // Remove 1 element at index i
-                break; // Exit the loop once the element is found and removed
-            }
-        }
-    }
-
-    static deleteSavedMeal(id) {
-        for (let i = 0; i < savedMeals.length; i++) {
-            if (savedMeals[i] === id) {
-                savedMeals.splice(i, 1); // Remove 1 element at index i
-              break; // Exit the loop once the element is found and removed
-            }
-        }
-    }
-
-  static addSelectedMeals(meal) {
-    try {
-      if (this.selectedMeals.includes(meal)) {
-        // Catch duplicate entries
-        console.log(`Meal ID ${meal} is already in selectedMeals.`);
-        return;
-      }
-
-      this.selectedMeals.push(meal); // Append the meal ID
-      console.log(
-        "Meal successfully selected. Current selected meals:",
-        this.selectedMeals
-      );
-    } catch (error) {
-      console.log("Unable to save meal", error, meal);
+  static logDailyCalories() {
+    if (this.dailyCalories.length > 0) {
+      console.log("Daily Calories:", this.dailyCalories);
+    } else {
+      console.log("No daily calories data available.");
     }
   }
 
-  static addSavedMeals(meal) {
-    try {
-      if (this.savedMeals.includes(meal)) {
-        // Catch duplicate enteries
-        console.log(`Meal ID ${meal} is already in savedMeals.`);
-        return;
-      }
-      this.savedMeals.push(meal); // Append the meal ID
-      console.log(
-        "Meal successfully bookmarked. Current saved meals:",
-        this.savedMeals
-      );
-    } catch (error) {
-      console.log("Unable to save meal", error, meal);
+    static getBookmarkedMeals() {
+      return this.bookmarkedMeals;
     }
+
+    static getHomeMeals() {
+      return this.homeMeals;
+    }
+
+    static getDailyCalories() {
+      return this.dailyCalories;
+    }
+
+  static addDailyCalories(day, calories) {
+    const caloriesPerDay = {
+      day: day,
+      calories: calories,
+    };
+
+    this.dailyCalories.push(caloriesPerDay);
+  }
+
+  static getDailyCalories() {
+    return this.dailyCalories;
+  }
+
+  static clearDailyCalories() {
+    this.dailyCalories = [];
+  }
+
+  static removeHomeMeal(id) {
+    const index = this.homeMeals.findIndex((entry) => entry.id === id);
+
+    // If an entry with the given id is found, remove it from the array
+    if (index !== -1) {
+      this.homeMeals.splice(index, 1);
+    }
+  }
+
+  static removeBookmarkedMeal(id) {
+    const index = this.bookmarkedMeals.findIndex((entry) => entry.id === id);
+
+    // If an entry with the given id is found, remove it from the array
+    if (index !== -1) {
+      this.bookmarkedMeals.splice(index, 1);
+    }
+  }
+
+  static addHomeMeal(id, title, image, calories) {
+    const meal = {
+      id: id,
+      title: title,
+      image: image,
+      calories: calories,
+    };
+
+    if (this.homeMeals.length < 14) {
+      this.homeMeals.push(meal);
+      console.log("Added to home: ", meal);
+      return true;
+    }
+    else {
+      console.log("Home meals is full!");
+      return false;
+    }
+  }
+
+  static addBookmarkedMeal(id, title, image) {
+    console.log("Meal Bookmarked: ", id, title, image);
+
+    // Check if the meal already exists based on the id
+    const mealExists = this.bookmarkedMeals.some((meal) => meal.id === id);
+
+    if (mealExists) {
+        console.log("Meal already bookmarked.");
+        return false; // Do not add the duplicate meal
+    }
+
+    const meal = {
+      id: id,
+      title: title,
+      image: image,
+    };
+
+    this.bookmarkedMeals.push(meal);
+    console.log(this.bookmarkedMeals);
+    return true;
+  }
+
+  static isInBookmarkedMeals(id) {
+    return API.bookmarkedMeals.some(meal => meal.id === id);
   }
 
   static async searchAPI(query, ingredients) {

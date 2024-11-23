@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, component } from "react";
 import { StatusBar, StatusBarStyle } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Native imports
@@ -48,6 +47,7 @@ const BookmarkStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Bookmarks" component={BookmarkScreen} />
+      <Stack.Screen name="BookmarkSelectScreen" component={RecipeSelectScreen} />
     </Stack.Navigator>
   );
 };
@@ -86,7 +86,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <StatusBar translucent={true} backgroundColor={"transparent"} />
+      <StatusBar translucent backgroundColor="transparent"/>
       {isLoggedIn ? (
         <Tab.Navigator
           screenOptions={({ route }) => ({
@@ -133,7 +133,7 @@ export default function App() {
             component={HomeStack}
             options={{ headerShown: false }}
           />
-          <Tab.Screen
+         <Tab.Screen
             name="SearchTab"
             component={SearchStack}
             options={{ headerShown: false }}
