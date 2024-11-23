@@ -29,25 +29,25 @@ export default function RecipeSearchScreen() {
     setRecipeLoading(false);
   };
 
-  // const fetchCalories = async (id) => {
-  //   let mealData = await API.getNutritionData(JSON.stringify(id));
-  //   return mealData.calories;
-  // };
+  const fetchCalories = async (id) => {
+    let mealData = await API.getNutritionData(JSON.stringify(id));
+    return mealData.calories;
+  };
 
-  // useEffect(() => {
-  //   // Once recipes are loaded, fetch calories for each recipe
-  //   if (data && data.results) {
-  //     data.results.forEach(async (recipe) => {
-  //       if (!calories[recipe.id]) {
-  //         const calorieData = await fetchCalories(recipe.id);
-  //         setCalories((prevState) => ({
-  //           ...prevState,
-  //           [recipe.id]: calorieData,
-  //         }));
-  //       }
-  //     });
-  //   }
-  // }, [data]); // Run this effect when `data` changes (i.e., recipes are fetched)
+  useEffect(() => {
+    // Once recipes are loaded, fetch calories for each recipe
+    if (data && data.results) {
+      data.results.forEach(async (recipe) => {
+        if (!calories[recipe.id]) {
+          const calorieData = await fetchCalories(recipe.id);
+          setCalories((prevState) => ({
+            ...prevState,
+            [recipe.id]: calorieData,
+          }));
+        }
+      });
+    }
+  }, [data]); // Run this effect when `data` changes (i.e., recipes are fetched)
 
   useEffect(() => {
     fetchRecipes(); // Fetch recipes when component mounts
@@ -140,10 +140,10 @@ export default function RecipeSearchScreen() {
                     {recipe.title}
                   </Text>
 
-                  {/* Recipe Calories
+                  {/* Recipe Calories */}
                   <Text style={{ fontSize: 14, color: "#555", textAlign: "center" }}>
                     Calories: {calories[recipe.id] !== undefined ? calories[recipe.id] : "Loading..."}
-                  </Text> */}
+                  </Text>
 
                   {/* Navigate to RecipeSelectScreen */}
                   <Pressable

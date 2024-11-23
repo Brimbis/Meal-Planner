@@ -20,10 +20,10 @@ export default function HomeScreen() {
   const navigation = useNavigation();
   const [homeMeals, setHomeMeals] = useState(API.homeMeals);
   const [mealData, setMealData] = useState([]);
+  const [notification, setNotification] = useState("");
 
   const fetchMeals = async () => {
     setHomeMeals(API.homeMeals);
-    //API.clearDailyCalories();
 
     try {
 
@@ -51,8 +51,6 @@ export default function HomeScreen() {
             // Calculate total calories for the day
             const calories = (meal1.calories ? parseInt(meal1.calories) : 0) + 
                              (meal2.calories ? parseInt(meal2.calories) : 0);
-
-           //API.addDailyCalories(dayName, calories);
 
             const mealWithDay = {
                 day: dayName,
@@ -86,11 +84,24 @@ export default function HomeScreen() {
   const handleDeletePress = (id) => {
     API.removeHomeMeal(id);
     setHomeMeals([...API.homeMeals]);
+    showNotification("Meal removed from home!");
   }
 
-  const handleBookmarkPress = (id) => {
-    API.addBookmarkedMeal(id);
+  const handleBookmarkPress = (id, title, image) => {
+    console.log("Meal bookmarked: ", id, title, image);
+    if (API.addBookmarkedMeal(id, title, image)) {
+      showNotification("Meal added to bookmarks!")
+    }
+    else {
+      showNotification("Meal is already bookmarked")
+    }
   }
+
+  const showNotification = (message) => {
+    setNotification(message);
+    setTimeout(() => setNotification(""), 3000); // Hide after 3 seconds
+  };
+
 
   return (
     <SafeAreaView>
@@ -99,6 +110,26 @@ export default function HomeScreen() {
           style={styles.linearGradient}
           locations={[0.6, 1]}
       >
+      
+      {/* Notification Message */}
+      {notification ? (
+            <View
+              style={{
+                position: "absolute",
+                top: 20,
+                left: 20,
+                right: 20,
+                backgroundColor: "#0D2A26",
+                padding: 10,
+                borderRadius: 20,
+                zIndex: 1,
+              }}
+            >
+              <Text style={{ color: "white", textAlign: "center", fontWeight: "bold" }}>
+                {notification}
+              </Text>
+            </View>
+          ) : null}
       
       <View paddingTop={50} />
 
@@ -140,17 +171,17 @@ export default function HomeScreen() {
                         >
                         <Ionicons name="trash" size={24} color="#16423C"/>
                       </Pressable>
-                      <Pressable 
-                        onPress={() => handleBookmarkPress(item.meal1.id)}
+                      <Pressable
+                        onPress={() => handleBookmarkPress(item.meal2.id, item.meal2.title, item.meal2.image)}
                       >
-                      <Ionicons name="bookmark" size={24} color="#16423C"/>
+                        <Ionicons name="bookmark" size={24} color="#16423C"/>
                       </Pressable>
                     </View>
                   </Pressable>
                 </>
               ) : (
                 <View marginVertical={50}>
-                  <Text style={homeStyles.mealBoxText}>No meal selected</Text>
+                  <Text style={homeStyles.mealBoxNoneAddedText}>No meal added</Text>
                 </View>
               )}
                 
@@ -176,21 +207,21 @@ export default function HomeScreen() {
                     <View paddingRight={20}>
                       <Pressable 
                         paddingVertical={20}
-                        onPress={() => handleDeletePress(item.meal1.id)}
+                        onPress={() => handleDeletePress(item.meal2.id)}
                         >
                         <Ionicons name="trash" size={24} color="#16423C"/>
                       </Pressable>
-                      <Pressable  
-                        onPress={() => handleBookmarkPress(item.meal1.id)}
+                      <Pressable
+                        onPress={() => handleBookmarkPress(item.meal2.id, item.meal2.title, item.meal2.image)}
                       >
-                      <Ionicons name="bookmark" size={24} color="#16423C"/>
+                        <Ionicons name="bookmark" size={24} color="#16423C"/>
                       </Pressable>
                     </View>
                   </Pressable>
                 </>
                 ) : (
                   <View marginVertical={50}>
-                    <Text style={homeStyles.mealBoxText}>No meal selected</Text>
+                    <Text style={homeStyles.mealBoxNoneAddedText}>No meal added</Text>
                   </View>
                 )}
 
@@ -198,8 +229,8 @@ export default function HomeScreen() {
               <View style={homeStyles.mealBoxSeparatorLine} />
 
               {/* Calories Section */}
-              <View style={styles.calorieContainer}>
-                <Text style={homeStyles.mealBoxText}>Estimated Calories:</Text>
+              <View style={homeStyles.calorieContainer}>
+                <Text style={homeStyles.calorieText}>Estimated Calories:</Text>
                 <Text style={homeStyles.calorieNumber}>  {item.calories.toString()}</Text>
               </View>
             </View>
@@ -229,9 +260,17 @@ const homeStyles = StyleSheet.create({
     fontSize: 16,
     color: '#5D5D5D', 
     fontSize: 18,
-    paddingLeft: 20,
+    paddingHorizontal: 10,
     flex: 1,
   },
+
+  mealBoxNoneAddedText: {
+    fontSize: 16,
+    color: '#5D5D5D', 
+    fontSize: 18,
+    alignSelf: "center", 
+    flex: 1,
+  }, 
 
   mealBoxSeparatorLine: {
     margin: 10,
@@ -268,7 +307,7 @@ const homeStyles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginVertical: 10,
-    paddingLeft: 20,
+    paddingLeft: 15,
   },
 
   mealImage: {
@@ -281,13 +320,23 @@ const homeStyles = StyleSheet.create({
   },
 
   calorieContainer: {
-    paddingTop: 10,
-    width: "90%", 
+    paddingBottom: 10,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
+
+  calorieText: {
+    fontSize: 16,
+    color: '#5D5D5D', 
+    fontSize: 18,
+    textAlign: "center",
+  }, 
 
   calorieNumber: {
     fontSize: 26,
     fontWeight: "bold",
     color: "#16423C",
+    textAlign: "center",
   }, 
 });

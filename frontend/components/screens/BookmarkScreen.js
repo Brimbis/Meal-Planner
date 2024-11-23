@@ -1,18 +1,21 @@
 import React, { useState } from "react";
 import { SafeAreaView, Text, View, FlatList, Image, Pressable } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import API from "../API"; // Import the API class
-import styles from "../styles/styles"; // Import the global styles from styles.js
-import { useFocusEffect } from "@react-navigation/native"; // Import the useFocusEffect hook
+import API from "../API";
+import styles from "../styles/styles";
+import { useFocusEffect } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function BookmarkScreen({ navigation }) {
     const [mealData, setMealData] = useState(API.bookmarkedMeals); // Meals to display
+    const [notification, setNotification] = useState("");
 
     // Fetch favorite meals on screen focus
-    const fetchMeals = () => {
-        
-        setMealData(API.bookmarkedMeals);
+    const fetchMeals = async () => {
+        // Log to ensure we're receiving the right data from API
+        console.log("Fetching meals:", API.bookmarkedMeals);
+        const updatedMeals = [...API.bookmarkedMeals]; // Get the latest bookmarked meals
+        setMealData(updatedMeals); // Update the state to trigger re-render
     };
 
     // Use useFocusEffect to refetch meals when screen is focused
@@ -26,48 +29,76 @@ export default function BookmarkScreen({ navigation }) {
         API.removeBookmarkedMeal(id);
         // Refresh meal data after deletion
         setMealData((prevMealData) => prevMealData.filter((meal) => meal.id !== id));
+        showNotification("Meal removed from bookmarks!");
+    };
+
+    const showNotification = (message) => {
+        setNotification(message);
+        setTimeout(() => setNotification(""), 3000); // Hide after 3 seconds
     };
 
     return (
         <SafeAreaView>
             <LinearGradient
-                colors={["#6A9C89", "#16423C"]}
+                colors={["#6A9C89", "#16423C"]} 
                 style={styles.linearGradient}
                 locations={[0.6, 1]}
             >
+                {/* Notification Message */}
+                {notification ? (
+                    <View
+                    style={{
+                        position: "absolute",
+                        top: 20,
+                        left: 20,
+                        right: 20,
+                        backgroundColor: "#16423C",
+                        padding: 10,
+                        borderRadius: 20,
+                        zIndex: 1,
+                    }}
+                    >
+                        <Text style={{ color: "white", textAlign: "center", fontWeight: "bold" }}>
+                            {notification}
+                        </Text>
+                    </View>
+                    ) : null}
+
                 <View marginTop={40} />
+
                 <View style={bookmarkStyles.savedMealsBox}>
-                    {Object.keys(mealData).length !== 0 ? (
-                    <FlatList
-                        data={mealData}
-                        keyExtractor={(item, index) => index.toString()}
-                        renderItem={({ item }) => (
-                            <>
-                                <Pressable
-                                    style={bookmarkStyles.imageContainer}
-                                    onPress={() => navigation.navigate("BookmarkSelectScreen", { recipe: item })}
-                                >
-                                    <Image
-                                        source={{ uri: item.image }}
-                                        style={bookmarkStyles.bookmarkMealImage}
-                                    />
-                                    <Text
-                                        style={bookmarkStyles.bookmarkMealTitle}
-                                        numberOfLines={0}
-                                    >
-                                        {item.title}
-                                    </Text>
+
+                {mealData && mealData.length !== 0 ? (
+                        <FlatList
+                            data={mealData}
+                            keyExtractor={(item) => item.id.toString()} // Use `id` as the key for better list optimization
+                            renderItem={({ item }) => (
+                                <>
                                     <Pressable
-                                        style={bookmarkStyles.trashButton}
-                                        onPress={() => handleDeletePress(item.id)}
+                                        style={bookmarkStyles.imageContainer}
+                                        onPress={() => navigation.navigate("BookmarkSelectScreen", { recipe: item })}
                                     >
-                                        <Ionicons name="trash" size={24} color="#FFFFFF" />
+                                        <Image
+                                            source={{ uri: item.image }}
+                                            style={bookmarkStyles.bookmarkMealImage}
+                                        />
+                                        <Text
+                                            style={bookmarkStyles.bookmarkMealTitle}
+                                            numberOfLines={0}
+                                        >
+                                            {item.title}
+                                        </Text>
+                                        <Pressable
+                                            style={bookmarkStyles.trashButton}
+                                            onPress={() => handleDeletePress(item.id)}
+                                        >
+                                            <Ionicons name="trash" size={24} color="#FFFFFF" />
+                                        </Pressable>
                                     </Pressable>
-                                </Pressable>
-                                <View style={bookmarkStyles.separator} />
-                            </>
-                        )}
-                    />
+                                    <View style={bookmarkStyles.separator} />
+                                </>
+                            )}
+                        />
                     ) : (
                         <Text style={bookmarkStyles.bookmarkTitle}>No Bookmarked Meals</Text>
                     )}
@@ -101,6 +132,7 @@ const bookmarkStyles = {
         flex: 1,
         width: "85%",
         alignSelf: "center",
+        justifyContent: "center", 
         backgroundColor: "#0D2A26", // Dark Green background for the meals box
         marginTop: 20,
         marginBottom: 100,
