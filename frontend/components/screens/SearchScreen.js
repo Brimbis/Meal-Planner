@@ -118,7 +118,7 @@ export default function SearchScreen() {
                 onPress={() => handleIngredientSelect(item)}
                 style={{
                   backgroundColor: selectedIngredients.includes(item) ? "#4CAF50" : "#6A9C89",
-                  padding: 15,
+                  padding: 10,
                   marginRight: 10,
                   marginBottom: 10,
                   borderRadius: 20,
@@ -142,8 +142,8 @@ export default function SearchScreen() {
               onPress={() => handleIngredientSelect(item)}
               style={{
                 backgroundColor: selectedIngredients.includes(item) ? "#4CAF50" : "#6A9C89",
-                padding: 15,
-                marginRight: 10,
+                padding: 10,
+                marginRight: 15,
                 marginBottom: 10,
                 borderRadius: 20,
                 justifyContent: "center",
@@ -166,7 +166,7 @@ export default function SearchScreen() {
               onPress={() => handleIngredientSelect(item)}
               style={{
                 backgroundColor: selectedIngredients.includes(item) ? "#4CAF50" : "#6A9C89",
-                padding: 15,
+                padding: 10,
                 marginRight: 10,
                 marginBottom: 10,
                 borderRadius: 20,
@@ -190,7 +190,7 @@ export default function SearchScreen() {
               onPress={() => handleIngredientSelect(item)}
               style={{
                 backgroundColor: selectedIngredients.includes(item) ? "#4CAF50" : "#6A9C89",
-                padding: 15,
+                padding: 10,
                 marginRight: 10,
                 marginBottom: 10,
                 borderRadius: 20,
@@ -214,7 +214,7 @@ export default function SearchScreen() {
               onPress={() => handleIngredientSelect(item)}
               style={{
                 backgroundColor: selectedIngredients.includes(item) ? "#4CAF50" : "#6A9C89",
-                padding: 15,
+                padding: 10,
                 marginRight: 10,
                 marginBottom: 10,
                 borderRadius: 20,
@@ -238,7 +238,7 @@ export default function SearchScreen() {
               onPress={() => handleIngredientSelect(item)}
               style={{
                 backgroundColor: selectedIngredients.includes(item) ? "#4CAF50" : "#6A9C89",
-                padding: 15,
+                padding: 10,
                 marginRight: 10,
                 marginBottom: 10,
                 borderRadius: 20,
@@ -262,7 +262,7 @@ export default function SearchScreen() {
               onPress={() => handleIngredientSelect(item)}
               style={{
                 backgroundColor: selectedIngredients.includes(item) ? "#4CAF50" : "#6A9C89",
-                padding: 15,
+                padding: 10,
                 marginRight: 10,
                 marginBottom: 10,
                 borderRadius: 20,

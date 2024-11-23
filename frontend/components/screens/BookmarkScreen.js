@@ -8,6 +8,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 export default function BookmarkScreen({ navigation }) {
     const [mealData, setMealData] = useState(API.bookmarkedMeals); // Meals to display
+    const [notification, setNotification] = useState("");
 
     // Fetch favorite meals on screen focus
     const fetchMeals = async () => {
@@ -28,6 +29,12 @@ export default function BookmarkScreen({ navigation }) {
         API.removeBookmarkedMeal(id);
         // Refresh meal data after deletion
         setMealData((prevMealData) => prevMealData.filter((meal) => meal.id !== id));
+        showNotification("Meal removed from bookmarks!");
+    };
+
+    const showNotification = (message) => {
+        setNotification(message);
+        setTimeout(() => setNotification(""), 3000); // Hide after 3 seconds
     };
 
     return (
@@ -37,9 +44,31 @@ export default function BookmarkScreen({ navigation }) {
                 style={styles.linearGradient}
                 locations={[0.6, 1]}
             >
+                {/* Notification Message */}
+                {notification ? (
+                    <View
+                    style={{
+                        position: "absolute",
+                        top: 20,
+                        left: 20,
+                        right: 20,
+                        backgroundColor: "#16423C",
+                        padding: 10,
+                        borderRadius: 20,
+                        zIndex: 1,
+                    }}
+                    >
+                        <Text style={{ color: "white", textAlign: "center", fontWeight: "bold" }}>
+                            {notification}
+                        </Text>
+                    </View>
+                    ) : null}
+
                 <View marginTop={40} />
+
+                <View style={bookmarkStyles.savedMealsBox}>
+
                 {mealData && mealData.length !== 0 ? (
-                    <View style={bookmarkStyles.savedMealsBox}>
                         <FlatList
                             data={mealData}
                             keyExtractor={(item) => item.id.toString()} // Use `id` as the key for better list optimization
@@ -70,11 +99,10 @@ export default function BookmarkScreen({ navigation }) {
                                 </>
                             )}
                         />
-                    </View>
-                ) : (
-                    <Text style={bookmarkStyles.bookmarkTitle}>No Bookmarked Meals</Text>
-                )}
-                
+                    ) : (
+                        <Text style={bookmarkStyles.bookmarkTitle}>No Bookmarked Meals</Text>
+                    )}
+                </View>
             </LinearGradient>
         </SafeAreaView>
     );
@@ -104,6 +132,7 @@ const bookmarkStyles = {
         flex: 1,
         width: "85%",
         alignSelf: "center",
+        justifyContent: "center", 
         backgroundColor: "#0D2A26", // Dark Green background for the meals box
         marginTop: 20,
         marginBottom: 100,
