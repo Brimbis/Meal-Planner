@@ -18,7 +18,7 @@ export default class API {
     }
 
     static getHomeMeals() {
-      this.homeMeals;
+      return this.homeMeals;
     }
 
     static getDailyCalories() {

@@ -26,7 +26,7 @@ export default function DailyCalories({ navigation }) {
     }
 
     fetchDailyCalories();
-  }, []);
+  }, [weeklyCalories]);
 
   const renderItem = ({ item }) => (
     <View style={styles.caloriesContainer}>
