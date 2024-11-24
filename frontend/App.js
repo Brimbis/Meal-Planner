@@ -9,14 +9,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // Native imports
 
 // Import your screens
-import LoginScreen from './components/screens/LoginScreen';
-import HomeScreen from './components/screens/HomeScreen';
-import ProfileScreen from './components/screens/ProfileScreen'
-import BookmarkScreen from './components/screens/BookmarkScreen';
-import SearchScreen from './components/screens/SearchScreen';
-import RecipeSearchScreen from './components/screens/RecipeSearchScreen'; 
-import RecipeSelectScreen from './components/screens/RecipeSelectScreen'
+import LoginScreen from "./components/screens/LoginScreen";
+import HomeScreen from "./components/screens/HomeScreen";
+import ProfileScreen from "./components/screens/ProfileScreen";
+import BookmarkScreen from "./components/screens/BookmarkScreen";
+import SearchScreen from "./components/screens/SearchScreen";
+import RecipeSearchScreen from "./components/screens/RecipeSearchScreen";
+import RecipeSelectScreen from "./components/screens/RecipeSelectScreen";
 import DailyCalories from "./components/screens/DailyCalories";
+import AccessibilityScreen from "./components/screens/AccessibilityScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -26,7 +27,10 @@ const HomeStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={HomeScreen}></Stack.Screen>
-      <Stack.Screen name="HomeSelectScreen" component={RecipeSelectScreen}></Stack.Screen>
+      <Stack.Screen
+        name="HomeSelectScreen"
+        component={RecipeSelectScreen}
+      ></Stack.Screen>
     </Stack.Navigator>
   );
 };
@@ -41,13 +45,15 @@ const SearchStack = () => {
   );
 };
 
-
 // Add multiple screens if necessary
 const BookmarkStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Bookmarks" component={BookmarkScreen} />
-      <Stack.Screen name="BookmarkSelectScreen" component={RecipeSelectScreen} />
+      <Stack.Screen
+        name="BookmarkSelectScreen"
+        component={RecipeSelectScreen}
+      />
     </Stack.Navigator>
   );
 };
@@ -58,6 +64,7 @@ const ProfileStack = ({ setIsLoggedIn }) => {
         {(props) => <ProfileScreen {...props} setIsLoggedIn={setIsLoggedIn} />}
       </Stack.Screen>
       <Stack.Screen name="DailyCalories" component={DailyCalories} />
+      <Stack.Screen name="Accessibility" component={AccessibilityScreen} />
     </Stack.Navigator>
   );
 };
@@ -133,7 +140,7 @@ export default function App() {
             component={HomeStack}
             options={{ headerShown: false }}
           />
-         <Tab.Screen
+          <Tab.Screen
             name="SearchTab"
             component={SearchStack}
             options={{ headerShown: false }}
