@@ -180,7 +180,7 @@ export default function HomeScreen() {
                         <Ionicons name="trash" size={24} color="#16423C"/>
                       </Pressable>
                       <Pressable
-                        onPress={() => handleBookmarkPress(item.meal2.id, item.meal2.title, item.meal2.image)}
+                        onPress={() => handleBookmarkPress(item.meal1.id, item.meal1.title, item.meal1.image)}
                       >
                         <Ionicons name="bookmark" size={24} color="#16423C"/>
                       </Pressable>

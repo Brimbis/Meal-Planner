@@ -71,7 +71,7 @@ export default function BookmarkScreen({ navigation }) {
                 {mealData && mealData.length !== 0 ? (
                         <FlatList
                             data={mealData}
-                            keyExtractor={(item) => item.id.toString()} // Use `id` as the key for better list optimization
+                            keyExtractor={(item) => item.id} // Use `id` as the key for better list optimization
                             renderItem={({ item }) => (
                                 <>
                                     <Pressable
