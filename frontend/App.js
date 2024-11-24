@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, component } from "react";
 import { StatusBar, StatusBarStyle } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -93,7 +93,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <StatusBar translucent={true} backgroundColor={"transparent"} />
+      <StatusBar translucent backgroundColor="transparent"/>
       {isLoggedIn ? (
         <Tab.Navigator
           screenOptions={({ route }) => ({
