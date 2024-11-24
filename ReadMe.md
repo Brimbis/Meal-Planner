@@ -1,5 +1,3 @@
-Spencer
-
 To run the project, you must have the frontend and backend running on your local machine.
 To do this, cd into your AppDevFinal file directory and run the following code:
 
