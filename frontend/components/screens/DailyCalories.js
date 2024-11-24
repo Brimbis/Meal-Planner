@@ -47,7 +47,6 @@ export default function DailyCalories({ navigation }) {
           style={{
             flex: 0.8,
             borderRadius: 20,
-            //flexDirection: "row",
             justifyContent: "auto",
             margin: 10,
           }}
@@ -58,7 +57,7 @@ export default function DailyCalories({ navigation }) {
           >
             <Ionicons name="arrow-back" size={24} color="#16423C" />
           </Pressable>
-          <Text style={CaloriesStyles.title}>Weekly Calories</Text>
+          <Text style={CaloriesStyles.title}>Daily Calories</Text>
         </View>
         <View style={CaloriesStyles.caloriesContainer}>
           <FlatList

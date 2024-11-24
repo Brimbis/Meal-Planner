@@ -52,6 +52,10 @@ export default function ProfileScreen({ setIsLoggedIn }) {
     navigation.navigate("DailyCalories");
   };
 
+  const navigateToAccessibility = () => {
+    navigation.navigate("Accessibility");
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <LinearGradient
@@ -86,11 +90,14 @@ export default function ProfileScreen({ setIsLoggedIn }) {
             </View>
           </Pressable>
 
-          <Pressable style={profileStyles.pressable} onPress={updateUserData}>
+          <Pressable
+            style={profileStyles.pressable}
+            onPress={navigateToAccessibility}
+          >
             <View
               style={{ flexDirection: "row", justifyContent: "space-between" }}
             >
-              <Text style={styles.smallTitle}>Accessibility{""}</Text>
+              <Text style={styles.smallTitle}>Accessibility</Text>
               <Ionicons
                 name="chevron-forward-outline"
                 size={20}
